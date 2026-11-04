@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "851709128615",
+    "project_id": "snapeditify-67a19",
+    "storage_bucket": "snapeditify-67a19.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851709128615:android:663d46bc83eddfeca19082",
+        "android_client_info": {
+          "package_name": "app.snapeditify.studio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEcOFJkT6sd_RgmNSll5luj7c0LYAenEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851709128615:android:57f3c8664207518da19082",
+        "android_client_info": {
+          "package_name": "com.snapeditify.still_here"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEcOFJkT6sd_RgmNSll5luj7c0LYAenEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851709128615:android:21911677c9621d59a19082",
+        "android_client_info": {
+          "package_name": "com.snapeditify.stillhere"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEcOFJkT6sd_RgmNSll5luj7c0LYAenEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
