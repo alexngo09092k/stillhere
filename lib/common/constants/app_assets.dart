@@ -22,6 +22,12 @@ class AppAssets {
   static const String imagePath = 'assets/images';
 
   final String logo = "$imagePath/logo.png";
+  final String logoMark = "$imagePath/logo_mark.png";
+  final String logoWordmark = "$imagePath/logo_wordmark.png";
+  final String heroSunrise = "$imagePath/hero_sunrise.jpg";
+  final String heroSunriseSm = "$imagePath/hero_sunrise_sm.jpg";
+  final String bgSuccess = "$imagePath/bg_success.jpg";
+  final String bgCream = "$imagePath/bg_cream.jpg";
   final String premiumPlaceholder = "$imagePath/premium_placeholder.png";
   final String imagePlaceholder = "$imagePath/image_placeholder.png";
   final String bgTransparent = "$imagePath/bg-transparent.png";

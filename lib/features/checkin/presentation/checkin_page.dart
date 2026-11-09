@@ -68,116 +68,179 @@ class _CheckInPageState extends State<CheckInPage> {
     }
   }
 
+  String _subtitleFor(CheckInStatus s) {
+    final code = Localizations.localeOf(context).languageCode;
+    if (code == 'vi') return s.subtitleVi;
+    switch (s) {
+      case CheckInStatus.ok:
+        return 'And that is enough.';
+      case CheckInStatus.share:
+        return 'Something to say to yourself.';
+      case CheckInStatus.selfCare:
+        return 'A little extra care today.';
+    }
+  }
+
+  String _titleFor(CheckInStatus s) {
+    final code = Localizations.localeOf(context).languageCode;
+    if (code == 'vi') return s.titleVi;
+    return s.label;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final lang = Localizations.localeOf(context).languageCode;
+
     return Scaffold(
       backgroundColor: context.appBg,
       appBar: AppBar(
         backgroundColor: context.appBg,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.close, color: context.appInk),
+          icon: Icon(Icons.arrow_back_ios_new_rounded,
+              size: 20, color: context.appInk),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          S.of(context).checkInTitle,
-          style: TextStyle(color: context.appInk, fontWeight: FontWeight.w600),
+          lang == 'vi' ? 'Quay lại' : S.of(context).checkInTitle,
+          style: TextStyle(
+            color: context.appInk,
+            fontWeight: FontWeight.w500,
+            fontSize: 16,
+          ),
         ),
-        centerTitle: true,
+        centerTitle: false,
+        titleSpacing: 0,
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+        padding: const EdgeInsets.fromLTRB(20, 8, 20, 36),
         children: [
           Text(
-            S.of(context).howAreYouFeelingToday,
+            lang == 'vi'
+                ? 'Hôm nay,\nbạn cảm thấy thế nào?'
+                : S.of(context).howAreYouFeelingToday,
             style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w600,
+              fontSize: 26,
+              fontWeight: FontWeight.w700,
               color: context.appInk,
+              height: 1.25,
+              letterSpacing: -0.3,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Text(
-            S.of(context).chooseClosest,
+            lang == 'vi'
+                ? 'Không có câu trả lời đúng hay sai.\nHãy chọn điều gần với bạn nhất nhé.'
+                : S.of(context).chooseClosest,
             style: TextStyle(
               fontSize: 15,
-              color: context.appInk.withOpacity(0.65),
+              height: 1.45,
+              color: context.appMuted,
             ),
           ),
           const SizedBox(height: 28),
           ...CheckInStatus.values.map(
             (s) => _StatusOption(
               status: s,
+              title: _titleFor(s),
+              subtitle: _subtitleFor(s),
               selected: _status == s,
               onTap: () => setState(() => _status = s),
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 28),
           Text(
-            S.of(context).noteOptional,
+            lang == 'vi'
+                ? 'Bạn muốn viết thêm điều gì không?'
+                : S.of(context).noteOptional,
             style: TextStyle(
               fontSize: 15,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
               color: context.appInk,
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 10),
           TextField(
             controller: _noteController,
             maxLength: 500,
             maxLines: 4,
             style: TextStyle(fontSize: 16, color: context.appInk),
             decoration: InputDecoration(
-              hintText: S.of(context).noteHint,
-              hintStyle: TextStyle(color: context.appInk.withOpacity(0.4)),
+              hintText: lang == 'vi'
+                  ? 'Viết vài dòng cho chính mình...'
+                  : S.of(context).noteHint,
+              hintStyle: TextStyle(color: context.appMuted.withOpacity(0.7)),
               filled: true,
               fillColor: context.appSurf,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(18),
                 borderSide: BorderSide(color: context.appBorder),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(18),
                 borderSide: BorderSide(color: context.appBorder),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(18),
                 borderSide: BorderSide(color: context.appBrand, width: 1.5),
               ),
               contentPadding: const EdgeInsets.all(16),
+              counterStyle: TextStyle(color: context.appMuted, fontSize: 12),
             ),
           ),
-          const SizedBox(height: 28),
+          const SizedBox(height: 20),
           SizedBox(
             width: double.infinity,
-            height: 54,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: context.appBrand,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                elevation: 0,
-                disabledBackgroundColor: context.appBrand.withOpacity(0.4),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+            height: 56,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: _status == null
+                    ? null
+                    : context.appCtaGradient,
+                color: _status == null
+                    ? context.appBrand.withOpacity(0.35)
+                    : null,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: _status == null
+                    ? null
+                    : [
+                        BoxShadow(
+                          color: context.appBrand.withOpacity(0.28),
+                          blurRadius: 16,
+                          offset: const Offset(0, 6),
+                        ),
+                      ],
               ),
-              onPressed: _status == null || _saving ? null : _save,
-              child: _saving
-                  ? SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: context.appSurf,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                ),
+                onPressed: _status == null || _saving ? null : _save,
+                child: _saving
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        lang == 'vi'
+                            ? 'Lưu lại cho mình'
+                            : S.of(context).save,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
-                    )
-                  : Text(
-                      S.of(context).save,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+              ),
             ),
           ),
         ],
@@ -188,54 +251,87 @@ class _CheckInPageState extends State<CheckInPage> {
 
 class _StatusOption extends StatelessWidget {
   final CheckInStatus status;
+  final String title;
+  final String subtitle;
   final bool selected;
   final VoidCallback onTap;
 
   const _StatusOption({
     required this.status,
+    required this.title,
+    required this.subtitle,
     required this.selected,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final accent = status.accentColor;
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Material(
-        color: selected ? context.appBrand.withOpacity(0.12) : context.appSurf,
-        borderRadius: BorderRadius.circular(16),
+        color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+          borderRadius: BorderRadius.circular(20),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              color: selected
+                  ? accent.withOpacity(context.isDark ? 0.18 : 0.14)
+                  : context.appSurf,
+              borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: selected ? context.appBrand : context.appBorder,
-                width: selected ? 1.8 : 1,
+                color: selected ? accent : context.appBorder,
+                width: selected ? 1.6 : 1,
               ),
+              boxShadow: selected ? context.appCardShadow : null,
             ),
             child: Row(
               children: [
-                Text(status.emoji, style: const TextStyle(fontSize: 28)),
-                const SizedBox(width: 16),
+                Container(
+                  width: 48,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    color: accent.withOpacity(0.22),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Center(
+                    child: Text(status.emoji, style: const TextStyle(fontSize: 24)),
+                  ),
+                ),
+                const SizedBox(width: 14),
                 Expanded(
-                  child: Text(
-                    status.label,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                      color: context.appInk,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight:
+                              selected ? FontWeight.w700 : FontWeight.w600,
+                          color: context.appInk,
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: context.appMuted,
+                          height: 1.3,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 if (selected)
-                  Icon(
-                    Icons.check_circle_rounded,
-                    color: context.appBrand,
-                    size: 24,
-                  ),
+                  Icon(Icons.check_circle_rounded, color: accent, size: 24)
+                else
+                  Icon(Icons.chevron_right_rounded,
+                      color: context.appMuted.withOpacity(0.6), size: 22),
               ],
             ),
           ),

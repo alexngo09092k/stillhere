@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:still_here/common/app_theme_colors.dart';
+import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:fluttering/fluttering.dart';
 import 'package:still_here/common/app_routes.dart';
@@ -14,16 +15,35 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> {
+class _SplashPageState extends State<SplashPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _fade;
+  late final Animation<double> _scale;
+
   @override
   void initState() {
     super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+    _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
+    _scale = Tween<double>(begin: 0.92, end: 1.0).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic),
+    );
+    _ctrl.forward();
     _bootstrap();
   }
 
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
   Future<void> _bootstrap() async {
-    // Đảm bảo storage sẵn sàng
-    await Future.delayed(const Duration(milliseconds: 600));
+    await Future.delayed(const Duration(milliseconds: 1100));
     final done = await LocalStorage.instance.isOnboardingDone();
     if (!mounted) return;
     if (done) {
@@ -37,62 +57,55 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    final name = Configuration.instance.business.appName;
+    final lang = Localizations.maybeLocaleOf(context)?.languageCode ?? 'vi';
     return Scaffold(
       backgroundColor: context.appBg,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 88,
-              height: 88,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: [
-                  BoxShadow(
-                    color: context.appBrand.withOpacity(0.18),
-                    blurRadius: 22,
-                    offset: const Offset(0, 8),
+      body: FadeTransition(
+        opacity: _fade,
+        child: ScaleTransition(
+          scale: _scale,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  AppAssets.instance.logoMark,
+                  width: 96,
+                  height: 96,
+                  errorBuilder: (_, __, ___) => Container(
+                    width: 96,
+                    height: 96,
+                    decoration: BoxDecoration(
+                      gradient: context.appCtaGradient,
+                      borderRadius: BorderRadius.circular(28),
+                    ),
+                    child: const Icon(Icons.spa_rounded,
+                        color: Colors.white, size: 48),
                   ),
-                ],
-              ),
-              clipBehavior: Clip.antiAlias,
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 88,
-                height: 88,
-                fit: BoxFit.cover,
-              ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'StillHere',
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: context.appInk,
+                    letterSpacing: -0.4,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  lang == 'vi'
+                      ? 'Một khoảng lặng dành cho bạn'
+                      : 'A little space for you',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: context.appMuted,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 24),
-            Text(
-              name.isNotEmpty ? name : 'Still Here',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w600,
-                color: context.appInk,
-                letterSpacing: 0.3,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              S.of(context).appTagline,
-              style: TextStyle(
-                fontSize: 15,
-                color: context.appInk.withOpacity(0.6),
-              ),
-            ),
-            const SizedBox(height: 48),
-            SizedBox(
-              width: 28,
-              height: 28,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
-                color: context.appBrand,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'dart:convert';
 
@@ -47,17 +49,62 @@ enum CheckInStatus {
     }
   }
 
+  /// Design-aligned longer title for option cards.
+  String get titleVi {
+    switch (this) {
+      case CheckInStatus.ok:
+        return 'Tôi vẫn ổn.';
+      case CheckInStatus.share:
+        return 'Tôi muốn chia sẻ một chút.';
+      case CheckInStatus.selfCare:
+        return 'Hôm nay tôi cần quan tâm đến bản thân hơn.';
+    }
+  }
+
+  String get subtitleVi {
+    switch (this) {
+      case CheckInStatus.ok:
+        return 'Và mình trân trọng điều đó.';
+      case CheckInStatus.share:
+        return 'Có điều muốn nói với chính mình.';
+      case CheckInStatus.selfCare:
+        return 'Dành không gian nhẹ nhàng cho mình.';
+    }
+  }
+
   @Deprecated('Use label')
   String get labelVi => label;
 
   String get emoji {
     switch (this) {
       case CheckInStatus.ok:
-        return '😌';
+        return '☀️';
       case CheckInStatus.share:
-        return '💬';
+        return '☁️';
       case CheckInStatus.selfCare:
         return '🌱';
+    }
+  }
+
+  IconData get iconData {
+    switch (this) {
+      case CheckInStatus.ok:
+        return Icons.wb_sunny_rounded;
+      case CheckInStatus.share:
+        return Icons.cloud_rounded;
+      case CheckInStatus.selfCare:
+        return Icons.eco_rounded;
+    }
+  }
+
+  Color get accentColor {
+    switch (this) {
+      case CheckInStatus.ok:
+        return AppColors.moodOk;
+      case CheckInStatus.share:
+        return AppColors.moodShare;
+      case CheckInStatus.selfCare:
+        return AppColors.moodSelfCare;
     }
   }
 }

@@ -170,3 +170,13 @@ Upload AAB lên Play Console → Internal testing → Closed → Production.
 - [ ] Kiểm thử thiết bị thật: permission, reboot, notification, offline, AI fallback, text scale 200%, tablet, VoiceOver/TalkBack, purchase/restore và data deletion.
 
 **Release decision: NOT READY TO UPLOAD** cho tới khi các blocker trên được xử lý và có bằng chứng build/test. Không deploy hoặc publish tự động.
+
+## UI redesign v2 (2026-11-10)
+- [x] Warm peach / cream palette (design-aligned)
+- [x] Logo mark + wordmark assets under `assets/images/`
+- [x] Hero sunrise + success background assets
+- [x] 4-tab nav: Home / Journal / Stats / Settings
+- [x] Store icons 1024 / 512 regenerated in `store_assets/`
+- [ ] Replace hero/success with licensed photography if required by brand legal
+- [ ] Run on physical iOS + Android before store upload
+- [ ] Confirm Adaptive Icon / AppIcon sets updated from `store_assets/still_here_app_icon_1024.png`

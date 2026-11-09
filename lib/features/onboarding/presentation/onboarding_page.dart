@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:still_here/common/app_theme_colors.dart';
+import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:fluttering_analytics/analytics/index.dart';
 import 'package:still_here/common/app_routes.dart';
@@ -20,7 +21,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     final s = S.of(context);
     return [
       _OnboardData(
-        icon: Icons.waving_hand_rounded,
+        icon: Icons.spa_rounded,
         title: s.onboard1Title,
         body: s.onboard1Body,
       ),
@@ -52,6 +53,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = _pagesOf(context);
+    final last = _index == pages.length - 1;
+
     return Scaffold(
       backgroundColor: context.appBg,
       body: SafeArea(
@@ -70,23 +74,37 @@ class _OnboardingPageState extends State<OnboardingPage> {
             Expanded(
               child: PageView.builder(
                 controller: _controller,
-                itemCount: _pagesOf(context).length,
+                itemCount: pages.length,
                 onPageChanged: (i) => setState(() => _index = i),
                 itemBuilder: (_, i) {
-                  final p = _pagesOf(context)[i];
+                  final p = pages[i];
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 96,
-                          height: 96,
+                          width: 110,
+                          height: 110,
                           decoration: BoxDecoration(
-                            color: context.appBrand.withOpacity(0.12),
+                            gradient: context.appSoftPeachGradient,
                             shape: BoxShape.circle,
+                            boxShadow: context.appCardShadow,
                           ),
-                          child: Icon(p.icon, size: 48, color: context.appBrand),
+                          child: i == 0
+                              ? Padding(
+                                  padding: const EdgeInsets.all(22),
+                                  child: Image.asset(
+                                    AppAssets.instance.logoMark,
+                                    errorBuilder: (_, __, ___) => Icon(
+                                      p.icon,
+                                      size: 48,
+                                      color: context.appBrandDeep,
+                                    ),
+                                  ),
+                                )
+                              : Icon(p.icon,
+                                  size: 48, color: context.appBrandDeep),
                         ),
                         const SizedBox(height: 36),
                         Text(
@@ -94,19 +112,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                             color: context.appInk,
                             height: 1.3,
+                            letterSpacing: -0.3,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 14),
                         Text(
                           p.body,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 16,
-                            color: context.appInk.withOpacity(0.7),
+                            fontSize: 15,
                             height: 1.5,
+                            color: context.appMuted,
                           ),
                         ),
                       ],
@@ -117,48 +136,67 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(_pagesOf(context).length, (i) {
+              children: List.generate(pages.length, (i) {
+                final on = i == _index;
                 return AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
+                  duration: const Duration(milliseconds: 200),
                   margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: _index == i ? 22 : 8,
+                  width: on ? 22 : 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: _index == i
-                        ? context.appBrand
-                        : context.appBorder,
-                    borderRadius: BorderRadius.circular(4),
+                    color: on ? context.appBrand : context.appBorder,
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 );
               }),
             ),
             const SizedBox(height: 28),
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
               child: SizedBox(
                 width: double.infinity,
                 height: 54,
-                child: FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: context.appBrand,
-                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: context.appCtaGradient,
+                    borderRadius: BorderRadius.circular(28),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.appBrand.withOpacity(0.28),
+                        blurRadius: 16,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
                   ),
-                  onPressed: () {
-                    if (_index < _pagesOf(context).length - 1) {
-                      _controller.nextPage(
-                        duration: const Duration(milliseconds: 300),
-                        curve: Curves.easeOut,
-                      );
-                    } else {
-                      _finish();
-                    }
-                  },
-                  child: Text(
-                    _index < _pagesOf(context).length - 1 ? S.of(context).continueAction : S.of(context).getStarted,
-                    style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      foregroundColor: Colors.white,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(28),
+                      ),
+                    ),
+                    onPressed: () {
+                      if (last) {
+                        _finish();
+                      } else {
+                        _controller.nextPage(
+                          duration: const Duration(milliseconds: 320),
+                          curve: Curves.easeOutCubic,
+                        );
+                      }
+                    },
+                    child: Text(
+                      last
+                          ? S.of(context).getStarted
+                          : S.of(context).continueAction,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -174,5 +212,9 @@ class _OnboardData {
   final IconData icon;
   final String title;
   final String body;
-  const _OnboardData({required this.icon, required this.title, required this.body});
+  const _OnboardData({
+    required this.icon,
+    required this.title,
+    required this.body,
+  });
 }

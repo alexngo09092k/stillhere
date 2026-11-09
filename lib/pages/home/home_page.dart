@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:still_here/common/app_theme_colors.dart';
+import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:fluttering/fluttering.dart';
-import 'package:still_here/common/app_routes.dart';
 import 'package:still_here/core/database/local_storage.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/checkin/presentation/checkin_page.dart';
 import 'package:still_here/features/greeting/data/greeting_service.dart';
 import 'package:still_here/features/history/presentation/history_page.dart';
 import 'package:still_here/features/settings/presentation/settings_page.dart';
+import 'package:still_here/features/stats/presentation/stats_page.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:still_here/shared/models/greeting.dart';
 import 'package:still_here/widgets/base/ad_view.dart';
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   bool _loading = true;
   int _navIndex = 0;
   final GlobalKey<HistoryPageState> _historyKey = GlobalKey<HistoryPageState>();
+  final GlobalKey<StatsPageState> _statsKey = GlobalKey<StatsPageState>();
 
   @override
   void initState() {
@@ -43,17 +45,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _load();
-    }
+    if (state == AppLifecycleState.resumed) _load();
   }
 
   Future<void> _load() async {
     setState(() => _loading = true);
     final settings = await LocalStorage.instance.getSettings();
     final aiEnabled = settings['ai.enabled'] != false;
-    final lang =
-        (settings['language'] as String?) ??
+    final lang = (settings['language'] as String?) ??
         Localizations.maybeLocaleOf(context)?.languageCode ??
         'vi';
     final results = await Future.wait([
@@ -78,7 +77,37 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             builder: (_) => CheckInPage(existing: _todayCheckIn),
           ),
         )
-        .then((_) => _load());
+        .then((_) {
+      _load();
+      _historyKey.currentState?.reload();
+      _statsKey.currentState?.reload();
+    });
+  }
+
+  String _navJournalLabel(BuildContext context) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'vi':
+        return 'Nhật ký';
+      case 'zh':
+        return '日记';
+      case 'th':
+        return 'บันทึก';
+      default:
+        return 'Journal';
+    }
+  }
+
+  String _navStatsLabel(BuildContext context) {
+    switch (Localizations.localeOf(context).languageCode) {
+      case 'vi':
+        return 'Thống kê';
+      case 'zh':
+        return '统计';
+      case 'th':
+        return 'สถิติ';
+      default:
+        return 'Insights';
+    }
   }
 
   @override
@@ -86,201 +115,311 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     return Scaffold(
       backgroundColor: context.appBg,
       body: SafeArea(
+        bottom: false,
         child: IndexedStack(
           index: _navIndex,
           children: [
             _buildHomeTab(),
             HistoryPage(key: _historyKey),
+            StatsPage(key: _statsKey),
             const SettingsPage(),
           ],
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _navIndex,
-        onDestinationSelected: (i) {
+      bottomNavigationBar: _BottomNav(
+        index: _navIndex,
+        onChanged: (i) {
           setState(() => _navIndex = i);
+          if (i == 1) _historyKey.currentState?.reload();
+          if (i == 2) _statsKey.currentState?.reload();
         },
-        backgroundColor: context.appSurf,
-        indicatorColor: context.appBrand.withOpacity(0.15),
-        destinations: [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home_rounded, color: context.appBrand),
-            label: S.of(context).navHome,
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.calendar_month_outlined),
-            selectedIcon: Icon(
-              Icons.calendar_month_rounded,
-              color: context.appBrand,
-            ),
-            label: S.of(context).navHistory,
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings_rounded, color: context.appBrand),
-            label: S.of(context).navSettings,
-          ),
+        labels: [
+          S.of(context).navHome,
+          _navJournalLabel(context),
+          _navStatsLabel(context),
+          S.of(context).navSettings,
         ],
       ),
     );
   }
 
   Widget _buildHomeTab() {
-    final now = DateTime.now();
     final lang = Localizations.localeOf(context).languageCode;
-    final dateLocale = lang == 'zh' ? 'zh_CN' : lang;
-    final dateStr = DateFormat('EEEE, d MMMM yyyy', dateLocale).format(now);
 
     return RefreshIndicator(
       onRefresh: _load,
       color: context.appBrand,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 16, 20, 24),
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Still Here',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: context.appInk.withOpacity(0.55),
-                      ),
+          // Top bar
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+            child: Row(
+              children: [
+                Image.asset(
+                  AppAssets.instance.logoMark,
+                  width: 34,
+                  height: 34,
+                  errorBuilder: (_, __, ___) => Container(
+                    width: 34,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      gradient: context.appCtaGradient,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      dateStr,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: context.appInk,
-                      ),
-                    ),
-                  ],
+                    child: const Icon(Icons.spa_rounded,
+                        color: Colors.white, size: 18),
+                  ),
                 ),
-              ),
-              IconButton(
-                onPressed: () {
-                  setState(() => _navIndex = 2);
-                },
-                icon: Icon(Icons.settings_outlined, color: context.appMuted),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              color: context.appSurf,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.04),
-                  blurRadius: 16,
-                  offset: const Offset(0, 4),
+                const SizedBox(width: 10),
+                Text(
+                  'StillHere',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: context.appInk,
+                    letterSpacing: -0.3,
+                  ),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () => setState(() => _navIndex = 3),
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: context.appSurf,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: context.appBorder),
+                    ),
+                    child: Icon(Icons.person_outline_rounded,
+                        size: 20, color: context.appMuted),
+                  ),
                 ),
               ],
             ),
-            child: _loading
-                ? SizedBox(
-                    height: 80,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: context.appBrand,
-                      ),
-                    ),
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: context.appBorder,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              _greeting?.timeBucket.label ??
-                                  S.of(context).today,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: context.appInk,
-                              ),
-                            ),
-                          ),
-                          const Spacer(),
-                          if (_greeting?.source == 'AI')
-                            Icon(
-                              Icons.auto_awesome,
-                              size: 16,
-                              color: context.appBrand,
-                            ),
-                        ],
-                      ),
-                      const SizedBox(height: 14),
-                      Text(
-                        _greeting?.greetingText ??
-                            S.of(context).greetingFallback,
-                        style: TextStyle(
-                          fontSize: 18,
-                          height: 1.45,
-                          color: context.appInk,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            _todayCheckIn != null
-                ? S.of(context).checkInToday
-                : S.of(context).howAreYouFeeling,
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
-              color: context.appInk,
-            ),
           ),
           const SizedBox(height: 12),
-          if (_todayCheckIn != null) ...[
-            _TodayCheckInCard(checkIn: _todayCheckIn!, onEdit: _openCheckIn),
-          ] else ...[
-            SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: FilledButton(
-                style: FilledButton.styleFrom(
-                  backgroundColor: context.appBrand,
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+
+          // Hero card with image — matches design mockup
+          ClipRRect(
+            borderRadius: BorderRadius.circular(28),
+            child: Stack(
+              children: [
+                // Background image
+                AspectRatio(
+                  aspectRatio: 0.85,
+                  child: Image.asset(
+                    AppAssets.instance.heroSunrise,
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    errorBuilder: (_, __, ___) => Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: context.isDark
+                              ? const [
+                                  Color(0xFF3A2E24),
+                                  Color(0xFF2A241E),
+                                ]
+                              : const [
+                                  Color(0xFFFFE8D6),
+                                  Color(0xFFF5E6D8),
+                                  Color(0xFFE8F0E6),
+                                ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-                onPressed: _openCheckIn,
-                child: Text(
-                  S.of(context).checkInCta,
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
+                // Soft gradient overlay for text readability
+                Positioned.fill(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withOpacity(0.05),
+                          Colors.black.withOpacity(0.15),
+                          Colors.black.withOpacity(0.45),
+                        ],
+                        stops: const [0.0, 0.4, 1.0],
+                      ),
+                    ),
+                  ),
                 ),
+                // Content
+                Positioned.fill(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(22, 28, 22, 22),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Spacer(),
+                        Text(
+                          lang == 'vi'
+                              ? 'Chào bạn,'
+                              : (lang == 'zh' ? '你好，' : 'Hello,'),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white.withOpacity(0.85),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          lang == 'vi'
+                              ? 'Một ngày mới\nđang bắt đầu ✨'
+                              : (lang == 'zh'
+                                  ? '新的一天\n正在开始 ✨'
+                                  : 'A new day\nis beginning ✨'),
+                          style: const TextStyle(
+                            fontSize: 30,
+                            height: 1.22,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 18),
+                        // Glass quote card
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.22),
+                            borderRadius: BorderRadius.circular(18),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(0.35),
+                            ),
+                          ),
+                          child: _loading
+                              ? const SizedBox(
+                                  height: 48,
+                                  child: Center(
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      lang == 'vi'
+                                          ? 'Lời nhắn hôm nay'
+                                          : (lang == 'zh'
+                                              ? '今日寄语'
+                                              : "Today's note"),
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white.withOpacity(0.75),
+                                        letterSpacing: 0.3,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      _greeting?.greetingText ??
+                                          S.of(context).greetingFallback,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        height: 1.45,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Icon(
+                                      Icons.favorite_rounded,
+                                      size: 14,
+                                      color: Colors.white.withOpacity(0.7),
+                                    ),
+                                  ],
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          if (_todayCheckIn != null) ...[
+            Text(
+              S.of(context).checkInToday,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: context.appInk,
               ),
             ),
-          ],
-          const SizedBox(height: 28),
+            const SizedBox(height: 10),
+            _TodayCheckInCard(checkIn: _todayCheckIn!, onEdit: _openCheckIn),
+          ] else
+            _PillCta(
+              label: lang == 'vi'
+                  ? 'Check-in hôm nay'
+                  : S.of(context).checkInCta,
+              onTap: _openCheckIn,
+            ),
+          const SizedBox(height: 20),
           const AdView(),
         ],
+      ),
+    );
+  }
+}
+
+class _PillCta extends StatelessWidget {
+  final String label;
+  final VoidCallback onTap;
+  const _PillCta({required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(28),
+        child: Ink(
+          height: 56,
+          decoration: BoxDecoration(
+            gradient: context.appCtaGradient,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: context.appBrand.withOpacity(0.32),
+                blurRadius: 20,
+                offset: const Offset(0, 8),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 8),
+              const Icon(Icons.arrow_forward_rounded,
+                  color: Colors.white, size: 20),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -289,26 +428,38 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 class _TodayCheckInCard extends StatelessWidget {
   final CheckIn checkIn;
   final VoidCallback onEdit;
-
   const _TodayCheckInCard({required this.checkIn, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
+    final accent = checkIn.status.accentColor;
     return Material(
-      color: context.appSurf,
-      borderRadius: BorderRadius.circular(16),
+      color: Colors.transparent,
       child: InkWell(
         onTap: onEdit,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(22),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: context.appBorder),
+            color: context.appSurf,
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(color: accent.withOpacity(0.35)),
+            boxShadow: context.appCardShadow,
           ),
           child: Row(
             children: [
-              Text(checkIn.status.emoji, style: const TextStyle(fontSize: 28)),
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: accent.withOpacity(0.18),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: Text(checkIn.status.emoji,
+                      style: const TextStyle(fontSize: 24)),
+                ),
+              ),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -318,27 +469,118 @@ class _TodayCheckInCard extends StatelessWidget {
                       checkIn.status.label,
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: context.appInk,
                       ),
                     ),
                     if (checkIn.note != null && checkIn.note!.isNotEmpty) ...[
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 3),
                       Text(
                         checkIn.note!,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 14,
-                          color: context.appInk.withOpacity(0.65),
+                          fontSize: 13,
+                          color: context.appMuted,
                         ),
                       ),
                     ],
                   ],
                 ),
               ),
-              Icon(Icons.edit_outlined, size: 20, color: context.appMuted),
+              Icon(Icons.edit_outlined, size: 18, color: context.appMuted),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BottomNav extends StatelessWidget {
+  final int index;
+  final ValueChanged<int> onChanged;
+  final List<String> labels;
+
+  const _BottomNav({
+    required this.index,
+    required this.onChanged,
+    required this.labels,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final icons = const [
+      (Icons.home_outlined, Icons.home_rounded),
+      (Icons.menu_book_outlined, Icons.menu_book_rounded),
+      (Icons.bar_chart_outlined, Icons.bar_chart_rounded),
+      (Icons.settings_outlined, Icons.settings_rounded),
+    ];
+
+    return Container(
+      decoration: BoxDecoration(
+        color: context.appSurf,
+        border: Border(
+          top: BorderSide(color: context.appBorder.withOpacity(0.8)),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: context.appInk.withOpacity(0.04),
+            blurRadius: 16,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: Row(
+            children: List.generate(4, (i) {
+              final selected = index == i;
+              return Expanded(
+                child: InkWell(
+                  onTap: () => onChanged(i),
+                  borderRadius: BorderRadius.circular(14),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 180),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    decoration: BoxDecoration(
+                      color: selected
+                          ? context.appBrand.withOpacity(0.12)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          selected ? icons[i].$2 : icons[i].$1,
+                          size: 22,
+                          color: selected
+                              ? context.appBrandDeep
+                              : context.appMuted,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          labels[i],
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight:
+                                selected ? FontWeight.w700 : FontWeight.w500,
+                            color: selected
+                                ? context.appBrandDeep
+                                : context.appMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
           ),
         ),
       ),

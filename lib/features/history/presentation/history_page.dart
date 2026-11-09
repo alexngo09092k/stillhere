@@ -19,6 +19,7 @@ class HistoryPageState extends State<HistoryPage> {
   List<CheckIn> _items = [];
   Map<String, int> _summary = {};
   bool _loading = true;
+  DateTime? _selectedDay;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class HistoryPageState extends State<HistoryPage> {
     final now = DateTime.now();
     _year = now.year;
     _month = now.month;
+    _selectedDay = now;
     _load();
   }
 
@@ -40,7 +42,7 @@ class HistoryPageState extends State<HistoryPage> {
     );
     if (!mounted) return;
     setState(() {
-      _items = list;
+      _items = list..sort((a, b) => b.localDate.compareTo(a.localDate));
       _summary = summary;
       _loading = false;
     });
@@ -56,14 +58,15 @@ class HistoryPageState extends State<HistoryPage> {
         _month = 12;
         _year--;
       }
+      _selectedDay = null;
     });
     _load();
   }
 
   Future<void> _openEdit(CheckIn item) async {
-    await Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (_) => CheckInPage(existing: item)));
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => CheckInPage(existing: item)),
+    );
     if (mounted) _load();
   }
 
@@ -107,232 +110,352 @@ class HistoryPageState extends State<HistoryPage> {
     return code;
   }
 
+  Map<int, CheckIn> get _byDay {
+    final map = <int, CheckIn>{};
+    for (final c in _items) {
+      final d = DateTime.tryParse(c.localDate);
+      if (d != null) map[d.day] = c;
+    }
+    return map;
+  }
+
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
     final locale = _localeTag(context);
-    final monthLabel = DateFormat(
-      'MMMM yyyy',
-      locale,
-    ).format(DateTime(_year, _month));
+    final lang = Localizations.localeOf(context).languageCode;
+    final monthLabel = DateFormat('MMMM yyyy', locale).format(
+      DateTime(_year, _month),
+    );
+    final byDay = _byDay;
+    final daysInMonth = DateTime(_year, _month + 1, 0).day;
+    // Monday-based week
+    final firstWeekday = DateTime(_year, _month, 1).weekday; // 1=Mon..7=Sun
 
     return Scaffold(
       backgroundColor: context.appBg,
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 12, 8, 0),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () => _shiftMonth(-1),
-                    icon: Icon(Icons.chevron_left),
-                  ),
-                  Expanded(
-                    child: Text(
-                      monthLabel,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: context.appInk,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () => _shiftMonth(1),
-                    icon: const Icon(Icons.chevron_right),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
-              child: Row(
+        child: RefreshIndicator(
+          onRefresh: _load,
+          color: context.appBrand,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
+            children: [
+              Row(
                 children: [
                   Expanded(
-                    child: _SummaryItem(
-                      label: s.labelDays,
-                      value: '${_summary['total'] ?? 0}',
-                    ),
-                  ),
-                  Expanded(
-                    child: _SummaryItem(
-                      label: s.labelOk,
-                      value: '${_summary['OK'] ?? 0}',
-                    ),
-                  ),
-                  Expanded(
-                    child: _SummaryItem(
-                      label: s.labelShare,
-                      value: '${_summary['SHARE'] ?? 0}',
-                    ),
-                  ),
-                  Expanded(
-                    child: _SummaryItem(
-                      label: s.labelSelfCare,
-                      value: '${_summary['SELF_CARE'] ?? 0}',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              child: _loading
-                  ? Center(
-                      child: CircularProgressIndicator(color: context.appBrand),
-                    )
-                  : _items.isEmpty
-                  ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(32),
-                        child: Text(
-                          s.historyEmpty,
-                          textAlign: TextAlign.center,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          lang == 'vi' ? 'Nhật ký của bạn' : s.historyTitle,
                           style: TextStyle(
-                            fontSize: 15,
-                            height: 1.5,
-                            color: context.appInk.withOpacity(0.55),
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: context.appInk,
+                            letterSpacing: -0.3,
                           ),
                         ),
-                      ),
-                    )
-                  : RefreshIndicator(
-                      onRefresh: _load,
-                      color: context.appBrand,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-                        itemCount: _items.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 10),
-                        itemBuilder: (context, i) {
-                          final c = _items[i];
-                          final date = DateTime.tryParse(c.localDate);
-                          final dateLabel = date != null
-                              ? DateFormat('EEE, d MMM', locale).format(date)
-                              : c.localDate;
-                          return Material(
-                            color: context.appSurf,
-                            borderRadius: BorderRadius.circular(14),
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(14),
-                              onTap: () => _openEdit(c),
-                              onLongPress: () => _confirmDelete(c),
-                              child: Container(
-                                padding: const EdgeInsets.all(14),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  border: Border.all(color: context.appBorder),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      c.status.emoji,
-                                      style: const TextStyle(fontSize: 26),
-                                    ),
-                                    const SizedBox(width: 12),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            dateLabel,
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w600,
-                                              color: context.appInk,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 2),
-                                          Text(
-                                            c.status.label,
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              color: context.appInk.withOpacity(
-                                                0.6,
-                                              ),
-                                            ),
-                                          ),
-                                          if (c.note != null &&
-                                              c.note!.trim().isNotEmpty)
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                top: 4,
-                                              ),
-                                              child: Text(
-                                                c.note!,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: context.appInk.withOpacity(0.75),
-                                                ),
-                                              ),
-                                            ),
-                                        ],
-                                      ),
-                                    ),
-                                    PopupMenuButton<String>(
-                                      onSelected: (v) {
-                                        if (v == 'edit') _openEdit(c);
-                                        if (v == 'delete') {
-                                          _confirmDelete(c);
-                                        }
-                                      },
-                                      itemBuilder: (_) => [
-                                        PopupMenuItem(
-                                          value: 'edit',
-                                          child: Text(s.edit),
-                                        ),
-                                        PopupMenuItem(
-                                          value: 'delete',
-                                          child: Text(s.delete),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                        const SizedBox(height: 4),
+                        Text(
+                          lang == 'vi'
+                              ? 'Những ngày của bạn, những cảm xúc thật.'
+                              : s.historyEmpty,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: context.appMuted,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+
+              // Month navigator + calendar card
+              Container(
+                padding: const EdgeInsets.fromLTRB(12, 14, 12, 16),
+                decoration: BoxDecoration(
+                  color: context.appSurf,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: context.appCardShadow,
+                  border: Border.all(color: context.appBorder.withOpacity(0.6)),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () => _shiftMonth(-1),
+                          icon: Icon(Icons.chevron_left_rounded,
+                              color: context.appInk),
+                        ),
+                        Expanded(
+                          child: Text(
+                            lang == 'vi'
+                                ? 'Tháng $_month, $_year'
+                                : monthLabel,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: context.appInk,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () => _shiftMonth(1),
+                          icon: Icon(Icons.chevron_right_rounded,
+                              color: context.appInk),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    // Weekday headers
+                    Row(
+                      children: (lang == 'vi'
+                              ? ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+                              : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'])
+                          .map(
+                            (d) => Expanded(
+                              child: Center(
+                                child: Text(
+                                  d,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: context.appMuted,
+                                  ),
                                 ),
                               ),
                             ),
-                          );
-                        },
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(height: 8),
+                    if (_loading)
+                      const Padding(
+                        padding: EdgeInsets.all(24),
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    else
+                      _buildCalendarGrid(
+                        context,
+                        daysInMonth: daysInMonth,
+                        firstWeekday: firstWeekday,
+                        byDay: byDay,
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 22),
+
+              Text(
+                lang == 'vi' ? 'Ghi nhận gần đây' : s.checkInToday,
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: context.appInk,
+                ),
+              ),
+              const SizedBox(height: 12),
+
+              if (!_loading && _items.isEmpty)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: context.appSurf,
+                    borderRadius: BorderRadius.circular(18),
+                    border: Border.all(color: context.appBorder),
+                  ),
+                  child: Text(
+                    s.historyEmpty,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.5,
+                      color: context.appMuted,
+                    ),
+                  ),
+                )
+              else
+                ..._items.take(8).map((c) {
+                  final date = DateTime.tryParse(c.localDate);
+                  final dateLabel = date != null
+                      ? DateFormat('EEE, d MMM', locale).format(date)
+                      : c.localDate;
+                  final accent = c.status.accentColor;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(18),
+                        onTap: () => _openEdit(c),
+                        onLongPress: () => _confirmDelete(c),
+                        child: Container(
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: context.appSurf,
+                            borderRadius: BorderRadius.circular(18),
+                            border: Border.all(
+                              color: context.appBorder.withOpacity(0.8),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 44,
+                                height: 44,
+                                decoration: BoxDecoration(
+                                  color: accent.withOpacity(0.18),
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    c.status.emoji,
+                                    style: const TextStyle(fontSize: 22),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      dateLabel,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: context.appMuted,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      c.status.label,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                        color: context.appInk,
+                                      ),
+                                    ),
+                                    if (c.note != null &&
+                                        c.note!.trim().isNotEmpty) ...[
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        c.note!,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: context.appMuted,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                              Icon(Icons.chevron_right_rounded,
+                                  color: context.appMuted),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-            ),
-          ],
+                  );
+                }),
+            ],
+          ),
         ),
       ),
     );
   }
-}
 
-class _SummaryItem extends StatelessWidget {
-  final String label;
-  final String value;
-  const _SummaryItem({required this.label, required this.value});
+  Widget _buildCalendarGrid(
+    BuildContext context, {
+    required int daysInMonth,
+    required int firstWeekday,
+    required Map<int, CheckIn> byDay,
+  }) {
+    final cells = <Widget>[];
+    // Empty leading cells (Mon=1)
+    for (var i = 1; i < firstWeekday; i++) {
+      cells.add(const SizedBox());
+    }
+    final today = DateTime.now();
+    for (var day = 1; day <= daysInMonth; day++) {
+      final checkIn = byDay[day];
+      final isToday =
+          today.year == _year && today.month == _month && today.day == day;
+      final isSelected = _selectedDay != null &&
+          _selectedDay!.year == _year &&
+          _selectedDay!.month == _month &&
+          _selectedDay!.day == day;
 
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: context.appInk,
+      cells.add(
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _selectedDay = DateTime(_year, _month, day);
+            });
+            if (checkIn != null) _openEdit(checkIn);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? context.appBrand.withOpacity(0.2)
+                  : (isToday
+                      ? context.appBrand.withOpacity(0.1)
+                      : Colors.transparent),
+              borderRadius: BorderRadius.circular(12),
+              border: isToday
+                  ? Border.all(color: context.appBrand.withOpacity(0.5))
+                  : null,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$day',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight:
+                        isToday || isSelected ? FontWeight.w700 : FontWeight.w500,
+                    color: context.appInk,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                if (checkIn != null)
+                  Container(
+                    width: 6,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: checkIn.status.accentColor,
+                      shape: BoxShape.circle,
+                    ),
+                  )
+                else
+                  const SizedBox(height: 6),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 2),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: context.appInk.withOpacity(0.55),
-          ),
-        ),
-      ],
+      );
+    }
+
+    return GridView.count(
+      crossAxisCount: 7,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      childAspectRatio: 1,
+      children: cells,
     );
   }
 }

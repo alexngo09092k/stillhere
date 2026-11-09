@@ -53,7 +53,6 @@ class _SettingsPageState extends State<SettingsPage> {
       );
       if (!mounted) return;
       if (!ok) {
-        // Permission denied – giữ OFF và hướng dẫn
         setState(() => _settings['reminder.enabled'] = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -114,9 +113,8 @@ class _SettingsPageState extends State<SettingsPage> {
       await LocalStorage.instance.setOnboardingDone(true);
       await ReminderHelper.instance.disable();
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(S.of(context).dataDeleted)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(S.of(context).dataDeleted)));
       _load();
     }
   }
@@ -125,6 +123,19 @@ class _SettingsPageState extends State<SettingsPage> {
     final hh = h.toString().padLeft(2, '0');
     final mm = m.toString().padLeft(2, '0');
     return '$hh:$mm';
+  }
+
+  String _langLabel(String? code) {
+    switch (code) {
+      case 'en':
+        return 'English';
+      case 'zh':
+        return '中文';
+      case 'th':
+        return 'ไทย';
+      default:
+        return 'Tiếng Việt';
+    }
   }
 
   @override
@@ -140,6 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final aiOn = _settings['ai.enabled'] != false;
     final hour = (_settings['reminder.hour'] as int?) ?? 9;
     final minute = (_settings['reminder.minute'] as int?) ?? 0;
+    final lang = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       backgroundColor: context.appBg,
@@ -148,166 +160,128 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
           children: [
             Text(
-              S.of(context).settingsTitle,
+              lang == 'vi' ? 'Cài đặt' : S.of(context).settingsTitle,
               style: TextStyle(
-                fontSize: 26,
+                fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: context.appInk,
+                letterSpacing: -0.3,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 4),
+            Text(
+              lang == 'vi'
+                  ? 'Một góc nhỏ của riêng bạn.'
+                  : 'A little corner of your own.',
+              style: TextStyle(fontSize: 13, color: context.appMuted),
+            ),
+            const SizedBox(height: 20),
 
-            _Section(
-              title: S.of(context).sectionReminder,
-              children: [
-                SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(S.of(context).enableCheckInReminder),
-                  subtitle: Text(
-                    reminderOn
-                        ? S.of(context).reminderAt(_formatTime(hour, minute))
-                        : S.of(context).reminderOff,
+            // App card
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: context.appSurf,
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: context.appCardShadow,
+                border: Border.all(color: context.appBorder.withOpacity(0.6)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: context.appCtaGradient,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Icon(Icons.spa_rounded,
+                        color: Colors.white, size: 28),
                   ),
-                  value: reminderOn,
-                  activeColor: context.appBrand,
-                  onChanged: _onReminderToggle,
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'StillHere',
+                          style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w700,
+                            color: context.appInk,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Version 1.0.0',
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: context.appMuted,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
+
+            _SettingsGroup(
+              children: [
+                _SettingsTile(
+                  icon: Icons.notifications_none_rounded,
+                  title: lang == 'vi'
+                      ? 'Nhắc nhở mỗi ngày'
+                      : S.of(context).enableCheckInReminder,
+                  trailing: Switch.adaptive(
+                    value: reminderOn,
+                    activeColor: context.appBrand,
+                    onChanged: _onReminderToggle,
+                  ),
                 ),
                 if (reminderOn)
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(S.of(context).reminderTime),
-                    trailing: Text(
-                      _formatTime(hour, minute),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: context.appBrand,
-                      ),
-                    ),
+                  _SettingsTile(
+                    icon: Icons.schedule_rounded,
+                    title: S.of(context).reminderTime,
+                    subtitle: _formatTime(hour, minute),
                     onTap: _pickTime,
                   ),
-              ],
-            ),
-
-            _Section(
-              title: S.of(context).theme,
-              children: [
-                ...[
-                  {
-                    'mode': ThemeMode.system,
-                    'label': S.of(context).themeSystem,
-                    'icon': Icons.brightness_auto,
-                  },
-                  {
-                    'mode': ThemeMode.light,
-                    'label': S.of(context).themeLight,
-                    'icon': Icons.light_mode_outlined,
-                  },
-                  {
-                    'mode': ThemeMode.dark,
-                    'label': S.of(context).themeDark,
-                    'icon': Icons.dark_mode_outlined,
-                  },
-                ].map((entry) {
-                  final mode = entry['mode'] as ThemeMode;
-                  final label = entry['label'] as String;
-                  final icon = entry['icon'] as IconData;
-                  ThemeMode current = ThemeMode.light;
-                  try {
-                    current = ManagerProvider.of<IThemeProvider>().themeMode;
-                  } catch (_) {}
-                  return RadioListTile<ThemeMode>(
-                    contentPadding: EdgeInsets.zero,
-                    secondary: Icon(icon, color: context.appBrand),
-                    title: Text(label),
-                    value: mode,
-                    groupValue: current,
+                _SettingsTile(
+                  icon: Icons.language_rounded,
+                  title: lang == 'vi' ? 'Ngôn ngữ' : S.of(context).language,
+                  subtitle: _langLabel(
+                    (_settings['language'] as String?) ?? lang,
+                  ),
+                  showChevron: true,
+                  onTap: () => _showLanguagePicker(),
+                ),
+                _SettingsTile(
+                  icon: Icons.auto_awesome_rounded,
+                  title: lang == 'vi'
+                      ? 'Cho phép lời chào AI'
+                      : S.of(context).useAiGreeting,
+                  trailing: Switch.adaptive(
+                    value: aiOn,
                     activeColor: context.appBrand,
-                    onChanged: (v) async {
-                      if (v == null) return;
-                      await _update('theme', v.name);
-                      try {
-                        ManagerProvider.of<IThemeProvider>().changeThemeMode(v);
-                      } catch (_) {}
-                      if (mounted) setState(() {});
-                    },
-                  );
-                }),
-              ],
-            ),
-
-            _Section(
-              title: S.of(context).sectionGreeting,
-              children: [
-                SwitchListTile(
-                  contentPadding: EdgeInsets.zero,
-                  title: Text(S.of(context).useAiGreeting),
-                  subtitle: Text(S.of(context).useAiGreetingSubtitle),
-                  value: aiOn,
-                  activeColor: context.appBrand,
-                  onChanged: (v) => _update('ai.enabled', v),
+                    onChanged: (v) => _update('ai.enabled', v),
+                  ),
                 ),
               ],
             ),
+            const SizedBox(height: 14),
 
-            _Section(
-              title: S.of(context).language,
+            _SettingsGroup(
               children: [
-                ...[
-                  {'code': 'vi', 'label': 'Tiếng Việt'},
-                  {'code': 'en', 'label': 'English'},
-                  {'code': 'th', 'label': 'ไทย'},
-                  {'code': 'zh', 'label': '中文'},
-                ].map((entry) {
-                  final code = entry['code']!;
-                  final label = entry['label']!;
-                  return RadioListTile<String>(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(label),
-                    value: code,
-                    groupValue: (_settings['language'] as String?) ?? 'vi',
-                    activeColor: context.appBrand,
-                    onChanged: (v) async {
-                      if (v == null) return;
-                      await _update('language', v);
-                      try {
-                        ManagerProvider.of<IThemeProvider>().changeLocale(
-                          Locale(v),
-                        );
-                      } catch (_) {}
-                      if (mounted) setState(() {});
-                    },
-                  );
-                }),
-              ],
-            ),
-
-            _Section(
-              title: S.of(context).sectionPremium,
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(
-                    Icons.workspace_premium,
-                    color: context.appBrand,
-                  ),
-                  title: Text(S.of(context).removeAdsPremium),
-                  subtitle: Text(
-                    PremiumService.instance.isPremium
-                        ? S.of(context).premiumActive
-                        : S.of(context).upgradeToRemoveAds,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: PremiumService.instance.isPremium
-                          ? context.appBrand
-                          : context.appMuted,
-                    ),
-                  ),
-                  trailing: const Icon(Icons.chevron_right),
+                _SettingsTile(
+                  icon: Icons.workspace_premium_outlined,
+                  title: S.of(context).removeAdsPremium,
+                  subtitle: PremiumService.instance.isPremium
+                      ? S.of(context).premiumActive
+                      : S.of(context).upgradeToRemoveAds,
+                  showChevron: true,
                   onTap: () {
-                    AdRevenueManager.instance.onNavigation(
-                      placement: 'premium',
-                    );
+                    AdRevenueManager.instance.onNavigation(placement: 'premium');
                     Navigator.of(context).pushNamed(AppRoutes.premiumPage).then(
                       (_) {
                         if (mounted) setState(() {});
@@ -315,61 +289,73 @@ class _SettingsPageState extends State<SettingsPage> {
                     );
                   },
                 ),
-              ],
-            ),
-
-            _Section(
-              title: S.of(context).sectionAbout,
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.info_outline, color: context.appMuted),
-                  title: Text(S.of(context).aboutTitle),
-                  trailing: const Icon(Icons.chevron_right),
+                _SettingsTile(
+                  icon: Icons.lock_outline_rounded,
+                  title: lang == 'vi' ? 'Quyền riêng tư' : 'Privacy',
+                  subtitle: S.of(context).dataStaysOnDevice,
+                  showChevron: true,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (_) => const AboutPage()),
                     );
                   },
                 ),
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.ios_share, color: context.appMuted),
-                  title: Text(S.of(context).exportData),
-                  subtitle: Text(S.of(context).exportDataSubtitle),
+                _SettingsTile(
+                  icon: Icons.ios_share_rounded,
+                  title: S.of(context).exportData,
+                  subtitle: S.of(context).exportDataSubtitle,
+                  showChevron: true,
                   onTap: () async {
                     try {
                       await DataExportService.instance.shareExport();
-                    } catch (e) {
+                    } catch (_) {
                       if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(S.of(context).exportFailed)),
+                        SnackBar(content: Text(S.of(context).saveFailed)),
                       );
                     }
                   },
                 ),
+                _SettingsTile(
+                  icon: Icons.info_outline_rounded,
+                  title: S.of(context).aboutTitle,
+                  showChevron: true,
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const AboutPage()),
+                    );
+                  },
+                ),
               ],
             ),
+            const SizedBox(height: 14),
 
-            _Section(
-              title: S.of(context).sectionData,
+            _SettingsGroup(
               children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: Icon(Icons.delete_outline, color: Colors.redAccent),
-                  title: Text(S.of(context).deleteAllData),
+                _SettingsTile(
+                  icon: Icons.brightness_6_outlined,
+                  title: S.of(context).theme,
+                  subtitle: _themeLabel(),
+                  showChevron: true,
+                  onTap: _showThemePicker,
+                ),
+                _SettingsTile(
+                  icon: Icons.delete_outline_rounded,
+                  title: S.of(context).deleteAllData,
+                  titleColor: const Color(0xFFC45C4A),
+                  iconColor: const Color(0xFFC45C4A),
                   onTap: _confirmDeleteAll,
                 ),
               ],
             ),
-
-            const SizedBox(height: 24),
+            const SizedBox(height: 28),
             Center(
               child: Text(
-                S.of(context).dataStaysOnDevice,
+                lang == 'vi' ? "You're enough ♡" : "You're enough ♡",
                 style: TextStyle(
-                  fontSize: 13,
-                  color: context.appInk.withOpacity(0.45),
+                  fontSize: 14,
+                  fontStyle: FontStyle.italic,
+                  color: context.appMuted.withOpacity(0.8),
                 ),
               ),
             ),
@@ -378,41 +364,231 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
     );
   }
+
+  String _themeLabel() {
+    ThemeMode current = ThemeMode.light;
+    try {
+      current = ManagerProvider.of<IThemeProvider>().themeMode;
+    } catch (_) {}
+    final s = S.of(context);
+    switch (current) {
+      case ThemeMode.system:
+        return s.themeSystem;
+      case ThemeMode.dark:
+        return s.themeDark;
+      case ThemeMode.light:
+        return s.themeLight;
+    }
+  }
+
+  Future<void> _showLanguagePicker() async {
+    final current = (_settings['language'] as String?) ?? 'vi';
+    final picked = await showModalBottomSheet<String>(
+      context: context,
+      backgroundColor: context.appSurf,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        final options = [
+          {'code': 'vi', 'label': 'Tiếng Việt'},
+          {'code': 'en', 'label': 'English'},
+          {'code': 'th', 'label': 'ไทย'},
+          {'code': 'zh', 'label': '中文'},
+        ];
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: context.appBorder,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 8),
+              ...options.map((e) {
+                final selected = e['code'] == current;
+                return ListTile(
+                  title: Text(
+                    e['label']!,
+                    style: TextStyle(
+                      fontWeight:
+                          selected ? FontWeight.w700 : FontWeight.w500,
+                      color: context.appInk,
+                    ),
+                  ),
+                  trailing: selected
+                      ? Icon(Icons.check_rounded, color: context.appBrand)
+                      : null,
+                  onTap: () => Navigator.pop(ctx, e['code']),
+                );
+              }),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
+    );
+    if (picked != null) {
+      await _update('language', picked);
+      try {
+        ManagerProvider.of<IThemeProvider>().changeLocale(Locale(picked));
+      } catch (_) {}
+      if (mounted) setState(() {});
+    }
+  }
+
+  Future<void> _showThemePicker() async {
+    ThemeMode current = ThemeMode.light;
+    try {
+      current = ManagerProvider.of<IThemeProvider>().themeMode;
+    } catch (_) {}
+    final s = S.of(context);
+    final picked = await showModalBottomSheet<ThemeMode>(
+      context: context,
+      backgroundColor: context.appSurf,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        final options = [
+          (ThemeMode.system, s.themeSystem, Icons.brightness_auto),
+          (ThemeMode.light, s.themeLight, Icons.light_mode_outlined),
+          (ThemeMode.dark, s.themeDark, Icons.dark_mode_outlined),
+        ];
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 12),
+              Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: context.appBorder,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const SizedBox(height: 8),
+              ...options.map((e) {
+                final selected = e.$1 == current;
+                return ListTile(
+                  leading: Icon(e.$3, color: context.appBrand),
+                  title: Text(
+                    e.$2,
+                    style: TextStyle(
+                      fontWeight:
+                          selected ? FontWeight.w700 : FontWeight.w500,
+                    ),
+                  ),
+                  trailing: selected
+                      ? Icon(Icons.check_rounded, color: context.appBrand)
+                      : null,
+                  onTap: () => Navigator.pop(ctx, e.$1),
+                );
+              }),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
+    );
+    if (picked != null) {
+      await _update('theme', picked.name);
+      try {
+        ManagerProvider.of<IThemeProvider>().changeThemeMode(picked);
+      } catch (_) {}
+      if (mounted) setState(() {});
+    }
+  }
 }
 
-class _Section extends StatelessWidget {
-  final String title;
+class _SettingsGroup extends StatelessWidget {
   final List<Widget> children;
-  const _Section({required this.title, required this.children});
+  const _SettingsGroup({required this.children});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+    return Container(
+      decoration: BoxDecoration(
+        color: context.appSurf,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: context.appBorder.withOpacity(0.6)),
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: context.appInk.withOpacity(0.5),
-              letterSpacing: 0.3,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-            decoration: BoxDecoration(
-              color: context.appSurf,
-              borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: context.appBorder),
-            ),
-            child: Column(children: children),
-          ),
+          for (var i = 0; i < children.length; i++) ...[
+            children[i],
+            if (i < children.length - 1)
+              Divider(
+                height: 1,
+                indent: 56,
+                color: context.appBorder.withOpacity(0.7),
+              ),
+          ],
         ],
       ),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final Widget? trailing;
+  final bool showChevron;
+  final VoidCallback? onTap;
+  final Color? titleColor;
+  final Color? iconColor;
+
+  const _SettingsTile({
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.trailing,
+    this.showChevron = false,
+    this.onTap,
+    this.titleColor,
+    this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 2),
+      leading: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: (iconColor ?? context.appBrand).withOpacity(0.12),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Icon(icon, size: 20, color: iconColor ?? context.appBrandDeep),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+          color: titleColor ?? context.appInk,
+        ),
+      ),
+      subtitle: subtitle == null
+          ? null
+          : Text(
+              subtitle!,
+              style: TextStyle(fontSize: 12, color: context.appMuted),
+            ),
+      trailing: trailing ??
+          (showChevron
+              ? Icon(Icons.chevron_right_rounded, color: context.appMuted)
+              : null),
     );
   }
 }
