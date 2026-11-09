@@ -22,15 +22,15 @@ const enviroment = {
     },
 
     /// Display name is used in app
-    'appName': 'SnapEditify',
+    'appName': 'Still Here',
 
     /// Version
-    'version': '2.0.0',
+    'version': '1.0.0',
 
     /// Logo is used in splash screen and app ui
     'appLogo': 'assets/images/logo.png',
 
-    'appBio': 'AI powered photo editor',
+    'appBio': 'Một lời hỏi thăm nhỏ mỗi ngày',
 
     /// Protocols is use to check
     'protocols': ['https://', 'http://', 'data:'],
@@ -39,7 +39,7 @@ const enviroment = {
     'prefix': 'app.still_here.studio.',
 
     /// Contact
-    'contact': 'hasoft.company@gmail.com',
+    'contact': 'anh.nh182113@gmail.com',
 
     /// Social Networks
     'socialNetworks': [
@@ -90,7 +90,7 @@ const enviroment = {
 
     /// Share app
     'shareApp': {
-      'message': 'SnapEditify AI Photo Editor Pro',
+      'message': 'StillHere - Một lời hỏi thăm nhỏ mỗi ngày',
       'links': {
         'android': 'https://appgallery.huawei.com/app/C107645049',
         'ios': 'https://appgallery.huawei.com/app/C107645049',
@@ -100,7 +100,7 @@ const enviroment = {
 
     /// Update app
     'updateApp': {
-      'version': '2.0.0',
+      'version': '1.0.0',
       'required': false,
       'links': {
         'android': 'https://appgallery.huawei.com/app/C107645049',
@@ -210,7 +210,7 @@ const enviroment = {
 
   //! ====================================== IAP ==============================================
   "iap": {
-    "enable": false,
+    "enable": true,
     "providers": ["huawei"],
     "products": [
       {

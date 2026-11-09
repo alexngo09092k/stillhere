@@ -7,6 +7,8 @@ import 'package:fluttering_iap/iap/iap.dart';
 import 'package:fluttering_remote_config/fluttering_remote_config.dart';
 import 'package:still_here/app.dart';
 import 'package:still_here/common/configuration.dart';
+import 'package:still_here/core/premium/premium_service.dart';
+import 'package:still_here/core/notifications/reminder_helper.dart';
 import 'package:still_here/enviroment.dart';
 import 'package:still_here/firebase_options.dart';
 import 'package:still_here/models/config/bussiness_config/bussiness_config.dart';
@@ -21,7 +23,8 @@ void main() {
       AwesomeIAP.instance,
       AwesomeRemoteConfig.instance,
       AwesomeAnalytics.instance,
-      AppThemeProvider(themeMode: ThemeMode.light, locale: const Locale('en')),
+      PremiumService.instance,
+      AppThemeProvider(themeMode: ThemeMode.system, locale: const Locale('vi')),
     ],
     lazyProviders: [],
     onWillInitialize: () async {
@@ -46,6 +49,15 @@ void main() {
       );
       AwesomeIAP.instance.initial(Configuration.instance.iap);
       AwesomeAnalytics.instance.initial(Configuration.instance.analytics);
+
+      // Sync premium entitlement after IAP is ready
+      await PremiumService.instance.bind();
+      await ReminderHelper.instance.init();
+      // Reschedule if previously enabled
+      if (await ReminderHelper.instance.isEnabled()) {
+        final t = await ReminderHelper.instance.getTime();
+        await ReminderHelper.instance.updateTime(hour: t.hour, minute: t.minute);
+      }
 
       return true;
     },

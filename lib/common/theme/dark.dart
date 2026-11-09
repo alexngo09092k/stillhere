@@ -17,7 +17,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
   );
 
   final colorScheme = ColorScheme.dark(
-    primary: AppColors.brandSoft,
+    primary: AppColors.brand,
     onPrimary: Colors.white,
     primaryContainer: const Color(0xFF2E3190),
     onPrimaryContainer: const Color(0xFFE0E7FF),
@@ -41,7 +41,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
   return base.copyWith(
     useMaterial3: true,
     brightness: Brightness.dark,
-    primaryColor: AppColors.brandSoft,
+    primaryColor: AppColors.brand,
     scaffoldBackgroundColor: AppColors.darkBg,
     canvasColor: AppColors.darkBg,
     cardColor: AppColors.darkSurf,
@@ -136,7 +136,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(color: AppColors.brandSoft, width: 1.4),
       ),
-      hintStyle: textTheme.bodyMedium?.copyWith(color: const Color(0xFF9CA3AF)),
+      hintStyle: textTheme.bodyMedium?.copyWith(color: AppColors.darkMuted),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: const Color(0xFF222633),
@@ -151,7 +151,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
       iconColor: AppColors.darkInk.withOpacity(0.8),
       textColor: AppColors.darkInk,
       titleTextStyle: textTheme.titleSmall,
-      subtitleTextStyle: textTheme.bodySmall?.copyWith(color: const Color(0xFF9CA3AF)),
+      subtitleTextStyle: textTheme.bodySmall?.copyWith(color: AppColors.darkMuted),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     dividerTheme: DividerThemeData(
@@ -174,10 +174,37 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
       size: AppDimensions.instance.icon,
     ),
     primaryIconTheme: const IconThemeData(color: Colors.white),
+
+
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: AppColors.brand,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+    ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: AppColors.darkSurf,
+      indicatorColor: AppColors.brand.withOpacity(0.18),
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return textTheme.labelSmall?.copyWith(
+          color: selected ? AppColors.brand : AppColors.darkMuted,
+          fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+        );
+      }),
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return IconThemeData(
+          color: selected ? AppColors.brand : AppColors.darkMuted,
+        );
+      }),
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColors.darkSurf,
-      selectedItemColor: AppColors.brandSoft,
-      unselectedItemColor: const Color(0xFF6B7280),
+      selectedItemColor: AppColors.brand,
+      unselectedItemColor: AppColors.darkMuted,
       type: BottomNavigationBarType.fixed,
       elevation: 8,
       selectedLabelStyle: textTheme.labelSmall,

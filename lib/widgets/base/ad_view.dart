@@ -4,6 +4,7 @@ import 'package:still_here/common/configuration.dart';
 import 'package:still_here/common/constants.dart';
 import 'package:still_here/widgets/base/app_card.dart';
 import 'package:still_here/widgets/base/more_apps.dart';
+import 'package:still_here/core/premium/premium_service.dart';
 
 class AdView extends StatelessWidget {
   const AdView({super.key, this.width, this.height});
@@ -12,6 +13,12 @@ class AdView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (PremiumService.instance.isPremium) {
+      return const SizedBox.shrink();
+    }
+    if (!Configuration.instance.advertisement.enable) {
+      return const SizedBox.shrink();
+    }
     final contentMaxWidth = AppDimensions.instance.contentMaxWidth;
     final apps = Configuration.instance.business.moreApps;
     return Padding(

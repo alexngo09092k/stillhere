@@ -136,7 +136,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
         borderRadius: BorderRadius.circular(14),
         borderSide: const BorderSide(color: AppColors.brand, width: 1.4),
       ),
-      hintStyle: textTheme.bodyMedium?.copyWith(color: const Color(0xFF9CA3AF)),
+      hintStyle: textTheme.bodyMedium?.copyWith(color: AppColors.lightMuted),
     ),
     chipTheme: ChipThemeData(
       backgroundColor: const Color(0xFFEEF0F8),
@@ -151,7 +151,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
       iconColor: AppColors.lightInk.withOpacity(0.75),
       textColor: AppColors.lightInk,
       titleTextStyle: textTheme.titleSmall,
-      subtitleTextStyle: textTheme.bodySmall?.copyWith(color: const Color(0xFF6B7280)),
+      subtitleTextStyle: textTheme.bodySmall?.copyWith(color: AppColors.lightMuted),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
     dividerTheme: DividerThemeData(
@@ -174,6 +174,33 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
       size: AppDimensions.instance.icon,
     ),
     primaryIconTheme: const IconThemeData(color: Colors.white),
+
+
+    filledButtonTheme: FilledButtonThemeData(
+      style: FilledButton.styleFrom(
+        backgroundColor: AppColors.brand,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+    ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: AppColors.lightSurf,
+      indicatorColor: AppColors.brand.withOpacity(0.18),
+      labelTextStyle: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return textTheme.labelSmall?.copyWith(
+          color: selected ? AppColors.brand : AppColors.lightMuted,
+          fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+        );
+      }),
+      iconTheme: WidgetStateProperty.resolveWith((states) {
+        final selected = states.contains(WidgetState.selected);
+        return IconThemeData(
+          color: selected ? AppColors.brand : AppColors.lightMuted,
+        );
+      }),
+    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColors.lightSurf,
       selectedItemColor: AppColors.brand,

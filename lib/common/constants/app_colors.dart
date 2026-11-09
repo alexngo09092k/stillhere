@@ -1,5 +1,6 @@
 part of '../constants.dart';
 
+/// StillHere palette — soft sage background + coral accent.
 class AppColors extends FlutteringColors {
   static final AppColors _instance = AppColors._internal();
   static AppColors get instance => _instance;
@@ -8,18 +9,29 @@ class AppColors extends FlutteringColors {
 
   AppColors._internal();
 
-  // Brand palette — softer, airier modern violet
-  static const Color brand = Color(0xFF6C63FF);
-  static const Color brandSoft = Color(0xFFA5A0FF);
-  static const Color accent = Color(0xFF67E8F9);
+  // Brand
+  static const Color brand = Color(0xFFE58B78);
+  static const Color brandSoft = Color(0xFFF0A897);
+  static const Color accent = Color(0xFF7CB8A4);
 
-  static const Color lightBg = Color(0xFFF7F8FC);
+  // Light
+  static const Color lightBg = Color(0xFFF7F9F8);
   static const Color lightSurf = Color(0xFFFFFFFF);
-  static const Color lightInk = Color(0xFF1A1D26);
+  static const Color lightInk = Color(0xFF263238);
+  static const Color lightMuted = Color(0xFF607D8B);
+  static const Color lightBorder = Color(0xFFDDE9E1);
 
-  static const Color darkBg = Color(0xFF0C0E14);
-  static const Color darkSurf = Color(0xFF151922);
-  static const Color darkInk = Color(0xFFF8FAFC);
+  // Dark
+  static const Color darkBg = Color(0xFF12171A);
+  static const Color darkSurf = Color(0xFF1C2428);
+  static const Color darkInk = Color(0xFFE8EEF0);
+  static const Color darkMuted = Color(0xFF9AAEB8);
+  static const Color darkBorder = Color(0xFF2A353A);
+
+  @override
+  Color get lightBackground => lightBg;
+  @override
+  Color get darkBackground => darkBg;
 
   @override
   Color get darkOnPrimary => white;
@@ -28,22 +40,21 @@ class AppColors extends FlutteringColors {
 
   @override
   LinearGradient get gradient => const LinearGradient(
-        colors: [Color(0xFF6C63FF), Color(0xFF67E8F9)],
+        colors: [Color(0xFFE58B78), Color(0xFFF0A897)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
 
   LinearGradient get heroGradient => const LinearGradient(
         colors: [
-          Color(0xFF7C74FF),
-          Color(0xFF9B8CFF),
-          Color(0xFF67E8F9),
+          Color(0xFFE58B78),
+          Color(0xFFF0A897),
+          Color(0xFF7CB8A4),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
 
-  /// Very soft ambient shadow — light & airy
   @override
   BoxShadow get boxShadow => BoxShadow(
         color: const Color(0xFF64748B).withOpacity(0.08),
@@ -61,6 +72,13 @@ class AppColors extends FlutteringColors {
 
   BoxShadow get cardShadow => BoxShadow(
         color: const Color(0xFF64748B).withOpacity(0.07),
+        offset: const Offset(0, 8),
+        blurRadius: 24,
+        spreadRadius: -6,
+      );
+
+  BoxShadow get darkCardShadow => BoxShadow(
+        color: Colors.black.withOpacity(0.35),
         offset: const Offset(0, 8),
         blurRadius: 24,
         spreadRadius: -6,

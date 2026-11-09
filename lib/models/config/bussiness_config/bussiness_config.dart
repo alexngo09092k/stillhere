@@ -9,11 +9,7 @@ import 'share_app.dart';
 import 'social_network.dart';
 import 'web_link.dart';
 
-enum AppMode {
-  production,
-  debug,
-  maintenance,
-}
+enum AppMode { production, debug, maintenance }
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class BusinessConfig {
@@ -55,8 +51,8 @@ class BusinessConfig {
       appLogo: "assets/images/logo.png",
       appBio: "AI powered photo editor",
       protocols: ['https://', 'http://', 'data:'],
-      prefix: "app.snapeditify.studio.",
-      contact: "hasoft.company@gmail.com",
+      prefix: "com.snapeditify.stillhere.",
+      contact: "anh.nh182113@gmail.com",
       shareApp: ShareApp(
         links: {
           AppPlatform.android: 'https://appgallery.huawei.com/app/C107645049',
@@ -78,22 +74,26 @@ class BusinessConfig {
         SocialNetwork.fromMap({
           'brand': 'Facebook',
           'link': 'https://www.facebook.com/snapeditify/',
-          'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
+          'image':
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
         }),
         SocialNetwork.fromMap({
           'brand': 'Tiktok',
           'link': 'https://www.tiktok.com/@snapeditify',
-          'image': 'https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Tiktok-512.png',
+          'image':
+              'https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Tiktok-512.png',
         }),
         SocialNetwork.fromMap({
           'brand': 'Youtube',
           'link': 'https://www.youtube.com/@snapeditify',
-          'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/318px-YouTube_full-color_icon_%282017%29.svg.png',
+          'image':
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/318px-YouTube_full-color_icon_%282017%29.svg.png',
         }),
         SocialNetwork.fromMap({
           'brand': 'Telegram',
           'link': 'https://t.me/+GPyDosamyKA2OGVl',
-          'image': 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/512px-Telegram_logo.svg.png?20220101141644',
+          'image':
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/512px-Telegram_logo.svg.png?20220101141644',
         }),
       ],
       webLinks: [
@@ -111,16 +111,17 @@ class BusinessConfig {
           'title': 'FAQ',
           'link': 'https://snapeditify.netlify.app/faq/',
           'image': 'assets/images/icons/ic_faq.png',
-        })
+        }),
       ],
       maintenanceMode: MaintenanceMode.fromMap({
         'title': "We'll be back soon",
         'link': 'https://snapeditify.netlify.app/',
-        'message': "We're very sorry for the inconvenience but we're performing maintaince. Please check back soon ...",
+        'message':
+            "We're very sorry for the inconvenience but we're performing maintaince. Please check back soon ...",
       }),
       moreApps: [],
       version: '2.0.0',
-      appMode: kDebugMode? AppMode.debug: AppMode.production,
+      appMode: kDebugMode ? AppMode.debug : AppMode.production,
     );
   }
 
@@ -182,23 +183,48 @@ class BusinessConfig {
       appName: map['appName'],
       appLogo: map['appLogo'],
       appBio: map['appBio'],
-      protocols: map['protocols'] != null? (map['protocols'] as List).map((e) => e.toString()).toList(): null,
+      protocols: map['protocols'] != null
+          ? (map['protocols'] as List).map((e) => e.toString()).toList()
+          : null,
       prefix: map['prefix'],
       contact: map['contact'],
-      shareApp: map['shareApp'] != null? ShareApp.fromMap(map['shareApp']): null,
-      updateApp: map['updateApp'] != null ? UpdateApp.fromMap(map['updateApp']): null,
-      moreApps: map['moreApps'] != null? (map['moreApps'] as List).map<MoreApp>((e) => MoreApp.fromMap(e)).toList(): null,
-      appMode: map['appMode'] != null? AppMode.values.firstWhere((element) => element.name == map['appMode']): null,
-      socialNetworks: map['socialNetworks'] != null? (map['socialNetworks'] as List).map<SocialNetwork>((e) => SocialNetwork.fromMap(e)).toList(): null,
-      webLinks: map['webLinks'] != null? (map['webLinks'] as List).map<WebLink>((e) => WebLink.fromMap(e)).toList(): null,
-      maintenanceMode: map['maintenanceMode'] != null? MaintenanceMode.fromMap(map['maintenanceMode']): null,
+      shareApp: map['shareApp'] != null
+          ? ShareApp.fromMap(map['shareApp'])
+          : null,
+      updateApp: map['updateApp'] != null
+          ? UpdateApp.fromMap(map['updateApp'])
+          : null,
+      moreApps: map['moreApps'] != null
+          ? (map['moreApps'] as List)
+                .map<MoreApp>((e) => MoreApp.fromMap(e))
+                .toList()
+          : null,
+      appMode: map['appMode'] != null
+          ? AppMode.values.firstWhere(
+              (element) => element.name == map['appMode'],
+            )
+          : null,
+      socialNetworks: map['socialNetworks'] != null
+          ? (map['socialNetworks'] as List)
+                .map<SocialNetwork>((e) => SocialNetwork.fromMap(e))
+                .toList()
+          : null,
+      webLinks: map['webLinks'] != null
+          ? (map['webLinks'] as List)
+                .map<WebLink>((e) => WebLink.fromMap(e))
+                .toList()
+          : null,
+      maintenanceMode: map['maintenanceMode'] != null
+          ? MaintenanceMode.fromMap(map['maintenanceMode'])
+          : null,
       version: map['version'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory BusinessConfig.fromJson(String source) => BusinessConfig.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory BusinessConfig.fromJson(String source) =>
+      BusinessConfig.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttering/fluttering.dart';
-import 'package:still_here/common/extensions.dart';
-import 'package:still_here/widgets/base/loading_popup.dart';
+import 'package:still_here/pages/home/home_page.dart';
+import 'package:still_here/pages/splash/splash_page.dart';
+import 'package:still_here/pages/premium/premium_page.dart';
 
 abstract class IAppRoutes {
   String get initialRoute;

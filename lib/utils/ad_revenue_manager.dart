@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttering/fluttering.dart';
 import 'package:fluttering_ads/fluttering_ads.dart';
 import 'package:still_here/common/configuration.dart';
+import 'package:still_here/core/premium/premium_service.dart';
 
 /// Tối ưu doanh thu ads (interstitial + app resume).
 /// Banner vẫn dùng [AdView] như cũ.
@@ -25,7 +26,9 @@ class AdRevenueManager with WidgetsBindingObserver {
 
   AwesomeAdvertisement get _ads => ManagerProvider.of<AwesomeAdvertisement>();
 
-  bool get _adsEnabled => Configuration.instance.advertisement.enable;
+  bool get _adsEnabled =>
+      Configuration.instance.advertisement.enable &&
+      !PremiumService.instance.isPremium;
 
   void bind() {
     if (_bound) return;

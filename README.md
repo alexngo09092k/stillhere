@@ -1,18 +1,45 @@
-# still_here
+# Still Here
 
-A new Flutter project.
+Một lời hỏi thăm nhỏ, để mỗi ngày bạn biết rằng cảm xúc của mình luôn đáng được quan tâm.
 
-## Getting Started
+Local-first Flutter app (Android + iOS): daily greeting (static + optional AI), mood check-in, history, local reminder, settings. Không bắt buộc tài khoản / cloud sync trong MVP.
 
-This project is a starting point for a Flutter application.
+## Docs
 
-A few resources to get you started if this is your first Flutter project:
+- `StillHere_Full_Project_PRD.pdf` — PRD + SRS + architecture
+- `PRODUCTION_CHECKLIST.md` — checklist trước khi upload store
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Setup
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# stillhere
+```bash
+# Cấu trúc
+#   still_here/          ← repo app
+#   packages/fluttering* ← internal modules (path deps)
+
+cd still_here
+flutter pub get
+flutter run
+```
+
+### Release Android
+
+1. Tạo keystore và `android/key.properties` (xem `android/key.properties.example`).
+2. `flutter build appbundle --release`
+3. Upload AAB lên Play Console.
+
+### Release iOS
+
+1. Cấu hình signing trong Xcode (bundle `com.snapeditify.stillhere`).
+2. `flutter build ipa --release`
+3. Upload qua Transporter / Xcode.
+
+## Privacy (MVP)
+
+- Check-in & note: chỉ lưu trên thiết bị.
+- AI greeting: chỉ gửi language, time bucket, prompt version, recent public greetings.
+- Reminder: local notification, opt-in.
+
+## Package
+
+- Application ID / Bundle ID: `com.snapeditify.stillhere`
+- Display name: Still Here

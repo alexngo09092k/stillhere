@@ -41,13 +41,13 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAYSChzmSaHIgxqVoU-NnG7GNUxI1_h6sY',
-    appId: '1:851709128615:web:d465d8ccb3cd5287a19082',
+    apiKey: 'AIzaSyCwQtpG-PxqA-ZOmIJME8Ld6-HczJYGkZI',
+    appId: '1:851709128615:web:539e54e8b8f68a0aa19082',
     messagingSenderId: '851709128615',
     projectId: 'snapeditify-67a19',
     authDomain: 'snapeditify-67a19.firebaseapp.com',
     storageBucket: 'snapeditify-67a19.firebasestorage.app',
-    measurementId: 'G-VFDK99V2TG',
+    measurementId: 'G-40GXQJWXNV',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
