@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Local-first app: allow OS backup of preferences/DB so user data survives reinstall on same device.
+     Product may switch to fullBackupContent=false after legal review (OQ-13). -->
+<full-backup-content>
+    <include domain="sharedpref" path="."/>
+    <include domain="database" path="."/>
+    <include domain="file" path="."/>
+    <exclude domain="sharedpref" path="FlutterSecureStorage"/>
+</full-backup-content>

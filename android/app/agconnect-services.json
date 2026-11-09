@@ -31,17 +31,17 @@
         "client_id": "1084401751978692096",
         "client_secret": "C39541AB73A054C72F2050E002167AB97C6940F3C5D179E06F97DD9AAF7A125E",
         "project_id": "99536292102911857",
-        "app_id": "107645049",
+        "app_id": "119732529",
         "api_key": "DAEDAFM/xNNwBZIr96NfFFKE59hfnGgGU5q6/9MfUsl/79aVGsS9B2TOtw4KgbwWpK90JIuFugPU3DSdJ08ESk4Ps7l8uu8OI9QNVw==",
-        "package_name": "app.snapeditify.studio"
+        "package_name": "com.snapeditify.stillhere"
     },
     "oauth_client": {
-        "client_id": "107645049",
+        "client_id": "119732529",
         "client_type": 1
     },
     "app_info": {
-        "app_id": "107645049",
-        "package_name": "app.snapeditify.studio"
+        "app_id": "119732529",
+        "package_name": "com.snapeditify.stillhere"
     },
     "service": {
         "analytics": {
@@ -78,6 +78,20 @@
     "region": "SG",
     "configuration_version": "3.0",
     "appInfos": [
+        {
+            "package_name": "com.snapeditify.stillhere",
+            "client": {
+                "app_id": "119732529"
+            },
+            "oauth_client": {
+                "client_id": "119732529",
+                "client_type": 1
+            },
+            "app_info": {
+                "app_id": "119732529",
+                "package_name": "com.snapeditify.stillhere"
+            }
+        },
         {
             "package_name": "app.snapeditify.studio",
             "client": {

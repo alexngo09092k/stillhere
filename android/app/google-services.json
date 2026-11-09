@@ -26,9 +26,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:851709128615:android:57f3c8664207518da19082",
+        "mobilesdk_app_id": "1:851709128615:android:a2d9415b638ca74ba19082",
         "android_client_info": {
-          "package_name": "com.snapeditify.still_here"
+          "package_name": "com.snapeditify.scanner"
         }
       },
       "oauth_client": [],
