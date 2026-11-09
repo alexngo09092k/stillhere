@@ -137,7 +137,7 @@ class ReminderHelper {
 
     await _plugin.zonedSchedule(
       id: _notificationId,
-      title: 'StillHere',
+      title: 'Still Here',
       body: 'A small hello is waiting for you.',
       scheduledDate: scheduled,
       notificationDetails: details,

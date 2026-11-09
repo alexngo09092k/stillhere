@@ -1,29 +1,49 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:still_here/app.dart';
+import 'package:still_here/common/constants.dart';
+import 'package:still_here/common/theme.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const App());
+  testWidgets('light theme uses the Still Here light palette', (tester) async {
+    late ThemeData theme;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) {
+            theme = getLightTheme(context);
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(theme.brightness, Brightness.light);
+    expect(theme.scaffoldBackgroundColor, AppColors.lightBg);
+    expect(theme.cardColor, AppColors.lightSurf);
+    expect(theme.colorScheme.primary, AppColors.brand);
+    expect(theme.inputDecorationTheme.fillColor, isNot(Colors.white));
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('dark theme uses dark surfaces and readable text', (tester) async {
+    late ThemeData theme;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Builder(
+          builder: (context) {
+            theme = getDarkTheme(context);
+            return const SizedBox.shrink();
+          },
+        ),
+      ),
+    );
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(theme.brightness, Brightness.dark);
+    expect(theme.scaffoldBackgroundColor, AppColors.darkBg);
+    expect(theme.cardColor, AppColors.darkSurf);
+    expect(theme.colorScheme.onSurface, AppColors.darkInk);
+    expect(theme.colorScheme.primary, AppColors.brandSoft);
+    expect(theme.colorScheme.onPrimary, const Color(0xFF211B3D));
+    expect(theme.inputDecorationTheme.fillColor, const Color(0xFF25223B));
+    expect(theme.inputDecorationTheme.fillColor, isNot(Colors.white));
   });
 }

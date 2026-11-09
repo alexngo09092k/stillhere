@@ -16,7 +16,7 @@ class DataExportService {
     // Strip nothing sensitive beyond what user already owns locally
     final payload = {
       'exportedAtUtc': DateTime.now().toUtc().toIso8601String(),
-      'app': 'StillHere',
+      'app': 'Still Here',
       'checkIns': checkIns.map((e) => e.toMap()).toList(),
       'settings': {
         'language': settings['language'],
@@ -32,7 +32,7 @@ class DataExportService {
   Future<void> shareExport() async {
     try {
       final json = await buildJson();
-      await Share.share(json, subject: 'StillHere export');
+      await Share.share(json, subject: 'Still Here export');
     } catch (e) {
       Debug.log('[Export] error: $e');
       rethrow;

@@ -39,13 +39,17 @@ class AppCard extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: radius,
         color: color ?? Theme.of(context).colorScheme.surface,
-        boxShadow: [AppColors.instance.softShadow],
+        boxShadow: [
+          isDark
+              ? AppColors.instance.darkCardShadow
+              : AppColors.instance.softShadow,
+        ],
         border:
             border ??
             Border.all(
-              color: isDark
-                  ? Colors.white.withOpacity(0.06)
-                  : const Color(0xFFE8EAF0),
+              color: Theme.of(context).colorScheme.outlineVariant.withOpacity(
+                isDark ? 0.75 : 0.65,
+              ),
               width: 1,
             ),
       ),

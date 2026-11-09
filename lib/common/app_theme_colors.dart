@@ -11,7 +11,6 @@ extension AppThemeColors on BuildContext {
   Color get appInk => isDark ? AppColors.darkInk : AppColors.lightInk;
   Color get appMuted => isDark ? AppColors.darkMuted : AppColors.lightMuted;
   Color get appBorder => isDark ? AppColors.darkBorder : AppColors.lightBorder;
-  Color get appBrand => AppColors.brand;
-  Color get appBrandSoft =>
-      isDark ? AppColors.brandSoft : AppColors.brand;
+  Color get appBrand => isDark ? AppColors.brandSoft : AppColors.brand;
+  Color get appBrandSoft => appBrand;
 }

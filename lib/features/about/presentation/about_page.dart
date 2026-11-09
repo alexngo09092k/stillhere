@@ -57,20 +57,28 @@ class _AboutPageState extends State<AboutPage> {
             child: Container(
               width: 72,
               height: 72,
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                color: context.appBrand.withOpacity(0.15),
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.appBrand.withOpacity(0.16),
+                    blurRadius: 18,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
               ),
-              child: Icon(
-                Icons.favorite_rounded,
-                size: 36,
-                color: context.appBrand,
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 72,
+                height: 72,
+                fit: BoxFit.cover,
               ),
             ),
           ),
           const SizedBox(height: 16),
           Text(
-            business.appName.isNotEmpty ? business.appName : 'StillHere',
+            business.appName.isNotEmpty ? business.appName : 'Still Here',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 22,

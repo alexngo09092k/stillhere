@@ -5,7 +5,6 @@ import 'package:fluttering_analytics/analytics/index.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/checkin/presentation/checkin_success_page.dart';
 import 'package:still_here/shared/models/check_in.dart';
-import 'package:still_here/utils/ad_revenue_manager.dart';
 
 class CheckInPage extends StatefulWidget {
   final CheckIn? existing;
@@ -51,13 +50,11 @@ class _CheckInPageState extends State<CheckInPage> {
       status: _status!,
       note: _noteController.text,
     );
-    setState(() => _saving = false);
     if (!mounted) return;
+    setState(() => _saving = false);
     if (result != null) {
-      AdRevenueManager.instance.onHighValueAction(placement: 'checkin_save');
-      AwesomeAnalytics.instance.sendEvent('checkin_save', {
-        'status': _status?.name ?? '',
-      });
+      // Track only the action; never send the user's mood category or note.
+      AwesomeAnalytics.instance.sendEvent('checkin_save', {});
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => CheckInSuccessPage(checkIn: result)),
       );
@@ -134,7 +131,7 @@ class _CheckInPageState extends State<CheckInPage> {
               hintText: S.of(context).noteHint,
               hintStyle: TextStyle(color: context.appInk.withOpacity(0.4)),
               filled: true,
-              fillColor: Colors.white,
+              fillColor: context.appSurf,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(14),
                 borderSide: BorderSide(color: context.appBorder),
@@ -157,7 +154,7 @@ class _CheckInPageState extends State<CheckInPage> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: context.appBrand,
-                foregroundColor: Colors.white,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 elevation: 0,
                 disabledBackgroundColor: context.appBrand.withOpacity(0.4),
                 shape: RoundedRectangleBorder(
@@ -205,7 +202,7 @@ class _StatusOption extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Material(
-        color: selected ? context.appBrand.withOpacity(0.08) : Colors.white,
+        color: selected ? context.appBrand.withOpacity(0.12) : context.appSurf,
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           onTap: onTap,

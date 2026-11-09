@@ -266,9 +266,7 @@ class HistoryPageState extends State<HistoryPage> {
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                   fontSize: 13,
-                                                  color: const Color(
-                                                    0xFF263238,
-                                                  ).withOpacity(0.75),
+                                                  color: context.appInk.withOpacity(0.75),
                                                 ),
                                               ),
                                             ),

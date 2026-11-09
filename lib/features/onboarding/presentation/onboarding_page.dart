@@ -141,7 +141,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: FilledButton(
                   style: FilledButton.styleFrom(
                     backgroundColor: context.appBrand,
-                    foregroundColor: Colors.white,
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),

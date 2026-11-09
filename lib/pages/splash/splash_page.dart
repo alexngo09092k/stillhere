@@ -48,18 +48,26 @@ class _SplashPageState extends State<SplashPage> {
               width: 88,
               height: 88,
               decoration: BoxDecoration(
-                color: context.appBrand.withOpacity(0.15),
-                shape: BoxShape.circle,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: context.appBrand.withOpacity(0.18),
+                    blurRadius: 22,
+                    offset: const Offset(0, 8),
+                  ),
+                ],
               ),
-              child: Icon(
-                Icons.favorite_rounded,
-                size: 44,
-                color: context.appBrand,
+              clipBehavior: Clip.antiAlias,
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 88,
+                height: 88,
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(height: 24),
             Text(
-              name.isNotEmpty ? name : 'StillHere',
+              name.isNotEmpty ? name : 'Still Here',
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.w600,

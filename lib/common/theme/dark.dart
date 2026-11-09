@@ -17,31 +17,31 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
   );
 
   final colorScheme = ColorScheme.dark(
-    primary: AppColors.brand,
-    onPrimary: Colors.white,
-    primaryContainer: const Color(0xFF2E3190),
-    onPrimaryContainer: const Color(0xFFE0E7FF),
+    primary: AppColors.brandSoft,
+    onPrimary: const Color(0xFF211B3D),
+    primaryContainer: const Color(0xFF393064),
+    onPrimaryContainer: const Color(0xFFF1EDFF),
     secondary: AppColors.accent,
-    onSecondary: const Color(0xFF083344),
-    secondaryContainer: const Color(0xFF155E75),
-    onSecondaryContainer: const Color(0xFFCFFAFE),
+    onSecondary: const Color(0xFF30230D),
+    secondaryContainer: const Color(0xFF493B27),
+    onSecondaryContainer: const Color(0xFFFFE8BC),
     surface: AppColors.darkSurf,
     onSurface: AppColors.darkInk,
-    surfaceVariant: const Color(0xFF222633),
-    onSurfaceVariant: const Color(0xFFCBD5E1),
+    surfaceVariant: const Color(0xFF29263F),
+    onSurfaceVariant: const Color(0xFFC8C3DD),
     background: AppColors.darkBg,
     onBackground: AppColors.darkInk,
     error: const Color(0xFFF87171),
     onError: const Color(0xFF450A0A),
-    outline: const Color(0xFF374151),
-    outlineVariant: const Color(0xFF2A2F3A),
+    outline: const Color(0xFF514B6B),
+    outlineVariant: const Color(0xFF38344F),
     shadow: Colors.black,
   );
 
   return base.copyWith(
     useMaterial3: true,
     brightness: Brightness.dark,
-    primaryColor: AppColors.brand,
+    primaryColor: AppColors.brandSoft,
     scaffoldBackgroundColor: AppColors.darkBg,
     canvasColor: AppColors.darkBg,
     cardColor: AppColors.darkSurf,
@@ -79,7 +79,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
       style: ElevatedButton.styleFrom(
         elevation: 0,
         backgroundColor: AppColors.brandSoft,
-        foregroundColor: Colors.white,
+        foregroundColor: colorScheme.onPrimary,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         textStyle: textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
@@ -101,7 +101,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
     ),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: AppColors.brandSoft,
-      foregroundColor: Colors.white,
+      foregroundColor: colorScheme.onPrimary,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
@@ -122,7 +122,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFF1C2130),
+      fillColor: const Color(0xFF25223B),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
@@ -139,7 +139,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
       hintStyle: textTheme.bodyMedium?.copyWith(color: AppColors.darkMuted),
     ),
     chipTheme: ChipThemeData(
-      backgroundColor: const Color(0xFF222633),
+      backgroundColor: const Color(0xFF29263F),
       selectedColor: AppColors.brandSoft.withOpacity(0.22),
       labelStyle: textTheme.labelMedium!,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -161,7 +161,7 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
     ),
     progressIndicatorTheme: ProgressIndicatorThemeData(
       color: AppColors.brandSoft,
-      linearTrackColor: colorScheme.outlineVariant,
+      linearTrackColor: const Color(0xFF38344F),
     ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
@@ -178,8 +178,8 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
 
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: AppColors.brand,
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.brandSoft,
+        foregroundColor: colorScheme.onPrimary,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
@@ -190,20 +190,20 @@ ThemeData getDarkTheme(BuildContext context, {double scale = 1}) {
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         final selected = states.contains(WidgetState.selected);
         return textTheme.labelSmall?.copyWith(
-          color: selected ? AppColors.brand : AppColors.darkMuted,
+          color: selected ? AppColors.brandSoft : AppColors.darkMuted,
           fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
         );
       }),
       iconTheme: WidgetStateProperty.resolveWith((states) {
         final selected = states.contains(WidgetState.selected);
         return IconThemeData(
-          color: selected ? AppColors.brand : AppColors.darkMuted,
+          color: selected ? AppColors.brandSoft : AppColors.darkMuted,
         );
       }),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: AppColors.darkSurf,
-      selectedItemColor: AppColors.brand,
+      selectedItemColor: AppColors.brandSoft,
       unselectedItemColor: AppColors.darkMuted,
       type: BottomNavigationBarType.fixed,
       elevation: 8,

@@ -90,7 +90,7 @@ const enviroment = {
 
     /// Share app
     'shareApp': {
-      'message': 'StillHere - Một lời hỏi thăm nhỏ mỗi ngày',
+      'message': 'Still Here - Một lời hỏi thăm nhỏ mỗi ngày',
       'links': {
         'android': 'https://appgallery.huawei.com/app/C107645049',
         'ios': 'https://appgallery.huawei.com/app/C107645049',
@@ -109,56 +109,8 @@ const enviroment = {
       },
     },
 
-    'moreApps': [
-      {
-        "name": "Candy Land Puzzle: Match Game",
-        "logo":
-            "https://appimg2.dbankcdn.com/application/icon144/65/6124af2abde64858915de34600bf4e24.png",
-        "desc":
-            "Candy Land Puzzle is a new and stylish candy match 3 puzzle game, available for no matter adults or kids for all ages.!",
-        "links": {
-          "android": "https://appgallery.huawei.com/app/C108228683",
-          "ios": "https://appgallery.huawei.com/app/C108228683",
-          "huawei": "https://appgallery.huawei.com/app/C108228683",
-        },
-      },
-      {
-        "name": "Fall Dudes 3D: Amazing Run",
-        "logo":
-            "https://appimg2.dbankcdn.com/application/icon144/65/ae2086a83fd64cc9bde0d41b0305f20b.png",
-        "desc":
-            "Fall Dudes 3D: Super Tricky Amazing Run Run is a game with many levels and crazy obstacles waiting for you!",
-        "links": {
-          "android": "https://appgallery.huawei.com/app/C108199945",
-          "ios": "https://appgallery.huawei.com/app/C108199945",
-          "huawei": "https://appgallery.huawei.com/app/C108199945",
-        },
-      },
-      {
-        "name": "Car Mega Ramps",
-        "logo":
-            "https://appimg2.dbankcdn.com/application/icon144/65/6575b038b8534b3387bc4d1e6be163ac.png",
-        "desc":
-            "Car Mega Ramps games has an addictive and sensational interface where you will perform stunt racing efficiently on mega ramps.",
-        "links": {
-          "android": "https://appgallery.huawei.com/app/C108175001",
-          "ios": "https://appgallery.huawei.com/app/C108175001",
-          "huawei": "https://appgallery.huawei.com/app/C108175001",
-        },
-      },
-      {
-        "name": "Sweet Ice Cream Maker",
-        "logo":
-            "https://appimg2.dbankcdn.com/application/icon144/65/c5da0f730f4343269bd6bcd430315397.png",
-        "desc":
-            "Are you an ice cream lover? You will definitely like ice cream games. Here we have different varieties of Sweet Ice Cream Maker. ",
-        "links": {
-          "android": "https://appgallery.huawei.com/app/C108210943",
-          "ios": "https://appgallery.huawei.com/app/C108210943",
-          "huawei": "https://appgallery.huawei.com/app/C108210943",
-        },
-      },
-    ],
+    // No cross-promotion of unrelated games in this wellbeing app.
+    'moreApps': [],
   },
 
   //! ====================================== ADVERTISEMENT ==============================================

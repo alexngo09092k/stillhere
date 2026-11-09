@@ -2,7 +2,7 @@
 
 Một lời hỏi thăm nhỏ, để mỗi ngày bạn biết rằng cảm xúc của mình luôn đáng được quan tâm.
 
-Local-first Flutter app (Android + iOS): daily greeting (static + optional AI), mood check-in, history, local reminder, settings. Không bắt buộc tài khoản / cloud sync trong MVP.
+Local-first Flutter app (Android + iOS): static daily greeting, mood check-in, history, local reminder, settings. Không bắt buộc tài khoản / cloud sync trong MVP. AI greeting là phần chưa tích hợp; hiện tại ứng dụng dùng lời chào tĩnh.
 
 ## Docs
 
@@ -12,18 +12,16 @@ Local-first Flutter app (Android + iOS): daily greeting (static + optional AI), 
 ## Setup
 
 ```bash
-# Cấu trúc
-#   still_here/          ← repo app
-#   packages/fluttering* ← internal modules (path deps)
-
-cd still_here
+# Các package fluttering được tham chiếu từ Git (SSH).
+# Cần quyền truy cập các repository nội bộ trước khi chạy pub get.
 flutter pub get
 flutter run
 ```
 
 ### Release Android
 
-1. Tạo keystore và `android/key.properties` (xem `android/key.properties.example`).
+1. Tạo upload keystore và copy `android/key.properties.example` thành `android/key.properties`.
+   Release task sẽ dừng nếu chưa có upload signing hợp lệ; không dùng debug key để upload store.
 2. `flutter build appbundle --release`
 3. Upload AAB lên Play Console.
 
@@ -35,8 +33,9 @@ flutter run
 
 ## Privacy (MVP)
 
-- Check-in & note: chỉ lưu trên thiết bị.
-- AI greeting: chỉ gửi language, time bucket, prompt version, recent public greetings.
+- Check-in & note: lưu cục bộ trong app storage; Android/iOS system backup có thể bao gồm dữ liệu tùy cài đặt thiết bị.
+- Analytics: chỉ ghi nhận sự kiện hành động; không gửi mood category hoặc note.
+- AI greeting: chưa được tích hợp; hiện dùng static greeting fallback.
 - Reminder: local notification, opt-in.
 
 ## Package

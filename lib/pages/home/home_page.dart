@@ -11,7 +11,6 @@ import 'package:still_here/features/history/presentation/history_page.dart';
 import 'package:still_here/features/settings/presentation/settings_page.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:still_here/shared/models/greeting.dart';
-import 'package:still_here/utils/ad_revenue_manager.dart';
 import 'package:still_here/widgets/base/ad_view.dart';
 import 'package:intl/intl.dart';
 
@@ -73,7 +72,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   void _openCheckIn() {
-    AdRevenueManager.instance.onNavigation(placement: 'open_checkin');
     Navigator.of(context)
         .push(
           MaterialPageRoute(
@@ -100,9 +98,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _navIndex,
         onDestinationSelected: (i) {
-          if (i != _navIndex) {
-            AdRevenueManager.instance.onNavigation(placement: 'bottom_nav');
-          }
           setState(() => _navIndex = i);
         },
         backgroundColor: context.appSurf,
@@ -150,7 +145,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'StillHere',
+                      'Still Here',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
@@ -270,7 +265,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
               child: FilledButton(
                 style: FilledButton.styleFrom(
                   backgroundColor: context.appBrand,
-                  foregroundColor: Colors.white,
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),

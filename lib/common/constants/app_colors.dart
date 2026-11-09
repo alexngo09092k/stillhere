@@ -1,6 +1,6 @@
 part of '../constants.dart';
 
-/// StillHere palette — soft sage background + coral accent.
+/// Still Here palette — calm twilight violet with warm sunrise accents.
 class AppColors extends FlutteringColors {
   static final AppColors _instance = AppColors._internal();
   static AppColors get instance => _instance;
@@ -9,24 +9,24 @@ class AppColors extends FlutteringColors {
 
   AppColors._internal();
 
-  // Brand
-  static const Color brand = Color(0xFFE58B78);
-  static const Color brandSoft = Color(0xFFF0A897);
-  static const Color accent = Color(0xFF7CB8A4);
+  // Brand — twilight violet, inspired by the Still Here sunrise mark.
+  static const Color brand = Color(0xFF7057D9);
+  static const Color brandSoft = Color(0xFF9B88FF);
+  static const Color accent = Color(0xFFE8B96B);
 
-  // Light
-  static const Color lightBg = Color(0xFFF7F9F8);
+  // Light surfaces
+  static const Color lightBg = Color(0xFFF8F7FC);
   static const Color lightSurf = Color(0xFFFFFFFF);
-  static const Color lightInk = Color(0xFF263238);
-  static const Color lightMuted = Color(0xFF607D8B);
-  static const Color lightBorder = Color(0xFFDDE9E1);
+  static const Color lightInk = Color(0xFF25233B);
+  static const Color lightMuted = Color(0xFF706E88);
+  static const Color lightBorder = Color(0xFFE7E3F2);
 
-  // Dark
-  static const Color darkBg = Color(0xFF12171A);
-  static const Color darkSurf = Color(0xFF1C2428);
-  static const Color darkInk = Color(0xFFE8EEF0);
-  static const Color darkMuted = Color(0xFF9AAEB8);
-  static const Color darkBorder = Color(0xFF2A353A);
+  // Dark surfaces — deep indigo rather than pure black.
+  static const Color darkBg = Color(0xFF11101D);
+  static const Color darkSurf = Color(0xFF1D1B30);
+  static const Color darkInk = Color(0xFFF3F0FF);
+  static const Color darkMuted = Color(0xFFB8B3D0);
+  static const Color darkBorder = Color(0xFF38344F);
 
   @override
   Color get lightBackground => lightBg;
@@ -40,16 +40,16 @@ class AppColors extends FlutteringColors {
 
   @override
   LinearGradient get gradient => const LinearGradient(
-        colors: [Color(0xFFE58B78), Color(0xFFF0A897)],
+        colors: [Color(0xFF7057D9), Color(0xFF9B88FF)],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
       );
 
   LinearGradient get heroGradient => const LinearGradient(
         colors: [
-          Color(0xFFE58B78),
-          Color(0xFFF0A897),
-          Color(0xFF7CB8A4),
+          Color(0xFF7057D9),
+          Color(0xFF9B88FF),
+          Color(0xFFE8B96B),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
