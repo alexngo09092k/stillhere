@@ -10,9 +10,11 @@ import 'package:still_here/common/configuration.dart';
 import 'package:still_here/core/premium/premium_service.dart';
 import 'package:still_here/core/notifications/reminder_helper.dart';
 import 'package:still_here/enviroment.dart';
+import 'package:still_here/features/greeting/data/greeting_service.dart';
 import 'package:still_here/firebase_options.dart';
-import 'package:still_here/models/config/bussiness_config/bussiness_config.dart';
-import 'package:still_here/providers/app_theme_provider.dart';
+import 'package:still_here/shared/models/config/bussiness_config/bussiness_config.dart';
+import 'package:still_here/shared/providers/app_theme_provider.dart';
+import 'package:still_here/utils/ad_revenue_manager.dart';
 
 void main() {
   AwesomeApp(
@@ -50,16 +52,42 @@ void main() {
       AwesomeIAP.instance.initial(Configuration.instance.iap);
       AwesomeAnalytics.instance.initial(Configuration.instance.analytics);
 
+      // AI (Gemini free tier) — key from env map or dart-define
+      _configureAi();
+
       // Sync premium entitlement after IAP is ready
       await PremiumService.instance.bind();
       await ReminderHelper.instance.init();
       // Reschedule if previously enabled
       if (await ReminderHelper.instance.isEnabled()) {
         final t = await ReminderHelper.instance.getTime();
-        await ReminderHelper.instance.updateTime(hour: t.hour, minute: t.minute);
+        await ReminderHelper.instance.updateTime(
+          hour: t.hour,
+          minute: t.minute,
+        );
       }
+
+      AdRevenueManager.instance.bind();
 
       return true;
     },
   ).run();
+}
+
+void _configureAi() {
+  // 1) Compile-time: flutter run --dart-define=GEMINI_API_KEY=xxx
+  const fromDefine = String.fromEnvironment('GEMINI_API_KEY', defaultValue: '');
+  // 2) Local env map (do not commit real keys)
+  final fromEnv = (enviroment['ai'] as Map?)?['apiKey'] as String? ?? '';
+  // 3) Optional remote-config override can be added later
+
+  final key = fromDefine.isNotEmpty ? fromDefine : fromEnv;
+  final model =
+      (enviroment['ai'] as Map?)?['model'] as String? ?? 'gemini-2.0-flash';
+
+  GreetingService.instance.geminiApiKey = key;
+  GreetingService.instance.geminiModel = model;
+  Debug.log(
+    '[AI] Gemini configured: key=${key.isEmpty ? "empty" : "set"}, model=$model',
+  );
 }

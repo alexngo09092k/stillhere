@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttering_analytics/analytics/index.dart';
 import 'package:fluttering_iap/fluttering_iap.dart';
 import 'package:still_here/generated/l10n.dart';
-import 'package:still_here/models/config/bussiness_config/bussiness_config.dart';
+import 'package:still_here/shared/models/config/bussiness_config/bussiness_config.dart';
 import 'package:still_here/common/constants.dart';
 import 'package:fluttering/fluttering.dart';
 import 'package:fluttering_ads/fluttering_ads.dart';

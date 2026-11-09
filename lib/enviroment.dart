@@ -2,9 +2,9 @@ const enviroment = {
   //! ====================================== REMOTE CONFIG ==============================================
   "remoteConfig": {
     "enable": true,
-    "providers": ["huawei"],
+    "providers": ["google", "huawei"],
     'fetchTimeout': 60000, // 1 minutes
-    'minimumFetchInterval': 60000, // 1 minutes
+    'minimumFetchInterval': 3600000, // 1 hour in prod
   },
 
   //! ====================================== BUSSINESS ==============================================
@@ -92,8 +92,9 @@ const enviroment = {
     'shareApp': {
       'message': 'Still Here - Một lời hỏi thăm nhỏ mỗi ngày',
       'links': {
-        'android': 'https://appgallery.huawei.com/app/C107645049',
-        'ios': 'https://appgallery.huawei.com/app/C107645049',
+        'android':
+            'https://play.google.com/store/apps/details?id=com.snapeditify.stillhere',
+        'ios': 'https://apps.apple.com/app/idXXXXXXXX',
         'huawei': 'https://appgallery.huawei.com/app/C107645049',
       },
     },
@@ -103,8 +104,9 @@ const enviroment = {
       'version': '1.0.0',
       'required': false,
       'links': {
-        'android': 'https://appgallery.huawei.com/app/C107645049',
-        'ios': 'https://appgallery.huawei.com/app/C107645049',
+        'android':
+            'https://play.google.com/store/apps/details?id=com.snapeditify.stillhere',
+        'ios': 'https://apps.apple.com/app/idXXXXXXXX',
         'huawei': 'https://appgallery.huawei.com/app/C107645049',
       },
     },
@@ -114,19 +116,48 @@ const enviroment = {
   },
 
   //! ====================================== ADVERTISEMENT ==============================================
+  /// Full multi-provider: Google AdMob (Play/App Store) + Huawei (AppGallery).
+  /// Replace test unit IDs with production IDs before store submit.
   "advertisement": {
     "enable": true,
-    "adMobAppIdIos": "",
-    "adMobAppIdAndroid": "",
-    "providers": ["huawei"],
+    "adMobAppIdIos":
+        "ca-app-pub-3940256099942544~1458002511", // TODO: production
+    "adMobAppIdAndroid":
+        "ca-app-pub-3940256099942544~3347511713", // TODO: production
+    "providers": ["google", "huawei"],
     "ads": [
-      /// HUAWEI
-      // {
-      //   "type": "native",
-      //   "provider": "huawei",
-      //   "iosId": "l28y76h1or",
-      //   "androidId": "h2bea5p6f4",
-      // },
+      // --- GOOGLE AdMob (use test IDs until production) ---
+      {
+        "type": "banner",
+        "provider": "google",
+        "iosId": "ca-app-pub-3940256099942544/2934735716",
+        "androidId": "ca-app-pub-3940256099942544/6300978111",
+      },
+      {
+        "type": "interstitial",
+        "provider": "google",
+        "iosId": "ca-app-pub-3940256099942544/4411468910",
+        "androidId": "ca-app-pub-3940256099942544/1033173712",
+      },
+      {
+        "type": "reward",
+        "provider": "google",
+        "iosId": "ca-app-pub-3940256099942544/1712485313",
+        "androidId": "ca-app-pub-3940256099942544/5224354917",
+      },
+      {
+        "type": "splash",
+        "provider": "google",
+        "iosId": "ca-app-pub-3940256099942544/5575463023",
+        "androidId": "ca-app-pub-3940256099942544/3419835294",
+      },
+      {
+        "type": "native",
+        "provider": "google",
+        "iosId": "ca-app-pub-3940256099942544/3986624511",
+        "androidId": "ca-app-pub-3940256099942544/2247696110",
+      },
+      // --- HUAWEI ---
       {
         "type": "roll",
         "provider": "huawei",
@@ -161,21 +192,70 @@ const enviroment = {
   },
 
   //! ====================================== IAP ==============================================
+  /// Multi-store: Google Play Billing + App Store + Huawei IAP.
+  /// Create matching product IDs on each console before release.
   "iap": {
     "enable": true,
-    "providers": ["huawei"],
+    "providers": ["google", "apple", "huawei"],
     "products": [
+      {
+        "type": "subscriptions",
+        "provider": "google",
+        "id": "still_here_premium_month",
+        "info": {
+          "name": "Premium Monthly",
+          "description": "Remove ads and unlock premium features for 1 month.",
+          "price": "\$2.99",
+          "rawPrice": "2.99",
+          "currency": "USD",
+        },
+      },
+      {
+        "type": "subscriptions",
+        "provider": "google",
+        "id": "still_here_premium_year",
+        "info": {
+          "name": "Premium Yearly",
+          "description": "Remove ads and unlock premium features for 1 year.",
+          "price": "\$19.99",
+          "rawPrice": "19.99",
+          "currency": "USD",
+        },
+      },
+      {
+        "type": "subscriptions",
+        "provider": "apple",
+        "id": "still_here_premium_month",
+        "info": {
+          "name": "Premium Monthly",
+          "description": "Remove ads and unlock premium features for 1 month.",
+          "price": "\$2.99",
+          "rawPrice": "2.99",
+          "currency": "USD",
+        },
+      },
+      {
+        "type": "subscriptions",
+        "provider": "apple",
+        "id": "still_here_premium_year",
+        "info": {
+          "name": "Premium Yearly",
+          "description": "Remove ads and unlock premium features for 1 year.",
+          "price": "\$19.99",
+          "rawPrice": "19.99",
+          "currency": "USD",
+        },
+      },
       {
         "type": "subscriptions",
         "provider": "huawei",
         "id": "app.still_here.studio.amonth",
         "info": {
-          "name": "A Month",
-          "description":
-              "This is lisence for a month use us service like. Thanks for purchase.",
-          "price": "\$2.46",
-          "rawPrice": '2',
-          "currency": "GBP",
+          "name": "Premium Monthly",
+          "description": "Remove ads and unlock premium features for 1 month.",
+          "price": "\$2.99",
+          "rawPrice": "2.99",
+          "currency": "USD",
         },
       },
       {
@@ -183,12 +263,11 @@ const enviroment = {
         "provider": "huawei",
         "id": "app.still_here.studio.oneyear",
         "info": {
-          "name": "A Month",
-          "description":
-              "This is lisence for a month use us service like. Thanks for purchase.",
-          "price": "\$2.46",
-          "rawPrice": '2',
-          "currency": "GBP",
+          "name": "Premium Yearly",
+          "description": "Remove ads and unlock premium features for 1 year.",
+          "price": "\$19.99",
+          "rawPrice": "19.99",
+          "currency": "USD",
         },
       },
     ],
@@ -197,6 +276,17 @@ const enviroment = {
   //! ====================================== ANALYTICS ==============================================
   "analytics": {
     "enable": true,
-    "providers": ["huawei"],
+    "providers": ["google", "huawei"],
+  },
+
+  //! ====================================== AI (Gemini free tier) ==============================================
+  /// Get free API key: https://aistudio.google.com/apikey
+  /// Prefer injecting via remote config in production; do not hardcode real key in repo.
+  "ai": {
+    "enable": true,
+    "provider": "gemini",
+    "model": "gemini-2.0-flash",
+    "apiKey":
+        "AQ.Ab8RN6KihcPdtqk2wXBBXy124Iu4i72KOMdSeyB1wnrkuYnEsw", // set via remote config or --dart-define=GEMINI_API_KEY=xxx
   },
 };

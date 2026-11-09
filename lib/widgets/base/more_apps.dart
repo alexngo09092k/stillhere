@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttering/fluttering.dart';
 import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
-import 'package:still_here/models/config/bussiness_config/more_app.dart';
+import 'package:still_here/shared/models/config/bussiness_config/more_app.dart';
 import 'package:still_here/utils/widget.dart';
 import 'package:still_here/widgets/base/app_card.dart';
 import 'package:still_here/widgets/base/custom_image.dart';

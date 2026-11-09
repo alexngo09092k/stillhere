@@ -1,5 +1,20 @@
 # StillHere — Production Store Readiness Checklist
 
+**Pack:** production merge (UI v3 + intl + circular icons + Antigravity docs)  
+**App:** Still Here (`com.snapeditify.stillhere`)  
+**Platforms:** Google Play + App Store  
+
+### UI / i18n gates (this pack)
+- [x] Design system (peach/cream) light + dark
+- [x] 4-tab shell: Home, Journal, Insights, Settings
+- [x] Time-of-day hero assets
+- [x] l10n en/vi/th/zh; default English
+- [x] Stats overflow fix
+- [x] Circular logo launcher icons
+- [x] AGENTS.md + docs/ + specs/
+
+---
+
 **App:** Still Here (`com.snapeditify.stillhere`)  
 **Platforms:** Google Play + App Store (+ AppGallery optional)  
 **Baseline:** PRD v1.0 (05/11/2026)
@@ -46,17 +61,22 @@
 
 ### 2.3 Firebase / AI
 - [ ] Xác nhận project Firebase (`snapeditify-67a19`) là production đúng app
-- [ ] Bật **App Check** production attestation (Play Integrity / DeviceCheck) trước khi expose AI endpoint
-- [ ] Cấu hình model AI (Firebase AI Logic / Gemini) + quota + billing alerts
+- [ ] Bật **App Check** production attestation (Play Integrity / DeviceCheck) nếu expose thêm backend
+- [x] AI greeting dùng **Gemini free tier** (`gemini-2.0-flash`) — `lib/core/ai/gemini_greeting_client.dart`
+- [ ] Set `GEMINI_API_KEY` (dart-define hoặc remote config); không commit key thật
 - [ ] Test fallback: airplane mode → static greeting; AI 429/timeout → static
+- [ ] Monitor free quota tại https://aistudio.google.com/
 
 ### 2.4 Ads & IAP
-- [ ] Thay AdMob App ID test → **production** trong:
+- [x] Multi-provider ads: Google AdMob + Huawei (test unit IDs in `enviroment.dart`)
+- [x] Multi-store IAP: Google + Apple + Huawei product IDs configured
+- [ ] Thay AdMob App ID / unit IDs test → **production** trong:
   - `android/.../strings.xml` (`admob_api`)
   - `ios/Runner/Info.plist` (`GADApplicationIdentifier`)
-- [ ] Ad unit IDs production trong remote config / `enviroment.dart` advertisement block
-- [ ] IAP product IDs tạo trên Play Console & App Store Connect; khớp config `fluttering_iap`
+  - `lib/enviroment.dart` advertisement block
+- [ ] Tạo subscription products trên Play Console & App Store Connect & Huawei (IDs khớp env)
 - [ ] Test purchase + restore trên internal testing track
+- [ ] Verify ads hidden when PremiumService.isPremium == true
 
 ### 2.5 Store listing assets
 - [ ] Icon 512×512 (Play) / 1024×1024 (App Store)
@@ -170,13 +190,3 @@ Upload AAB lên Play Console → Internal testing → Closed → Production.
 - [ ] Kiểm thử thiết bị thật: permission, reboot, notification, offline, AI fallback, text scale 200%, tablet, VoiceOver/TalkBack, purchase/restore và data deletion.
 
 **Release decision: NOT READY TO UPLOAD** cho tới khi các blocker trên được xử lý và có bằng chứng build/test. Không deploy hoặc publish tự động.
-
-## UI redesign v2 (2026-11-10)
-- [x] Warm peach / cream palette (design-aligned)
-- [x] Logo mark + wordmark assets under `assets/images/`
-- [x] Hero sunrise + success background assets
-- [x] 4-tab nav: Home / Journal / Stats / Settings
-- [x] Store icons 1024 / 512 regenerated in `store_assets/`
-- [ ] Replace hero/success with licensed photography if required by brand legal
-- [ ] Run on physical iOS + Android before store upload
-- [ ] Confirm Adaptive Icon / AppIcon sets updated from `store_assets/still_here_app_icon_1024.png`

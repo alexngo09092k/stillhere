@@ -1,18 +1,26 @@
 import 'package:fluttering/fluttering.dart';
+import 'package:still_here/core/ai/gemini_greeting_client.dart';
 import 'package:still_here/core/database/local_storage.dart';
 import 'package:still_here/features/greeting/data/static_greetings.dart';
 import 'package:still_here/shared/models/greeting.dart';
 import 'package:intl/intl.dart';
 
-/// Hybrid greeting: cache → AI (optional) → static fallback.
+/// Hybrid greeting: cache → AI (Gemini free) → static fallback.
 /// PRD: max 1 successful AI request / day, timeout, validate.
+/// Never sends check-in notes or mood payloads.
 class GreetingService {
   GreetingService._();
   static final GreetingService instance = GreetingService._();
 
-  static const String promptVersion = 'p1';
+  static const String promptVersion = 'p2';
   static const Duration cacheTtl = Duration(hours: 12);
   static const String _aiGateKey = 'app.still_here.studio.ai_gate_date';
+
+  /// Override from remote config / settings. Empty → AI disabled.
+  String geminiApiKey = '';
+
+  /// Model id (free tier). Prefer flash for cost/latency.
+  String geminiModel = 'gemini-2.0-flash';
 
   String _localDate() => DateFormat('yyyy-MM-dd').format(DateTime.now());
 
@@ -49,7 +57,7 @@ class GreetingService {
           final aiText = await _requestAiGreeting(
             language: language,
             bucket: bucket,
-          ).timeout(const Duration(seconds: 5), onTimeout: () => null);
+          ).timeout(const Duration(seconds: 6), onTimeout: () => null);
           if (aiText != null && _isValidAiText(aiText)) {
             await _markAiSuccessToday();
             final g = _buildGreeting(
@@ -96,6 +104,8 @@ class GreetingService {
       'kill yourself',
       'tự tử',
       'chẩn đoán',
+      'diagnose',
+      'prescription',
     ];
     for (final b in banned) {
       if (lower.contains(b)) return false;
@@ -128,21 +138,25 @@ class GreetingService {
       timeBucket: bucket,
       language: language,
       promptVersion: promptVersion,
-      modelId: source == 'AI' ? 'gemini' : null,
+      modelId: source == 'AI' ? geminiModel : null,
       createdAtUtc: now,
       expiresAtUtc: now + cacheTtl.inMilliseconds,
     );
   }
 
-  /// AI request — optional remote endpoint from business config / future.
-  /// Safe default: returns null → static fallback (no crash without API key).
+  /// Gemini free-tier request. Never throws to UI.
   Future<String?> _requestAiGreeting({
     required String language,
     required TimeBucket bucket,
   }) async {
-    // Placeholder: wire Firebase AI Logic / Gemini proxy here when ready.
-    // Keep contract: never throw to UI; never send check-in notes.
-    Debug.log('[Greeting] AI not configured → static fallback');
-    return null;
+    if (geminiApiKey.trim().isEmpty) {
+      Debug.log('[Greeting] AI not configured (empty key) → static fallback');
+      return null;
+    }
+    final client = GeminiGreetingClient(
+      apiKey: geminiApiKey,
+      model: geminiModel,
+    );
+    return client.generate(language: language, bucket: bucket);
   }
 }
