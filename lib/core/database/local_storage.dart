@@ -170,7 +170,7 @@ class LocalStorage {
         'reminder.hour': 9,
         'reminder.minute': 0,
         'ai.enabled': true,
-        'language': 'vi',
+        'language': 'en',
         'theme': 'light',
       };
 

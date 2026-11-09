@@ -11,8 +11,6 @@ class CheckInSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lang = Localizations.localeOf(context).languageCode;
-
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -64,9 +62,7 @@ class CheckInSuccessPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 28),
                   Text(
-                    lang == 'vi'
-                        ? 'Cảm ơn bạn\nđã ở đây.'
-                        : S.of(context).thankYouCheckIn,
+                    S.of(context).thankYouForBeingHere,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontSize: 30,
@@ -78,9 +74,7 @@ class CheckInSuccessPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 14),
                   Text(
-                    lang == 'vi'
-                        ? 'Cảm ơn bạn đã dành một chút\nthời gian cho mình.'
-                        : 'Thank you for taking a moment for yourself.',
+                    S.of(context).thankYouMoment,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
@@ -105,9 +99,7 @@ class CheckInSuccessPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          lang == 'vi'
-                              ? '“Như vậy cũng đã đủ rồi.”'
-                              : '"This is already enough."',
+                          S.of(context).enoughQuote,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 16,
@@ -170,9 +162,7 @@ class CheckInSuccessPage extends StatelessWidget {
                         onPressed: () =>
                             Navigator.of(context).popUntil((r) => r.isFirst),
                         child: Text(
-                          lang == 'vi'
-                              ? 'Xem lại hành trình'
-                              : S.of(context).viewHistory,
+                          S.of(context).viewJourney,
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
@@ -198,9 +188,7 @@ class CheckInSuccessPage extends StatelessWidget {
                       onPressed: () =>
                           Navigator.of(context).popUntil((r) => r.isFirst),
                       child: Text(
-                        lang == 'vi'
-                            ? 'Trở về trang chủ'
-                            : S.of(context).backHome,
+                        S.of(context).backHome,
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:still_here/common/app_theme_colors.dart';
+import 'package:still_here/generated/l10n.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:intl/intl.dart';
@@ -87,7 +88,7 @@ class StatsPageState extends State<StatsPage> {
             padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
             children: [
               Text(
-                lang == 'vi' ? 'Nhìn lại hành trình' : 'Your journey',
+                S.of(context).lookBackJourney,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
@@ -97,9 +98,7 @@ class StatsPageState extends State<StatsPage> {
               ),
               const SizedBox(height: 6),
               Text(
-                lang == 'vi'
-                    ? 'Bạn đã làm rất tốt 💚'
-                    : "You're doing great",
+                S.of(context).doingGreat,
                 style: TextStyle(
                   fontSize: 14,
                   color: context.appMuted,
@@ -118,7 +117,7 @@ class StatsPageState extends State<StatsPage> {
                 child: Row(
                   children: [
                     _SegChip(
-                      label: lang == 'vi' ? 'Tuần' : 'Week',
+                      label: S.of(context).segmentWeek,
                       selected: _segment == 0,
                       onTap: () {
                         setState(() => _segment = 0);
@@ -126,7 +125,7 @@ class StatsPageState extends State<StatsPage> {
                       },
                     ),
                     _SegChip(
-                      label: lang == 'vi' ? 'Tháng' : 'Month',
+                      label: S.of(context).segmentMonth,
                       selected: _segment == 1,
                       onTap: () {
                         setState(() => _segment = 1);
@@ -134,7 +133,7 @@ class StatsPageState extends State<StatsPage> {
                       },
                     ),
                     _SegChip(
-                      label: lang == 'vi' ? 'Năm' : 'Year',
+                      label: S.of(context).segmentYear,
                       selected: _segment == 2,
                       onTap: () {
                         setState(() => _segment = 2);
@@ -165,7 +164,7 @@ class StatsPageState extends State<StatsPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        lang == 'vi' ? 'Phân bố cảm xúc' : 'Mood distribution',
+                        S.of(context).moodDistribution,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -187,17 +186,17 @@ class StatsPageState extends State<StatsPage> {
                         children: [
                           _Legend(
                             emoji: '☀️',
-                            label: lang == 'vi' ? 'Ổn' : 'Okay',
+                            label: S.of(context).labelOk,
                             color: const Color(0xFFF0C27A),
                           ),
                           _Legend(
                             emoji: '☁️',
-                            label: lang == 'vi' ? 'Chia sẻ' : 'Share',
+                            label: S.of(context).labelShare,
                             color: const Color(0xFFA8C5D4),
                           ),
                           _Legend(
                             emoji: '🌱',
-                            label: lang == 'vi' ? 'Tự chăm' : 'Care',
+                            label: S.of(context).labelSelfCare,
                             color: const Color(0xFF8BA888),
                           ),
                         ],
@@ -236,9 +235,7 @@ class StatsPageState extends State<StatsPage> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              lang == 'vi'
-                                  ? 'ngày đã check-in\ntrong kỳ này'
-                                  : 'days checked in\nthis period',
+                              S.of(context).daysCheckedInPeriod,
                               style: TextStyle(
                                 fontSize: 13,
                                 color: context.appMuted,
@@ -290,9 +287,7 @@ class StatsPageState extends State<StatsPage> {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              lang == 'vi'
-                                  ? 'Tỷ lệ hiện diện'
-                                  : 'Presence rate',
+                              S.of(context).presenceRate,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 13,
@@ -332,9 +327,7 @@ class StatsPageState extends State<StatsPage> {
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          lang == 'vi'
-                              ? 'Bạn đang chăm sóc bản thân thật tuyệt vời'
-                              : 'You are taking care of yourself beautifully',
+                          S.of(context).selfCareMessage,
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,

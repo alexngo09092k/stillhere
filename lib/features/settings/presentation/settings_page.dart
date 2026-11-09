@@ -127,14 +127,15 @@ class _SettingsPageState extends State<SettingsPage> {
 
   String _langLabel(String? code) {
     switch (code) {
-      case 'en':
-        return 'English';
+      case 'vi':
+        return 'Tiếng Việt';
       case 'zh':
         return '中文';
       case 'th':
         return 'ไทย';
+      case 'en':
       default:
-        return 'Tiếng Việt';
+        return 'English';
     }
   }
 
@@ -160,7 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
           children: [
             Text(
-              lang == 'vi' ? 'Cài đặt' : S.of(context).settingsTitle,
+              S.of(context).settingsTitle,
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
@@ -170,9 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             const SizedBox(height: 4),
             Text(
-              lang == 'vi'
-                  ? 'Một góc nhỏ của riêng bạn.'
-                  : 'A little corner of your own.',
+              S.of(context).settingsSubtitle,
               style: TextStyle(fontSize: 13, color: context.appMuted),
             ),
             const SizedBox(height: 20),
@@ -231,12 +230,9 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 _SettingsTile(
                   icon: Icons.notifications_none_rounded,
-                  title: lang == 'vi'
-                      ? 'Nhắc nhở mỗi ngày'
-                      : S.of(context).enableCheckInReminder,
-                  trailing: Switch.adaptive(
+                  title: S.of(context).dailyReminder,
+                  trailing: Switch(
                     value: reminderOn,
-                    activeColor: context.appBrand,
                     onChanged: _onReminderToggle,
                   ),
                 ),
@@ -249,21 +245,18 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                 _SettingsTile(
                   icon: Icons.language_rounded,
-                  title: lang == 'vi' ? 'Ngôn ngữ' : S.of(context).language,
+                  title: S.of(context).language,
                   subtitle: _langLabel(
-                    (_settings['language'] as String?) ?? lang,
+                    (_settings['language'] as String?) ?? 'en',
                   ),
                   showChevron: true,
                   onTap: () => _showLanguagePicker(),
                 ),
                 _SettingsTile(
                   icon: Icons.auto_awesome_rounded,
-                  title: lang == 'vi'
-                      ? 'Cho phép lời chào AI'
-                      : S.of(context).useAiGreeting,
-                  trailing: Switch.adaptive(
+                  title: S.of(context).allowAiGreeting,
+                  trailing: Switch(
                     value: aiOn,
-                    activeColor: context.appBrand,
                     onChanged: (v) => _update('ai.enabled', v),
                   ),
                 ),
@@ -291,7 +284,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 _SettingsTile(
                   icon: Icons.lock_outline_rounded,
-                  title: lang == 'vi' ? 'Quyền riêng tư' : 'Privacy',
+                  title: S.of(context).privacy,
                   subtitle: S.of(context).dataStaysOnDevice,
                   showChevron: true,
                   onTap: () {
@@ -351,7 +344,7 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 28),
             Center(
               child: Text(
-                lang == 'vi' ? "You're enough ♡" : "You're enough ♡",
+                S.of(context).youreEnough,
                 style: TextStyle(
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
@@ -391,8 +384,8 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       builder: (ctx) {
         final options = [
-          {'code': 'vi', 'label': 'Tiếng Việt'},
           {'code': 'en', 'label': 'English'},
+          {'code': 'vi', 'label': 'Tiếng Việt'},
           {'code': 'th', 'label': 'ไทย'},
           {'code': 'zh', 'label': '中文'},
         ];

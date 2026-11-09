@@ -42,11 +42,11 @@ enum TimeBucket {
     } catch (_) {
       switch (this) {
         case TimeBucket.morning:
-          return 'Buổi sáng';
+          return 'Morning';
         case TimeBucket.afternoon:
-          return 'Buổi chiều';
+          return 'Afternoon';
         case TimeBucket.evening:
-          return 'Buổi tối';
+          return 'Evening';
       }
     }
   }

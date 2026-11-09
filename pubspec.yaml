@@ -84,16 +84,9 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
   assets:
-    - assets/images/logo.png
-    - assets/images/logo_mark.png
-    - assets/images/logo_mark_48.png
-    - assets/images/logo_mark_192.png
-    - assets/images/logo_mark_512.png
-    - assets/images/logo_wordmark.png
-    - assets/images/hero_sunrise.jpg
-    - assets/images/hero_sunrise_sm.jpg
-    - assets/images/bg_success.jpg
-    - assets/images/bg_cream.jpg
+    - assets/images/
+    - assets/images/icons/
+    - assets/images/flags/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -130,3 +123,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_intl:
+  enabled: true
+  use_deferred_loading: true

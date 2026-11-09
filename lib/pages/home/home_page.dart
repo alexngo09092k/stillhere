@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     final aiEnabled = settings['ai.enabled'] != false;
     final lang = (settings['language'] as String?) ??
         Localizations.maybeLocaleOf(context)?.languageCode ??
-        'vi';
+        'en';
     final results = await Future.wait([
       GreetingService.instance.getTodayGreeting(
         language: lang,
@@ -84,31 +84,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
   }
 
-  String _navJournalLabel(BuildContext context) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'vi':
-        return 'Nhật ký';
-      case 'zh':
-        return '日记';
-      case 'th':
-        return 'บันทึก';
-      default:
-        return 'Journal';
-    }
-  }
+  String _navJournalLabel(BuildContext context) => S.of(context).navJournal;
 
-  String _navStatsLabel(BuildContext context) {
-    switch (Localizations.localeOf(context).languageCode) {
-      case 'vi':
-        return 'Thống kê';
-      case 'zh':
-        return '统计';
-      case 'th':
-        return 'สถิติ';
-      default:
-        return 'Insights';
-    }
-  }
+  String _navStatsLabel(BuildContext context) => S.of(context).navStats;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +119,34 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         ],
       ),
     );
+  }
+
+
+  /// Hero visual by local hour: morning / noon / afternoon / evening.
+  String _heroAssetForNow() {
+    final hour = DateTime.now().hour;
+    final a = AppAssets.instance;
+    if (hour >= 5 && hour < 11) return a.heroMorning;
+    if (hour >= 11 && hour < 14) return a.heroNoon;
+    if (hour >= 14 && hour < 18) return a.heroAfternoon;
+    return a.heroEvening;
+  }
+
+  String _homeHeadline(BuildContext context) {
+    final s = S.of(context);
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 11) return s.headlineMorning;
+    if (hour >= 11 && hour < 14) return s.headlineNoon;
+    if (hour >= 14 && hour < 18) return s.headlineAfternoon;
+    return s.headlineEvening;
+  }
+
+  String _homeGreeting(BuildContext context) {
+    final s = S.of(context);
+    final hour = DateTime.now().hour;
+    if (hour >= 5 && hour < 12) return s.helloMorning;
+    if (hour >= 12 && hour < 18) return s.helloAfternoon;
+    return s.helloEvening;
   }
 
   Widget _buildHomeTab() {
@@ -211,7 +217,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 AspectRatio(
                   aspectRatio: 0.85,
                   child: Image.asset(
-                    AppAssets.instance.heroSunrise,
+                    _heroAssetForNow(),
                     fit: BoxFit.cover,
                     width: double.infinity,
                     errorBuilder: (_, __, ___) => Container(
@@ -260,9 +266,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       children: [
                         const Spacer(),
                         Text(
-                          lang == 'vi'
-                              ? 'Chào bạn,'
-                              : (lang == 'zh' ? '你好，' : 'Hello,'),
+                          _homeGreeting(context),
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.white.withOpacity(0.85),
@@ -271,11 +275,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          lang == 'vi'
-                              ? 'Một ngày mới\nđang bắt đầu ✨'
-                              : (lang == 'zh'
-                                  ? '新的一天\n正在开始 ✨'
-                                  : 'A new day\nis beginning ✨'),
+                          _homeHeadline(context),
                           style: const TextStyle(
                             fontSize: 30,
                             height: 1.22,
@@ -310,11 +310,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      lang == 'vi'
-                                          ? 'Lời nhắn hôm nay'
-                                          : (lang == 'zh'
-                                              ? '今日寄语'
-                                              : "Today's note"),
+                                      S.of(context).todaysNote,
                                       style: TextStyle(
                                         fontSize: 11,
                                         fontWeight: FontWeight.w600,
@@ -365,9 +361,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             _TodayCheckInCard(checkIn: _todayCheckIn!, onEdit: _openCheckIn),
           ] else
             _PillCta(
-              label: lang == 'vi'
-                  ? 'Check-in hôm nay'
-                  : S.of(context).checkInCta,
+              label: S.of(context).checkInCta,
               onTap: _openCheckIn,
             ),
           const SizedBox(height: 20),

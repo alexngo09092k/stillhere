@@ -95,9 +95,7 @@ class _SplashPageState extends State<SplashPage>
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  lang == 'vi'
-                      ? 'Một khoảng lặng dành cho bạn'
-                      : 'A little space for you',
+                  S.of(context).splashTagline,
                   style: TextStyle(
                     fontSize: 14,
                     color: context.appMuted,

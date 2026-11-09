@@ -24,7 +24,7 @@ void main() {
       AwesomeRemoteConfig.instance,
       AwesomeAnalytics.instance,
       PremiumService.instance,
-      AppThemeProvider(themeMode: ThemeMode.system, locale: const Locale('vi')),
+      AppThemeProvider(themeMode: ThemeMode.system, locale: const Locale('en')),
     ],
     lazyProviders: [],
     onWillInitialize: () async {

@@ -40,37 +40,53 @@ enum CheckInStatus {
     } catch (_) {
       switch (this) {
         case CheckInStatus.ok:
-          return 'Ổn';
+          return 'Okay';
         case CheckInStatus.share:
-          return 'Muốn chia sẻ';
+          return 'Want to share';
         case CheckInStatus.selfCare:
-          return 'Cần tự chăm sóc';
+          return 'Need self-care';
       }
     }
   }
 
-  /// Design-aligned longer title for option cards.
-  String get titleVi {
-    switch (this) {
-      case CheckInStatus.ok:
-        return 'Tôi vẫn ổn.';
-      case CheckInStatus.share:
-        return 'Tôi muốn chia sẻ một chút.';
-      case CheckInStatus.selfCare:
-        return 'Hôm nay tôi cần quan tâm đến bản thân hơn.';
+  /// Design-aligned longer title for option cards (localized).
+  String get titleLocalized {
+    try {
+      final s = S.current;
+      switch (this) {
+        case CheckInStatus.ok:
+          return s.statusOkTitle;
+        case CheckInStatus.share:
+          return s.statusShareTitle;
+        case CheckInStatus.selfCare:
+          return s.statusSelfCareTitle;
+      }
+    } catch (_) {
+      return label;
     }
   }
 
-  String get subtitleVi {
-    switch (this) {
-      case CheckInStatus.ok:
-        return 'Và mình trân trọng điều đó.';
-      case CheckInStatus.share:
-        return 'Có điều muốn nói với chính mình.';
-      case CheckInStatus.selfCare:
-        return 'Dành không gian nhẹ nhàng cho mình.';
+  String get subtitleLocalized {
+    try {
+      final s = S.current;
+      switch (this) {
+        case CheckInStatus.ok:
+          return s.statusOkSubtitle;
+        case CheckInStatus.share:
+          return s.statusShareSubtitle;
+        case CheckInStatus.selfCare:
+          return s.statusSelfCareSubtitle;
+      }
+    } catch (_) {
+      return '';
     }
   }
+
+  @Deprecated('Use titleLocalized')
+  String get titleVi => titleLocalized;
+
+  @Deprecated('Use subtitleLocalized')
+  String get subtitleVi => subtitleLocalized;
 
   @Deprecated('Use label')
   String get labelVi => label;

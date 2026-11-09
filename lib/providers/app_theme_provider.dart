@@ -6,7 +6,7 @@ import 'package:still_here/common/constants.dart';
 class AppThemeProvider extends ThemeProvider {
   AppThemeProvider({
     super.themeMode = ThemeMode.system,
-    super.locale = const Locale('vi'),
+    super.locale = const Locale('en'),
   });
 
   @override

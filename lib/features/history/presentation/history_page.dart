@@ -148,7 +148,7 @@ class HistoryPageState extends State<HistoryPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          lang == 'vi' ? 'Nhật ký của bạn' : s.historyTitle,
+                          s.yourJournal,
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
@@ -158,9 +158,7 @@ class HistoryPageState extends State<HistoryPage> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          lang == 'vi'
-                              ? 'Những ngày của bạn, những cảm xúc thật.'
-                              : s.historyEmpty,
+                          s.journalSubtitle,
                           style: TextStyle(
                             fontSize: 13,
                             color: context.appMuted,
@@ -195,9 +193,7 @@ class HistoryPageState extends State<HistoryPage> {
                         ),
                         Expanded(
                           child: Text(
-                            lang == 'vi'
-                                ? 'Tháng $_month, $_year'
-                                : monthLabel,
+                            s.monthLabel(_month, _year),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
@@ -216,9 +212,7 @@ class HistoryPageState extends State<HistoryPage> {
                     const SizedBox(height: 8),
                     // Weekday headers
                     Row(
-                      children: (lang == 'vi'
-                              ? ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
-                              : ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'])
+                      children: _weekdayLabels(locale)
                           .map(
                             (d) => Expanded(
                               child: Center(
@@ -254,7 +248,7 @@ class HistoryPageState extends State<HistoryPage> {
               const SizedBox(height: 22),
 
               Text(
-                lang == 'vi' ? 'Ghi nhận gần đây' : s.checkInToday,
+                s.recentEntries,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
@@ -374,6 +368,16 @@ class HistoryPageState extends State<HistoryPage> {
         ),
       ),
     );
+  }
+
+
+  List<String> _weekdayLabels(String locale) {
+    // Monday-first short weekday labels via DateFormat
+    final base = DateTime(2024, 1, 1); // known Monday
+    return List.generate(7, (i) {
+      final d = base.add(Duration(days: i));
+      return DateFormat.E(locale).format(d);
+    });
   }
 
   Widget _buildCalendarGrid(

@@ -182,15 +182,20 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       ),
     ),
-    switchTheme: SwitchThemeData(
+        switchTheme: SwitchThemeData(
       thumbColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) return Colors.white;
-        return AppColors.lightMuted;
+        return const Color(0xFFF7F2EB);
       }),
       trackColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.selected)) return AppColors.brand;
-        return AppColors.lightBorder;
+        if (states.contains(WidgetState.selected)) return AppColors.brandDeep;
+        return const Color(0xFFD9D0C4);
       }),
+      trackOutlineColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.selected)) return Colors.transparent;
+        return const Color(0xFFC9BFAF);
+      }),
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.lightSurf,

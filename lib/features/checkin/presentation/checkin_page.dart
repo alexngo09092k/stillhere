@@ -68,24 +68,30 @@ class _CheckInPageState extends State<CheckInPage> {
     }
   }
 
-  String _subtitleFor(CheckInStatus s) {
-    final code = Localizations.localeOf(context).languageCode;
-    if (code == 'vi') return s.subtitleVi;
-    switch (s) {
+  String _subtitleFor(CheckInStatus status) {
+    final s = S.of(context);
+    switch (status) {
       case CheckInStatus.ok:
-        return 'And that is enough.';
+        return s.statusOkSubtitle;
       case CheckInStatus.share:
-        return 'Something to say to yourself.';
+        return s.statusShareSubtitle;
       case CheckInStatus.selfCare:
-        return 'A little extra care today.';
+        return s.statusSelfCareSubtitle;
     }
   }
 
-  String _titleFor(CheckInStatus s) {
-    final code = Localizations.localeOf(context).languageCode;
-    if (code == 'vi') return s.titleVi;
-    return s.label;
+  String _titleFor(CheckInStatus status) {
+    final s = S.of(context);
+    switch (status) {
+      case CheckInStatus.ok:
+        return s.statusOkTitle;
+      case CheckInStatus.share:
+        return s.statusShareTitle;
+      case CheckInStatus.selfCare:
+        return s.statusSelfCareTitle;
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +108,7 @@ class _CheckInPageState extends State<CheckInPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          lang == 'vi' ? 'Quay lại' : S.of(context).checkInTitle,
+          S.of(context).goBack,
           style: TextStyle(
             color: context.appInk,
             fontWeight: FontWeight.w500,
@@ -116,9 +122,7 @@ class _CheckInPageState extends State<CheckInPage> {
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 36),
         children: [
           Text(
-            lang == 'vi'
-                ? 'Hôm nay,\nbạn cảm thấy thế nào?'
-                : S.of(context).howAreYouFeelingToday,
+            S.of(context).howAreYouFeelingTitle,
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w700,
@@ -129,9 +133,7 @@ class _CheckInPageState extends State<CheckInPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            lang == 'vi'
-                ? 'Không có câu trả lời đúng hay sai.\nHãy chọn điều gần với bạn nhất nhé.'
-                : S.of(context).chooseClosest,
+            S.of(context).noRightOrWrong,
             style: TextStyle(
               fontSize: 15,
               height: 1.45,
@@ -150,9 +152,7 @@ class _CheckInPageState extends State<CheckInPage> {
           ),
           const SizedBox(height: 28),
           Text(
-            lang == 'vi'
-                ? 'Bạn muốn viết thêm điều gì không?'
-                : S.of(context).noteOptional,
+            S.of(context).writeMorePrompt,
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w600,
@@ -166,9 +166,7 @@ class _CheckInPageState extends State<CheckInPage> {
             maxLines: 4,
             style: TextStyle(fontSize: 16, color: context.appInk),
             decoration: InputDecoration(
-              hintText: lang == 'vi'
-                  ? 'Viết vài dòng cho chính mình...'
-                  : S.of(context).noteHint,
+              hintText: S.of(context).noteHintPersonal,
               hintStyle: TextStyle(color: context.appMuted.withOpacity(0.7)),
               filled: true,
               fillColor: context.appSurf,
@@ -232,9 +230,7 @@ class _CheckInPageState extends State<CheckInPage> {
                         ),
                       )
                     : Text(
-                        lang == 'vi'
-                            ? 'Lưu lại cho mình'
-                            : S.of(context).save,
+                        S.of(context).saveForMyself,
                         style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w700,
