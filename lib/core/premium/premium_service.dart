@@ -6,9 +6,6 @@ import 'package:still_here/core/database/local_storage.dart';
 
 /// Single source of premium entitlement for the app.
 /// Uses existing [AwesomeIAP] only — no parallel IAP manager.
-///
-/// Note: [IAwesomeIAP] does not expose isPremium/restore, so we derive premium
-/// from product statuses and call the store restore API directly.
 class PremiumService extends Provider {
   PremiumService._();
   static final PremiumService instance = PremiumService._();
@@ -25,19 +22,15 @@ class PremiumService extends Provider {
     return products.any((p) => p.status && p.type != IAPType.consumables);
   }
 
-  /// Call once after AwesomeIAP.initial (e.g. in onDidInitialize or first screen).
+  /// Call once after AwesomeIAP.initial.
   Future<void> bind() async {
     if (_bound) return;
     _bound = true;
 
-    // Local cache first (offline / fast path)
     _isPremium = AsyncStorage.instance.getBool(_premiumKey) ?? false;
     notifyListeners();
 
-    // Sync from IAP product state when available
     await syncFromIap();
-
-    // React to IAP product updates
     AwesomeIAP.instance.addListener(_onIapChanged);
   }
 
@@ -60,7 +53,7 @@ class PremiumService extends Provider {
       if (fromIap) {
         await _setPremium(true);
       }
-      // Do not force false from empty product list (store may still be loading)
+      // Do not force false from empty product list (store may still be loading).
     } catch (e) {
       Debug.log('[PremiumService] syncFromIap: $e');
     }
@@ -73,7 +66,6 @@ class PremiumService extends Provider {
     Debug.log('[PremiumService] isPremium=$value');
   }
 
-  /// Purchase the given product via existing AwesomeIAP.
   Future<bool> purchase(IAPProduct product) async {
     try {
       AwesomeAnalytics.instance.sendEvent('purchase_start', {
@@ -81,8 +73,6 @@ class PremiumService extends Provider {
         'provider': product.provider.name,
       });
       await AwesomeIAP.instance.purchase(product);
-      // Status is updated asynchronously via purchase stream → listener
-      // Give a short window then re-sync
       await Future.delayed(const Duration(milliseconds: 800));
       await syncFromIap();
       if (_isPremium) {
@@ -101,16 +91,25 @@ class PremiumService extends Provider {
     }
   }
 
+  /// Production restore: Google/Apple via InAppPurchase + Huawei via AwesomeIAP.restore().
   Future<void> restore() async {
     try {
       AwesomeAnalytics.instance.sendEvent('restore_start', {});
-      // IAwesomeIAP has no restore(); call the store API directly (Google/Apple).
-      // Huawei path still depends on fluttering_iap internal load — best-effort only.
+
+      // Google / Apple
       try {
         await InAppPurchase.instance.restorePurchases();
       } catch (e) {
         Debug.log('[PremiumService] InAppPurchase.restorePurchases: $e');
       }
+
+      // Huawei (+ any provider restore implemented on BaseIAP)
+      try {
+        await AwesomeIAP.instance.restore();
+      } catch (e) {
+        Debug.log('[PremiumService] AwesomeIAP.restore: $e');
+      }
+
       await Future.delayed(const Duration(milliseconds: 600));
       await syncFromIap();
       AwesomeAnalytics.instance.sendEvent(
@@ -129,7 +128,6 @@ class PremiumService extends Provider {
   List<IAPProduct> get products {
     final live = AwesomeIAP.instance.products;
     if (live.isNotEmpty) return live;
-    // Fallback to config products (not yet loaded from store)
     return AwesomeIAP.instance.config.products;
   }
 }
