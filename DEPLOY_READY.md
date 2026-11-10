@@ -25,7 +25,7 @@
   - `ios/Runner/Info.plist` (`GADApplicationIdentifier`)
 
 ### 3. IAP (full multi-store)
-- Providers: `google`, `apple`, `huawei`
+- Providers: `google`, `huawei`
 - Products:
   - `still_here_premium_month` / `still_here_premium_year` (Google + Apple)
   - `app.still_here.studio.amonth` / `.oneyear` (Huawei)

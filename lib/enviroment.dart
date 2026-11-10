@@ -2,7 +2,7 @@ const enviroment = {
   //! ====================================== REMOTE CONFIG ==============================================
   "remoteConfig": {
     "enable": true,
-    "providers": ["google", "huawei"],
+    "providers": ["huawei"],
     'fetchTimeout': 60000, // 1 minutes
     'minimumFetchInterval': 3600000, // 1 hour in prod
   },
@@ -124,7 +124,7 @@ const enviroment = {
         "ca-app-pub-3940256099942544~1458002511", // TODO: production
     "adMobAppIdAndroid":
         "ca-app-pub-3940256099942544~3347511713", // TODO: production
-    "providers": ["google", "huawei"],
+    "providers": ["huawei"],
     "ads": [
       // --- GOOGLE AdMob (use test IDs until production) ---
       {
@@ -196,7 +196,7 @@ const enviroment = {
   /// Create matching product IDs on each console before release.
   "iap": {
     "enable": true,
-    "providers": ["google", "huawei"],
+    "providers": ["huawei"],
     "products": [
       {
         "type": "subscriptions",
@@ -276,7 +276,7 @@ const enviroment = {
   //! ====================================== ANALYTICS ==============================================
   "analytics": {
     "enable": true,
-    "providers": ["google", "huawei"],
+    "providers": ["huawei"],
   },
 
   //! ====================================== AI (Gemini free tier) ==============================================
