@@ -64,9 +64,9 @@ class HistoryPageState extends State<HistoryPage> {
   }
 
   Future<void> _openEdit(CheckIn item) async {
-    await Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => CheckInPage(existing: item)),
-    );
+    await Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => CheckInPage(existing: item)));
     if (mounted) _load();
   }
 
@@ -124,9 +124,10 @@ class HistoryPageState extends State<HistoryPage> {
     final s = S.of(context);
     final locale = _localeTag(context);
     final lang = Localizations.localeOf(context).languageCode;
-    final monthLabel = DateFormat('MMMM yyyy', locale).format(
-      DateTime(_year, _month),
-    );
+    final monthLabel = DateFormat(
+      'MMMM yyyy',
+      locale,
+    ).format(DateTime(_year, _month));
     final byDay = _byDay;
     final daysInMonth = DateTime(_year, _month + 1, 0).day;
     // Monday-based week
@@ -188,12 +189,14 @@ class HistoryPageState extends State<HistoryPage> {
                       children: [
                         IconButton(
                           onPressed: () => _shiftMonth(-1),
-                          icon: Icon(Icons.chevron_left_rounded,
-                              color: context.appInk),
+                          icon: Icon(
+                            Icons.chevron_left_rounded,
+                            color: context.appInk,
+                          ),
                         ),
                         Expanded(
                           child: Text(
-                            s.monthLabel(_month, _year),
+                            s.monthLabel(_month.toString(), _year.toString()),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
@@ -204,8 +207,10 @@ class HistoryPageState extends State<HistoryPage> {
                         ),
                         IconButton(
                           onPressed: () => _shiftMonth(1),
-                          icon: Icon(Icons.chevron_right_rounded,
-                              color: context.appInk),
+                          icon: Icon(
+                            Icons.chevron_right_rounded,
+                            color: context.appInk,
+                          ),
                         ),
                       ],
                     ),
@@ -354,8 +359,10 @@ class HistoryPageState extends State<HistoryPage> {
                                   ],
                                 ),
                               ),
-                              Icon(Icons.chevron_right_rounded,
-                                  color: context.appMuted),
+                              Icon(
+                                Icons.chevron_right_rounded,
+                                color: context.appMuted,
+                              ),
                             ],
                           ),
                         ),
@@ -369,7 +376,6 @@ class HistoryPageState extends State<HistoryPage> {
       ),
     );
   }
-
 
   List<String> _weekdayLabels(String locale) {
     // Monday-first short weekday labels via DateFormat
@@ -396,7 +402,8 @@ class HistoryPageState extends State<HistoryPage> {
       final checkIn = byDay[day];
       final isToday =
           today.year == _year && today.month == _month && today.day == day;
-      final isSelected = _selectedDay != null &&
+      final isSelected =
+          _selectedDay != null &&
           _selectedDay!.year == _year &&
           _selectedDay!.month == _month &&
           _selectedDay!.day == day;
@@ -414,8 +421,8 @@ class HistoryPageState extends State<HistoryPage> {
               color: isSelected
                   ? context.appBrand.withOpacity(0.2)
                   : (isToday
-                      ? context.appBrand.withOpacity(0.1)
-                      : Colors.transparent),
+                        ? context.appBrand.withOpacity(0.1)
+                        : Colors.transparent),
               borderRadius: BorderRadius.circular(12),
               border: isToday
                   ? Border.all(color: context.appBrand.withOpacity(0.5))
@@ -428,8 +435,9 @@ class HistoryPageState extends State<HistoryPage> {
                   '$day',
                   style: TextStyle(
                     fontSize: 13,
-                    fontWeight:
-                        isToday || isSelected ? FontWeight.w700 : FontWeight.w500,
+                    fontWeight: isToday || isSelected
+                        ? FontWeight.w700
+                        : FontWeight.w500,
                     color: context.appInk,
                   ),
                 ),

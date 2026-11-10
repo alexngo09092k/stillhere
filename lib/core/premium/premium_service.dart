@@ -22,9 +22,7 @@ class PremiumService extends Provider {
 
   /// True when any non-consumable / subscription product is purchased.
   bool _premiumFromProducts(List<IAPProduct> products) {
-    return products.any(
-      (p) => p.status && p.type != IAPType.consumables,
-    );
+    return products.any((p) => p.status && p.type != IAPType.consumables);
   }
 
   /// Call once after AwesomeIAP.initial (e.g. in onDidInitialize or first screen).
