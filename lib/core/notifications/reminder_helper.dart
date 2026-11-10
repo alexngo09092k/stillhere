@@ -26,7 +26,9 @@ class ReminderHelper {
       try {
         final name = await _localTimezoneName();
         tz.setLocalLocation(tz.getLocation(name));
-      } catch (_) {
+        Debug.log('[Reminder] timezone set to $name');
+      } catch (e) {
+        Debug.log('[Reminder] timezone fallback UTC: $e');
         tz.setLocalLocation(tz.UTC);
       }
 
@@ -46,8 +48,42 @@ class ReminderHelper {
     }
   }
 
+  /// Resolves device IANA timezone.
+  /// Uses offset mapping for primary markets (VN/TH/CN/global).
+  /// Falls back to Asia/Ho_Chi_Minh then UTC.
   Future<String> _localTimezoneName() async {
-    // Best-effort; falls back to UTC in init()
+    try {
+      final now = DateTime.now();
+      final offset = now.timeZoneOffset;
+      final hours = offset.inHours;
+      final minutes = offset.inMinutes.remainder(60).abs();
+
+      if (hours == 7 && minutes == 0) {
+        final name = now.timeZoneName.toUpperCase();
+        if (name.contains('ICT') || name.contains('INDOCHINA')) {
+          return 'Asia/Bangkok';
+        }
+        return 'Asia/Ho_Chi_Minh';
+      }
+      if (hours == 8 && minutes == 0) return 'Asia/Shanghai';
+      if (hours == 9 && minutes == 0) return 'Asia/Tokyo';
+      if (hours == 0 && minutes == 0) return 'UTC';
+      if (hours == 1 && minutes == 0) return 'Europe/Paris';
+      if (hours == -5 && minutes == 0) return 'America/New_York';
+      if (hours == -8 && minutes == 0) return 'America/Los_Angeles';
+
+      final platformName = now.timeZoneName;
+      if (platformName.isNotEmpty &&
+          !platformName.contains('+') &&
+          !platformName.contains('-') &&
+          platformName.length > 2) {
+        try {
+          tz.getLocation(platformName);
+          return platformName;
+        } catch (_) {}
+      }
+    } catch (_) {}
+
     return 'Asia/Ho_Chi_Minh';
   }
 
@@ -76,7 +112,6 @@ class ReminderHelper {
       }
     }
 
-    // iOS explicit permission via plugin
     await _plugin
         .resolvePlatformSpecificImplementation<
             IOSFlutterLocalNotificationsPlugin>()
@@ -107,6 +142,35 @@ class ReminderHelper {
     }
   }
 
+  Future<({String title, String body})> _localizedContent() async {
+    final s = await LocalStorage.instance.getSettings();
+    final lang = (s['language'] as String?)?.toLowerCase() ?? 'en';
+
+    switch (lang) {
+      case 'vi':
+        return (
+          title: 'Still Here',
+          body: 'Một lời chào nhỏ đang chờ bạn.',
+        );
+      case 'th':
+        return (
+          title: 'Still Here',
+          body: 'ทักทายเล็กๆ กำลังรอคุณอยู่',
+        );
+      case 'zh':
+        return (
+          title: 'Still Here',
+          body: '一句小小的问候在等着你。',
+        );
+      case 'en':
+      default:
+        return (
+          title: 'Still Here',
+          body: 'A small hello is waiting for you.',
+        );
+    }
+  }
+
   Future<void> _schedule({required int hour, required int minute}) async {
     await init();
     await _plugin.cancel(id: _notificationId);
@@ -124,25 +188,45 @@ class ReminderHelper {
       scheduled = scheduled.add(const Duration(days: 1));
     }
 
+    final content = await _localizedContent();
+
     const androidDetails = AndroidNotificationDetails(
       _channelId,
       _channelName,
-      channelDescription: 'Daily check-in reminder for StillHere',
+      channelDescription: 'Daily check-in reminder for Still Here',
       importance: Importance.defaultImportance,
       priority: Priority.defaultPriority,
     );
-    const iosDetails = DarwinNotificationDetails();
-    const details =
-        NotificationDetails(android: androidDetails, iOS: iosDetails);
+    const iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
 
     await _plugin.zonedSchedule(
       id: _notificationId,
-      title: 'Still Here',
-      body: 'A small hello is waiting for you.',
+      title: content.title,
+      body: content.body,
       scheduledDate: scheduled,
       notificationDetails: details,
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
       matchDateTimeComponents: DateTimeComponents.time,
     );
+
+    Debug.log(
+      '[Reminder] scheduled ${content.title} at $scheduled (${tz.local.name})',
+    );
+  }
+
+  /// Call on app resume / after language change to keep next notification in sync.
+  Future<void> rescheduleIfEnabled() async {
+    if (await isEnabled()) {
+      final t = await getTime();
+      await _schedule(hour: t.hour, minute: t.minute);
+    }
   }
 }

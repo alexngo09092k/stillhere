@@ -431,6 +431,10 @@ class _SettingsPageState extends State<SettingsPage> {
       try {
         ManagerProvider.of<IThemeProvider>().changeLocale(Locale(picked));
       } catch (_) {}
+      // Keep next local notification text in the new language
+      try {
+        await ReminderHelper.instance.rescheduleIfEnabled();
+      } catch (_) {}
       if (mounted) setState(() {});
     }
   }

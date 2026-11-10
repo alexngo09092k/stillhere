@@ -1,83 +1,52 @@
-# Still Here — Deploy readiness (updated)
+# Still Here — Deploy Ready Notes (2026-11-11)
 
-## What was completed in this pass
+## Code changes in this pack
 
-### 1. AI greeting (free)
-- Implemented **Google Gemini free tier** (`gemini-2.0-flash`) via REST.
-- File: `lib/core/ai/gemini_greeting_client.dart`
-- Wired in `lib/features/greeting/data/greeting_service.dart`
-- Safety: never sends check-in notes / mood; daily gate (1 success/day); 5–6s timeout; static fallback offline / error / empty key.
-- Configure key (do **not** commit real key):
-  ```bash
-  flutter run --dart-define=GEMINI_API_KEY=your_key_here
-  ```
-  Or set `"apiKey"` under `"ai"` in `lib/enviroment.dart` for local only.
-  Get free key: https://aistudio.google.com/apikey
+1. **Reminder / Notification**
+   - Timezone no longer hardcoded only to `Asia/Ho_Chi_Minh`.
+   - Offset → IANA mapping for primary markets + safe fallback.
+   - Notification title/body localized (en / vi / th / zh).
+   - Reschedule when user changes language.
+   - `rescheduleIfEnabled()` helper for resume / language flows.
 
-### 2. Ads (full multi-provider)
-- `enviroment.dart` → `"providers": ["google", "huawei"]`
-- AdMob test unit IDs included for banner / interstitial / reward / app-open / native.
-- Huawei units kept.
-- `AdView` + `AdRevenueManager` already hide ads when premium.
-- **Before store:** replace test AdMob unit IDs + App IDs with production in:
-  - `lib/enviroment.dart` advertisement block
-  - `android/.../res/values/strings.xml` (`admob_api`)
-  - `ios/Runner/Info.plist` (`GADApplicationIdentifier`)
+2. **Ads**
+   - Providers: `google` + `huawei`.
+   - Google test unit IDs included for banner / interstitial / rewarded.
+   - Clear TODO comments for production App IDs + unit IDs.
+   - Native Android/iOS still have separate AdMob App ID strings — align them before release.
 
-### 3. IAP (full multi-store)
-- Providers: `google`, `huawei`
-- Products:
-  - `still_here_premium_month` / `still_here_premium_year` (Google + Apple)
-  - `com.snapeditify.stillhere.amonth` / `.oneyear` (Huawei)
-- `PremiumService` already syncs entitlement + restore via `in_app_purchase`.
-- **Before store:** create matching subscription products on Play Console + App Store Connect + Huawei.
+3. **IAP / Premium**
+   - Providers: `google` + `apple` + `huawei`.
+   - Product IDs ready for console mapping:
+     - Google/Apple: `com.snapeditify.stillhere.monthly` / `yearly`
+     - Huawei: `com.snapeditify.stillhere.amonth` / `oneyear`
 
-### 4. Analytics / Remote Config
-- Providers expanded to include Google alongside Huawei.
+4. **Remote Config / Analytics**
+   - Expanded providers to include Google where applicable.
 
-### 5. Dependency
-- Added `http: ^1.2.2` for Gemini client.
+5. **Docs**
+   - `PRODUCTION_CHECKLIST.md` updated to match current code state.
 
----
+## What you still do outside the repo
 
-## Remaining manual steps (cannot automate)
+- Android upload keystore + `key.properties`
+- Create IAP products on each store console
+- Production AdMob IDs (App + units)
+- Live Privacy Policy + Terms
+- Replace iOS `idXXXXXXXX` in share/update links
+- Device QA matrix (reminder reboot, purchase sandbox, offline, accessibility)
 
-1. **Signing**
-   - Create upload keystore + `android/key.properties`
-   - iOS signing in Xcode (`com.snapeditify.stillhere`)
+## Build commands (on machine with Flutter)
 
-2. **Gemini key**
-   - Create free API key in AI Studio
-   - Prefer remote-config injection in production; keep daily quota monitoring
+```bash
+flutter pub get
+flutter analyze
+flutter test
+flutter build appbundle --release   # Android
+flutter build ipa --release         # iOS
+```
 
-3. **AdMob / IAP production IDs**
-   - Create AdMob app + ad units
-   - Create subscription products on each store
+## Git dependencies
 
-4. **Legal**
-   - Publish Privacy Policy + Terms at URLs in `enviroment.dart`
-   - Fill Play Data safety + App Store privacy labels
-
-5. **Build**
-   ```bash
-   flutter pub get
-   flutter analyze
-   flutter test
-   flutter build appbundle --release
-   flutter build ipa --release   # macOS
-   ```
-
-6. **fluttering_* packages**
-   - Currently git (SSH). For offline/CI: switch to `path: ../packages/fluttering_*` after placing packages next to the app.
-
----
-
-## Free AI choice rationale
-| Option | Free tier | Fit |
-|--------|-----------|-----|
-| **Gemini 2.0 Flash** (chosen) | Generous free RPM/RPD via AI Studio | Same Google stack as Firebase/AdMob; low latency; good multilingual |
-| Groq | Free | Extra vendor |
-| OpenRouter free models | Limited | Extra dependency |
-| On-device SLM | Zero cost | Quality/latency risk on mid devices |
-
-Gemini free is the best balance for Still Here’s short multilingual greeting use-case.
+`fluttering*` packages are still referenced via SSH Git.  
+For offline/CI: place packages next to the app and switch `pubspec.yaml` to `path:` deps.

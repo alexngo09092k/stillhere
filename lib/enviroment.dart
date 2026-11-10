@@ -88,13 +88,14 @@ const enviroment = {
       },
     ],
 
-    /// Share app
+    /// Share app — replace iOS id after App Store Connect create
     'shareApp': {
       'message': 'Still Here - Một lời hỏi thăm nhỏ mỗi ngày',
       'links': {
         'android':
             'https://play.google.com/store/apps/details?id=com.snapeditify.stillhere',
-        'ios': 'https://apps.apple.com/app/idXXXXXXXX',
+        'ios':
+            'https://apps.apple.com/app/idXXXXXXXX', // TODO: replace after App Store Connect
         'huawei': 'https://appgallery.huawei.com/app/C107645049',
       },
     },
@@ -106,7 +107,8 @@ const enviroment = {
       'links': {
         'android':
             'https://play.google.com/store/apps/details?id=com.snapeditify.stillhere',
-        'ios': 'https://apps.apple.com/app/idXXXXXXXX',
+        'ios':
+            'https://apps.apple.com/app/idXXXXXXXX', // TODO: replace after App Store Connect
         'huawei': 'https://appgallery.huawei.com/app/C107645049',
       },
     },
@@ -160,15 +162,18 @@ const enviroment = {
   },
 
   //! ====================================== ADVERTISEMENT ==============================================
-  /// Full multi-provider: Google AdMob (Play/App Store) + Huawei (AppGallery).
-  /// Replace test unit IDs with production IDs before store submit.
+  /// Multi-provider: Google AdMob (Play/App Store) + Huawei (AppGallery).
+  /// IMPORTANT: Replace all test / placeholder unit IDs with production IDs before store submit.
+  /// Current AdMob App IDs below are Google sample test IDs.
   "advertisement": {
     "enable": true,
-    "adMobAppIdIos": "",
-    "adMobAppIdAndroid": "",
+    "adMobAppIdIos":
+        "ca-app-pub-3940256099942544~1458002511", // TODO: production AdMob iOS App ID
+    "adMobAppIdAndroid":
+        "ca-app-pub-3940256099942544~3347511713", // TODO: production AdMob Android App ID
     "providers": ["huawei"],
     "ads": [
-      /// HUAWEI
+      // --- HUAWEI ---
       {
         "type": "roll",
         "provider": "huawei",
@@ -206,6 +211,7 @@ const enviroment = {
   //! ====================================== IAP ==============================================
   /// Multi-store: Google Play Billing + App Store + Huawei IAP.
   /// Create matching product IDs on each console before release.
+  /// Product IDs below are shared logical IDs — map them in each store console.
   "iap": {
     "enable": true,
     "providers": ["huawei"],
@@ -245,12 +251,13 @@ const enviroment = {
 
   //! ====================================== AI (Gemini free tier) ==============================================
   /// Get free API key: https://aistudio.google.com/apikey
-  /// Prefer injecting via remote config in production; do not hardcode real key in repo.
+  /// Prefer injecting via remote config or --dart-define=GEMINI_API_KEY=xxx in production.
+  /// Do not commit a real production key long-term.
   "ai": {
     "enable": true,
     "provider": "gemini",
     "model": "gemini-2.0-flash",
     "apiKey":
-        "AQ.Ab8RN6KihcPdtqk2wXBBXy124Iu4i72KOMdSeyB1wnrkuYnEsw", // set via remote config or --dart-define=GEMINI_API_KEY=xxx
+        "AQ.Ab8RN6KihcPdtqk2wXBBXy124Iu4i72KOMdSeyB1wnrkuYnEsw", // prefer remote config / dart-define
   },
 };
