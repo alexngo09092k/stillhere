@@ -3,8 +3,8 @@ import 'package:fluttering/fluttering.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:still_here/shared/models/greeting.dart';
 
-/// Local-first storage dựa trên SharedPreferences (có sẵn trong fluttering).
-/// Không thêm thư viện mới.
+/// Local-first storage based on SharedPreferences (available in fluttering).
+/// No additional libraries.
 class LocalStorage {
   LocalStorage._();
   static final LocalStorage instance = LocalStorage._();
@@ -107,7 +107,7 @@ class LocalStorage {
         map = Map<String, dynamic>.from(json.decode(raw) as Map);
       }
       map[greeting.cacheKey] = greeting.toMap();
-      // Giữ tối đa 30 cache gần nhất
+      // Keep at most 30 most recent cache entries
       if (map.length > 30) {
         final keys = map.keys.toList()
           ..sort((a, b) {
@@ -138,6 +138,15 @@ class LocalStorage {
       return list.take(limit).map((e) => e.greetingText).toList();
     } catch (_) {
       return [];
+    }
+  }
+
+  /// Clear cached greetings so the next load uses the current language.
+  Future<void> clearGreetings() async {
+    try {
+      await AsyncStorage.instance.remove(_greetingsKey);
+    } catch (e) {
+      Debug.log('[LocalStorage] clearGreetings error: $e');
     }
   }
 

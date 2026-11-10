@@ -4,6 +4,15 @@
 **Platforms:** Google Play + App Store (+ AppGallery optional)  
 **Updated:** 2026-11-11 (code completion pass)
 
+## Language / i18n pass (2026-11-11)
+
+- Default language is English everywhere (settings, greeting service, storage defaults).
+- Removed hardcoded Vietnamese from `enviroment.dart`, `BusinessConfig.defaultValue`, and source comments.
+- Changing language in Settings now clears greeting cache + home tab reloads greeting when you switch back.
+- Gemini prompt strengthened to force output in the selected language (vi/th/zh/en).
+- Static greeting pools remain localized; AI falls back to them when offline / key missing / gate closed.
+
+
 ---
 
 ## 1. Code đã hoàn thiện trong pack này
@@ -77,4 +86,19 @@
 Vẫn **chưa upload được** cho đến khi hoàn thành mục 2 (signing, product console, production ad IDs, privacy live, device QA).
 
 Sau khi xong mục 2 → build AAB + IPA → internal testing → production.
+
+## Full audit pass (2026-11-11)
+
+### Bugs fixed
+- **Locale/theme not restored on cold start**: Splash now restores `language` + `theme` from LocalStorage before navigating to Home/Onboarding. Without this, Vietnamese users saw English UI after restart.
+- **Splash dead code**: removed unused `lang` defaulting to `'vi'`.
+- **Ads/IAP config incomplete for Play/App Store**: providers were Huawei-only. Now `google` + `huawei` with AdMob test unit IDs and subscription product IDs (`monthly` / `yearly`).
+- **API key in source**: removed committed Gemini key; use `--dart-define=GEMINI_API_KEY=...` or remote config.
+- **Comments / docs**: remaining Vietnamese comments and incorrect "fallback to Vietnamese" doc comments cleaned to English.
+
+### Still your responsibility before upload
+- Production AdMob App ID + unit IDs
+- Create IAP products on Play / App Store / Huawei consoles
+- Live Privacy Policy URL, iOS App Store ID
+- Device QA (language switch → greeting + notification, offline, premium restore)
 

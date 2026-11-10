@@ -3,7 +3,7 @@ import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'dart:convert';
 
-/// Trạng thái check-in theo PRD: OK | SHARE | SELF_CARE
+/// Check-in status per PRD: OK | SHARE | SELF_CARE
 enum CheckInStatus {
   ok('OK'),
   share('SHARE'),
@@ -25,7 +25,7 @@ enum CheckInStatus {
     }
   }
 
-  /// Localized label via [S.current]. Falls back to Vietnamese if S not loaded.
+  /// Localized label via [S.current]. Falls back to English if S is not loaded.
   String get label {
     try {
       final s = S.current;

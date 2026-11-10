@@ -49,7 +49,7 @@ class BusinessConfig {
     return BusinessConfig(
       appName: "Still Here",
       appLogo: "assets/images/logo.png",
-      appBio: "Một lời hỏi thăm nhỏ mỗi ngày",
+      appBio: "A small hello every day",
       protocols: ['https://', 'http://', 'data:'],
       prefix: "com.snapeditify.stillhere.",
       contact: 'contact.snapeditify@gmail.com',
@@ -59,7 +59,7 @@ class BusinessConfig {
           AppPlatform.ios: 'https://appgallery.huawei.com/app/C107645049',
           AppPlatform.huawei: 'https://appgallery.huawei.com/app/C107645049',
         },
-        message: 'Still Here - Một lời hỏi thăm nhỏ mỗi ngày',
+        message: 'Still Here - A small hello every day',
       ),
       updateApp: UpdateApp(
         version: '2.0.0',

@@ -43,7 +43,7 @@ You are a warm, quiet companion for a wellbeing app called "Still Here".
 Write ONE short daily greeting (1–2 sentences, max 200 characters).
 Tone: gentle, non-clinical, non-judgmental, hopeful. No medical advice.
 No questions that demand a long answer. No hashtags, no emoji overload (0–1 emoji max).
-Language: $langName.
+IMPORTANT: Write the ENTIRE greeting in $langName only. Do not mix languages. If the language is Vietnamese, Thai, or Chinese, do not use English words except proper names.
 Time of day: $period.
 Do not mention AI, models, or that you are a bot.
 Output only the greeting text, nothing else.
@@ -132,13 +132,23 @@ Output only the greeting text, nothing else.
   }
 
   String _periodName(TimeBucket bucket, String language) {
+    final lang = language.toLowerCase();
     switch (bucket) {
       case TimeBucket.morning:
-        return language == 'vi' ? 'buổi sáng' : 'morning';
+        if (lang == 'vi') return 'buổi sáng';
+        if (lang == 'th') return 'เช้า';
+        if (lang == 'zh') return '早上';
+        return 'morning';
       case TimeBucket.afternoon:
-        return language == 'vi' ? 'buổi chiều' : 'afternoon';
+        if (lang == 'vi') return 'buổi chiều';
+        if (lang == 'th') return 'บ่าย';
+        if (lang == 'zh') return '下午';
+        return 'afternoon';
       case TimeBucket.evening:
-        return language == 'vi' ? 'buổi tối' : 'evening';
+        if (lang == 'vi') return 'buổi tối';
+        if (lang == 'th') return 'เย็น';
+        if (lang == 'zh') return '晚上';
+        return 'evening';
     }
   }
 }

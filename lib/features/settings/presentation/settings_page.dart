@@ -375,7 +375,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _showLanguagePicker() async {
-    final current = (_settings['language'] as String?) ?? 'vi';
+    final current = (_settings['language'] as String?) ?? 'en';
     final picked = await showModalBottomSheet<String>(
       context: context,
       backgroundColor: context.appSurf,
@@ -428,6 +428,10 @@ class _SettingsPageState extends State<SettingsPage> {
     );
     if (picked != null) {
       await _update('language', picked);
+      // Drop greeting cache so home shows text in the newly selected language
+      try {
+        await LocalStorage.instance.clearGreetings();
+      } catch (_) {}
       try {
         ManagerProvider.of<IThemeProvider>().changeLocale(Locale(picked));
       } catch (_) {}

@@ -3,7 +3,7 @@ import 'package:still_here/core/database/local_storage.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:intl/intl.dart';
 
-/// Check-in service – 1 bản ghi / localDate, cho phép edit cùng ngày.
+/// Check-in service – 1 record per localDate, editable same day.
 class CheckInService {
   CheckInService._();
   static final CheckInService instance = CheckInService._();
@@ -32,7 +32,7 @@ class CheckInService {
     return all.where((c) => c.localDate.startsWith(prefix)).toList();
   }
 
-  /// Tạo hoặc cập nhật check-in của ngày hiện tại (hoặc ngày chỉ định).
+  /// Create or update check-in for the current day (or a specified day).
   Future<CheckIn?> save({
     required CheckInStatus status,
     String? note,
@@ -77,7 +77,7 @@ class CheckInService {
     return LocalStorage.instance.deleteAllCheckIns();
   }
 
-  /// Tổng quan tuần / tháng
+  /// Weekly / monthly overview
   Future<Map<String, int>> summaryForMonth(int year, int month) async {
     final list = await getByMonth(year, month);
     final result = <String, int>{

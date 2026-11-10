@@ -43,6 +43,9 @@ class _SplashPageState extends State<SplashPage>
   }
 
   Future<void> _bootstrap() async {
+    // Restore language + theme from local settings before first navigation
+    // so Home / Onboarding open already in the user's preferred locale.
+    await _restorePreferences();
     await Future.delayed(const Duration(milliseconds: 1100));
     final done = await LocalStorage.instance.isOnboardingDone();
     if (!mounted) return;
@@ -55,9 +58,26 @@ class _SplashPageState extends State<SplashPage>
     }
   }
 
+  Future<void> _restorePreferences() async {
+    try {
+      final settings = await LocalStorage.instance.getSettings();
+      final lang = (settings['language'] as String?)?.toLowerCase() ?? 'en';
+      final themeStr = (settings['theme'] as String?)?.toLowerCase() ?? 'light';
+      final provider = ManagerProvider.of<IThemeProvider>();
+      provider.changeLocale(Locale(lang));
+      final mode = switch (themeStr) {
+        'dark' => ThemeMode.dark,
+        'system' => ThemeMode.system,
+        _ => ThemeMode.light,
+      };
+      provider.changeThemeMode(mode);
+    } catch (e) {
+      Debug.log('[Splash] restore preferences: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final lang = Localizations.maybeLocaleOf(context)?.languageCode ?? 'vi';
     return Scaffold(
       backgroundColor: context.appBg,
       body: FadeTransition(

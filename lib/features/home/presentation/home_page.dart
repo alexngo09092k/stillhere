@@ -108,6 +108,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         index: _navIndex,
         onChanged: (i) {
           setState(() => _navIndex = i);
+          if (i == 0) _load(); // refresh greeting after language / settings change
           if (i == 1) _historyKey.currentState?.reload();
           if (i == 2) _statsKey.currentState?.reload();
         },
@@ -150,8 +151,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   Widget _buildHomeTab() {
-    final lang = Localizations.localeOf(context).languageCode;
-
     return RefreshIndicator(
       onRefresh: _load,
       color: context.appBrand,

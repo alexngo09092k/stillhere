@@ -30,7 +30,7 @@ const enviroment = {
     /// Logo is used in splash screen and app ui
     'appLogo': 'assets/images/logo.png',
 
-    'appBio': 'Một lời hỏi thăm nhỏ mỗi ngày',
+    'appBio': 'A small hello every day',
 
     /// Protocols is use to check
     'protocols': ['https://', 'http://', 'data:'],
@@ -90,7 +90,7 @@ const enviroment = {
 
     /// Share app — replace iOS id after App Store Connect create
     'shareApp': {
-      'message': 'Still Here - Một lời hỏi thăm nhỏ mỗi ngày',
+      'message': 'Still Here - A small hello every day',
       'links': {
         'android':
             'https://play.google.com/store/apps/details?id=com.snapeditify.stillhere',

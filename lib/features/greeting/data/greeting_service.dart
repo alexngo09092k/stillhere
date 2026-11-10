@@ -34,7 +34,7 @@ class GreetingService {
   }
 
   Future<Greeting> getTodayGreeting({
-    String language = 'vi',
+    String language = 'en',
     bool aiEnabled = true,
   }) async {
     final bucket = _currentBucket();

@@ -1,12 +1,12 @@
 // part of '../extensions.dart';
 
 // extension MPermissionStore on IUserPermission {
-//   /// Xin quyền ảnh cho:
+//   /// Request photo permission for:
 //   /// - Android 10–12 (storage)
 //   /// - Android 13–16 (READ_MEDIA_*)
 //   /// - Huawei EMUI / HarmonyOS (AppGallery)
 //   ///
-//   /// Luồng: PhotoManager → permission_handler → mở Settings nếu cần.
+//   /// Flow: PhotoManager → permission_handler → open Settings if needed.
 //   requestStoragePermission(
 //     BuildContext context, {
 //     Function? onHasPermission,
@@ -15,12 +15,12 @@
 //     bool called = false;
 
 //     Future<bool> ensurePhotoAccess() async {
-//       // --- Bước 1: PhotoManager (bắt buộc trên API 33+) ---
+//       // --- Step 1: PhotoManager (required on API 33+) ---
 //       try {
 //         final PermissionState ps = await PhotoManager.requestPermissionExtend(
 //           requestOption: const PermissionRequestOption(
 //             androidPermission: AndroidPermission(
-//               // common = images + video → tránh bug denied khi thiếu VIDEO
+//               // common = images + video → avoids denied bug when VIDEO is missing
 //               type: RequestType.common,
 //               mediaLocation: false,
 //             ),
@@ -30,21 +30,21 @@
 //           return true;
 //         }
 //       } catch (_) {
-//         // Tiếp tục fallback
+//         // Continue fallback
 //       }
 
-//       // --- Bước 2: permission_handler (Huawei / máy cũ hay cần thêm) ---
+//       // --- Step 2: permission_handler (Huawei / older devices often need this) ---
 //       try {
 //         final List<Permission> perms = <Permission>[
 //           if (Platform.isIOS) Permission.photos,
 //           if (Platform.isAndroid) ...[
 //             Permission.photos,
 //             Permission.videos,
-//             Permission.storage, // EMUI cũ / Android <= 12
+//             Permission.storage, // Old EMUI / Android <= 12
 //           ],
 //         ];
 
-//         // Xin từng cái để Huawei dialog ổn định hơn
+//         // Request one-by-one so Huawei dialogs stay stable
 //         for (final p in perms) {
 //           final status = await p.status;
 //           if (!status.isGranted && !status.isLimited) {
@@ -58,8 +58,8 @@
 //           return true;
 //         }
 
-//         // Một số máy Huawei báo limited/denied nhưng vẫn đọc được MediaStore
-//         // → thử kiểm tra thực tế bằng getAssetPathList
+//         // Some Huawei devices report limited/denied but can still read MediaStore
+//         // → verify in practice via getAssetPathList
 //         try {
 //           final paths = await PhotoManager.getAssetPathList(
 //             type: RequestType.image,
@@ -81,7 +81,7 @@
 //       return;
 //     }
 
-//     // Không có quyền → hướng dẫn Settings (Huawei: Apps → Permissions → Storage/Photos)
+//     // No permission → guide user to Settings (Huawei: Apps → Permissions → Storage/Photos)
 //     WidgetUtils.instance.showRequestPermissionPopup(
 //       title:
 //           '${Configuration.instance.business.appName} ${S.of(context).wouldLikeToAccessYourPhotos}',
