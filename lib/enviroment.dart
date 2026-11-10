@@ -196,7 +196,7 @@ const enviroment = {
   /// Create matching product IDs on each console before release.
   "iap": {
     "enable": true,
-    "providers": ["google", "apple", "huawei"],
+    "providers": ["google", "huawei"],
     "products": [
       {
         "type": "subscriptions",
