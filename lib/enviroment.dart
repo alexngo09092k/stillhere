@@ -126,37 +126,6 @@ const enviroment = {
         "ca-app-pub-3940256099942544~3347511713", // TODO: production
     "providers": ["huawei"],
     "ads": [
-      // --- GOOGLE AdMob (use test IDs until production) ---
-      {
-        "type": "banner",
-        "provider": "google",
-        "iosId": "ca-app-pub-3940256099942544/2934735716",
-        "androidId": "ca-app-pub-3940256099942544/6300978111",
-      },
-      {
-        "type": "interstitial",
-        "provider": "google",
-        "iosId": "ca-app-pub-3940256099942544/4411468910",
-        "androidId": "ca-app-pub-3940256099942544/1033173712",
-      },
-      {
-        "type": "reward",
-        "provider": "google",
-        "iosId": "ca-app-pub-3940256099942544/1712485313",
-        "androidId": "ca-app-pub-3940256099942544/5224354917",
-      },
-      {
-        "type": "splash",
-        "provider": "google",
-        "iosId": "ca-app-pub-3940256099942544/5575463023",
-        "androidId": "ca-app-pub-3940256099942544/3419835294",
-      },
-      {
-        "type": "native",
-        "provider": "google",
-        "iosId": "ca-app-pub-3940256099942544/3986624511",
-        "androidId": "ca-app-pub-3940256099942544/2247696110",
-      },
       // --- HUAWEI ---
       {
         "type": "roll",
@@ -198,54 +167,6 @@ const enviroment = {
     "enable": true,
     "providers": ["huawei"],
     "products": [
-      {
-        "type": "subscriptions",
-        "provider": "google",
-        "id": "still_here_premium_month",
-        "info": {
-          "name": "Premium Monthly",
-          "description": "Remove ads and unlock premium features for 1 month.",
-          "price": "\$2.99",
-          "rawPrice": "2.99",
-          "currency": "USD",
-        },
-      },
-      {
-        "type": "subscriptions",
-        "provider": "google",
-        "id": "still_here_premium_year",
-        "info": {
-          "name": "Premium Yearly",
-          "description": "Remove ads and unlock premium features for 1 year.",
-          "price": "\$19.99",
-          "rawPrice": "19.99",
-          "currency": "USD",
-        },
-      },
-      {
-        "type": "subscriptions",
-        "provider": "apple",
-        "id": "still_here_premium_month",
-        "info": {
-          "name": "Premium Monthly",
-          "description": "Remove ads and unlock premium features for 1 month.",
-          "price": "\$2.99",
-          "rawPrice": "2.99",
-          "currency": "USD",
-        },
-      },
-      {
-        "type": "subscriptions",
-        "provider": "apple",
-        "id": "still_here_premium_year",
-        "info": {
-          "name": "Premium Yearly",
-          "description": "Remove ads and unlock premium features for 1 year.",
-          "price": "\$19.99",
-          "rawPrice": "19.99",
-          "currency": "USD",
-        },
-      },
       {
         "type": "subscriptions",
         "provider": "huawei",
