@@ -28,7 +28,7 @@
 - Providers: `google`, `huawei`
 - Products:
   - `still_here_premium_month` / `still_here_premium_year` (Google + Apple)
-  - `app.still_here.studio.amonth` / `.oneyear` (Huawei)
+  - `com.snapeditify.stillhere.amonth` / `.oneyear` (Huawei)
 - `PremiumService` already syncs entitlement + restore via `in_app_purchase`.
 - **Before store:** create matching subscription products on Play Console + App Store Connect + Huawei.
 

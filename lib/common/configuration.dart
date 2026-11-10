@@ -186,7 +186,7 @@ extension ConfigurationsRemoteConfig on Configuration {
 
         PackageInfo packageInfo = await PackageInfoExtesnion.getPackageInfo();
 
-        /// app.still_here.studio
+        /// com.snapeditify.stillhere
         /// => app_still_here_studio
         String remoteKey = packageInfo.packageName
             .split('.')

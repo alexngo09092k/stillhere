@@ -50,7 +50,7 @@
 - [ ] iOS: Apple Developer App ID + certificates + provisioning (bundle `com.snapeditify.stillhere`)
 
 ### 2.2 Store compliance / legal (OQ-14 PRD)
-- [ ] Publish **Privacy Policy** thật tại URL trong `enviroment.dart` (`still_here.netlify.app/privacy-policy/`)
+- [ ] Publish **Privacy Policy** thật tại URL trong `enviroment.dart` (`snapeditify.netlify.app/privacy-policy/`)
 - [ ] Publish **Terms of Service**
 - [ ] Nội dung policy phải nêu rõ:
   - Dữ liệu check-in/note **chỉ lưu local** trên máy

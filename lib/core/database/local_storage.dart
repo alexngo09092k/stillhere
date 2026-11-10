@@ -9,7 +9,7 @@ class LocalStorage {
   LocalStorage._();
   static final LocalStorage instance = LocalStorage._();
 
-  static const String _prefix = 'app.still_here.studio.';
+  static const String _prefix = 'com.snapeditify.stillhere.';
   static const String _checkInsKey = '${_prefix}check_ins';
   static const String _greetingsKey = '${_prefix}greeting_cache';
   static const String _settingsKey = '${_prefix}app_settings';
@@ -130,10 +130,11 @@ class LocalStorage {
       final raw = AsyncStorage.instance.getString(_greetingsKey);
       if (raw == null || raw.isEmpty) return [];
       final map = json.decode(raw) as Map<String, dynamic>;
-      final list = map.values
-          .map((e) => Greeting.fromMap(Map<String, dynamic>.from(e as Map)))
-          .toList()
-        ..sort((a, b) => b.createdAtUtc.compareTo(a.createdAtUtc));
+      final list =
+          map.values
+              .map((e) => Greeting.fromMap(Map<String, dynamic>.from(e as Map)))
+              .toList()
+            ..sort((a, b) => b.createdAtUtc.compareTo(a.createdAtUtc));
       return list.take(limit).map((e) => e.greetingText).toList();
     } catch (_) {
       return [];
@@ -153,7 +154,10 @@ class LocalStorage {
 
   Future<void> saveSettings(Map<String, dynamic> settings) async {
     try {
-      await AsyncStorage.instance.setString(_settingsKey, json.encode(settings));
+      await AsyncStorage.instance.setString(
+        _settingsKey,
+        json.encode(settings),
+      );
     } catch (e) {
       Debug.log('[LocalStorage] saveSettings error: $e');
     }
@@ -166,13 +170,13 @@ class LocalStorage {
   }
 
   Map<String, dynamic> _defaultSettings() => {
-        'reminder.enabled': false,
-        'reminder.hour': 9,
-        'reminder.minute': 0,
-        'ai.enabled': true,
-        'language': 'en',
-        'theme': 'light',
-      };
+    'reminder.enabled': false,
+    'reminder.hour': 9,
+    'reminder.minute': 0,
+    'ai.enabled': true,
+    'language': 'en',
+    'theme': 'light',
+  };
 
   // ---------- Onboarding ----------
   Future<bool> isOnboardingDone() async {

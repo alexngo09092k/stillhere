@@ -18,7 +18,7 @@ const enviroment = {
       'title': "We'll be back soon",
       'message':
           "We're very sorry for the inconvenience but we're performing maintaince. Please check back soon ...",
-      'link': 'https://still_here.netlify.app',
+      'link': 'https://snapeditify.netlify.app',
     },
 
     /// Display name is used in app
@@ -36,10 +36,10 @@ const enviroment = {
     'protocols': ['https://', 'http://', 'data:'],
 
     /// Prefix stored key
-    'prefix': 'app.still_here.studio.',
+    'prefix': 'com.snapeditify.stillhere.',
 
     /// Contact
-    'contact': 'anh.nh182113@gmail.com',
+    'contact': 'contact.snapeditify@gmail.com',
 
     /// Social Networks
     'socialNetworks': [
@@ -73,17 +73,17 @@ const enviroment = {
     'webLinks': [
       {
         'title': 'Terms of service',
-        'link': 'https://still_here.netlify.app/terms-of-service',
+        'link': 'https://snapeditify.netlify.app/terms-of-service',
         'image': 'assets/images/icons/ic_term.png',
       },
       {
         'title': 'Privacy policy',
-        'link': 'https://still_here.netlify.app/privacy-policy/',
+        'link': 'https://snapeditify.netlify.app/privacy-policy/',
         'image': 'assets/images/icons/ic_term.png',
       },
       {
         'title': 'FAQ',
-        'link': 'https://still_here.netlify.app/faq',
+        'link': 'https://snapeditify.netlify.app/faq',
         'image': 'assets/images/icons/ic_faq.png',
       },
     ],
@@ -120,10 +120,8 @@ const enviroment = {
   /// Replace test unit IDs with production IDs before store submit.
   "advertisement": {
     "enable": true,
-    "adMobAppIdIos":
-        "ca-app-pub-3940256099942544~1458002511", // TODO: production
-    "adMobAppIdAndroid":
-        "ca-app-pub-3940256099942544~3347511713", // TODO: production
+    "adMobAppIdIos": "", // TODO: production
+    "adMobAppIdAndroid": "", // TODO: production
     "providers": ["huawei"],
     "ads": [
       // --- HUAWEI ---
@@ -168,9 +166,9 @@ const enviroment = {
     "providers": ["huawei"],
     "products": [
       {
-        "type": "subscriptions",
+        "type": "nonConsumables",
         "provider": "huawei",
-        "id": "app.still_here.studio.amonth",
+        "id": "com.snapeditify.stillhere.amonth",
         "info": {
           "name": "Premium Monthly",
           "description": "Remove ads and unlock premium features for 1 month.",
@@ -180,9 +178,9 @@ const enviroment = {
         },
       },
       {
-        "type": "subscriptions",
+        "type": "nonConsumables",
         "provider": "huawei",
-        "id": "app.still_here.studio.oneyear",
+        "id": "com.snapeditify.stillhere.oneyear",
         "info": {
           "name": "Premium Yearly",
           "description": "Remove ads and unlock premium features for 1 year.",

@@ -14,7 +14,7 @@ class GreetingService {
 
   static const String promptVersion = 'p2';
   static const Duration cacheTtl = Duration(hours: 12);
-  static const String _aiGateKey = 'app.still_here.studio.ai_gate_date';
+  static const String _aiGateKey = 'com.snapeditify.stillhere.ai_gate_date';
 
   /// Override from remote config / settings. Empty → AI disabled.
   String geminiApiKey = '';
@@ -29,10 +29,7 @@ class GreetingService {
     return TimeBucket.fromHour(hour);
   }
 
-  String _cacheKey({
-    required String language,
-    required TimeBucket bucket,
-  }) {
+  String _cacheKey({required String language, required TimeBucket bucket}) {
     return '${_localDate()}:$language:${bucket.value}:$promptVersion';
   }
 

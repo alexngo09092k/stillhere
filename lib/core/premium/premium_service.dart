@@ -10,7 +10,7 @@ class PremiumService extends Provider {
   PremiumService._();
   static final PremiumService instance = PremiumService._();
 
-  static const String _premiumKey = 'app.still_here.studio.premium';
+  static const String _premiumKey = 'com.snapeditify.stillhere.premium';
 
   bool _isPremium = false;
   bool get isPremium => _isPremium;
