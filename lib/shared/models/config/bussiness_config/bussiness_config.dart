@@ -47,19 +47,19 @@ class BusinessConfig {
 
   factory BusinessConfig.defaultValue() {
     return BusinessConfig(
-      appName: "SnapEditify",
+      appName: "Still Here",
       appLogo: "assets/images/logo.png",
-      appBio: "AI powered photo editor",
+      appBio: "Một lời hỏi thăm nhỏ mỗi ngày",
       protocols: ['https://', 'http://', 'data:'],
       prefix: "com.snapeditify.stillhere.",
-      contact: "anh.nh182113@gmail.com",
+      contact: 'contact.snapeditify@gmail.com',
       shareApp: ShareApp(
         links: {
           AppPlatform.android: 'https://appgallery.huawei.com/app/C107645049',
           AppPlatform.ios: 'https://appgallery.huawei.com/app/C107645049',
           AppPlatform.huawei: 'https://appgallery.huawei.com/app/C107645049',
         },
-        message: "SnapEditify AI Photo Editor",
+        message: 'Still Here - Một lời hỏi thăm nhỏ mỗi ngày',
       ),
       updateApp: UpdateApp(
         version: '2.0.0',
@@ -120,7 +120,7 @@ class BusinessConfig {
             "We're very sorry for the inconvenience but we're performing maintaince. Please check back soon ...",
       }),
       moreApps: [],
-      version: '2.0.0',
+      version: '1.0.0',
       appMode: kDebugMode ? AppMode.debug : AppMode.production,
     );
   }

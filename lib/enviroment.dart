@@ -4,7 +4,7 @@ const enviroment = {
     "enable": true,
     "providers": ["huawei"],
     'fetchTimeout': 60000, // 1 minutes
-    'minimumFetchInterval': 3600000, // 1 hour in prod
+    'minimumFetchInterval': 60000, // 1 minutes
   },
 
   //! ====================================== BUSSINESS ==============================================
@@ -45,19 +45,19 @@ const enviroment = {
     'socialNetworks': [
       {
         'brand': 'Facebook',
-        'link': 'https://www.facebook.com/still_here/',
+        'link': 'https://www.facebook.com/snapeditify/',
         'image':
             'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/600px-Facebook_Logo_%282019%29.png',
       },
       {
         'brand': 'Tiktok',
-        'link': 'https://www.tiktok.com/@still_here',
+        'link': 'https://www.tiktok.com/@snapeditify',
         'image':
             'https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Tiktok-512.png',
       },
       {
         'brand': 'Youtube',
-        'link': 'https://www.youtube.com/@still_here',
+        'link': 'https://www.youtube.com/@snapeditify',
         'image':
             'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/318px-YouTube_full-color_icon_%282017%29.svg.png',
       },
@@ -74,17 +74,17 @@ const enviroment = {
       {
         'title': 'Terms of service',
         'link': 'https://snapeditify.netlify.app/terms-of-service',
-        'image': 'assets/images/icons/ic_term.png',
+        'image': 'assets/images/icons/privacy.png',
       },
       {
         'title': 'Privacy policy',
         'link': 'https://snapeditify.netlify.app/privacy-policy/',
-        'image': 'assets/images/icons/ic_term.png',
+        'image': 'assets/images/icons/privacy.png',
       },
       {
         'title': 'FAQ',
         'link': 'https://snapeditify.netlify.app/faq',
-        'image': 'assets/images/icons/ic_faq.png',
+        'image': 'assets/images/icons/faq.png',
       },
     ],
 
@@ -101,7 +101,7 @@ const enviroment = {
 
     /// Update app
     'updateApp': {
-      'version': '1.0.0',
+      'version': '1.0.1',
       'required': false,
       'links': {
         'android':
@@ -111,8 +111,52 @@ const enviroment = {
       },
     },
 
-    // No cross-promotion of unrelated games in this wellbeing app.
-    'moreApps': [],
+    'moreApps': [
+      {
+        "name": "Candy Land Puzzle: Match Game",
+        "logo":
+            "https://appimg2.dbankcdn.com/application/icon144/65/6124af2abde64858915de34600bf4e24.png",
+        "desc": "Candy Land Puzzle is a new and stylish candy...",
+        "links": {
+          "android": "https://appgallery.huawei.com/app/C108228683",
+          "ios": "https://appgallery.huawei.com/app/C108228683",
+          "huawei": "https://appgallery.huawei.com/app/C108228683",
+        },
+      },
+      {
+        "name": "Fall Dudes 3D: Amazing Run",
+        "logo":
+            "https://appimg2.dbankcdn.com/application/icon144/65/ae2086a83fd64cc9bde0d41b0305f20b.png",
+        "desc": "Fall Dudes 3D: Super Tricky Amazing...",
+        "links": {
+          "android": "https://appgallery.huawei.com/app/C108199945",
+          "ios": "https://appgallery.huawei.com/app/C108199945",
+          "huawei": "https://appgallery.huawei.com/app/C108199945",
+        },
+      },
+      {
+        "name": "Car Mega Ramps",
+        "logo":
+            "https://appimg2.dbankcdn.com/application/icon144/65/6575b038b8534b3387bc4d1e6be163ac.png",
+        "desc": "Car Mega Ramps games has an...",
+        "links": {
+          "android": "https://appgallery.huawei.com/app/C108175001",
+          "ios": "https://appgallery.huawei.com/app/C108175001",
+          "huawei": "https://appgallery.huawei.com/app/C108175001",
+        },
+      },
+      {
+        "name": "Sweet Ice Cream Maker",
+        "logo":
+            "https://appimg2.dbankcdn.com/application/icon144/65/c5da0f730f4343269bd6bcd430315397.png",
+        "desc": "Are you an ice cream lover? You will...",
+        "links": {
+          "android": "https://appgallery.huawei.com/app/C108210943",
+          "ios": "https://appgallery.huawei.com/app/C108210943",
+          "huawei": "https://appgallery.huawei.com/app/C108210943",
+        },
+      },
+    ],
   },
 
   //! ====================================== ADVERTISEMENT ==============================================
@@ -120,40 +164,41 @@ const enviroment = {
   /// Replace test unit IDs with production IDs before store submit.
   "advertisement": {
     "enable": true,
-    "adMobAppIdIos": "", // TODO: production
-    "adMobAppIdAndroid": "", // TODO: production
+    "adMobAppIdIos": "",
+    "adMobAppIdAndroid": "",
     "providers": ["huawei"],
     "ads": [
-      // --- HUAWEI ---
+      /// HUAWEI
       {
         "type": "roll",
         "provider": "huawei",
-        "iosId": "h2bea5p6f4",
-        "androidId": "h2bea5p6f4",
+        "iosId": "m3uab37kyr",
+        "androidId": "m3uab37kyr",
       },
       {
         "type": "interstitial",
         "provider": "huawei",
-        "iosId": "r0o9tg4ocx",
-        "androidId": "r0o9tg4ocx",
+        "iosId": "j1hv8l85y4",
+        "androidId": "j1hv8l85y4",
+        "waitingTimeToDisplay": 300,
       },
       {
         "type": "reward",
         "provider": "huawei",
-        "iosId": "h7s9d468ol",
-        "androidId": "h7s9d468ol",
+        "iosId": "g0dxztu42h",
+        "androidId": "g0dxztu42h",
       },
       {
         "type": "splash",
         "provider": "huawei",
-        "iosId": "t17z7pus7m",
-        "androidId": "t17z7pus7m",
+        "iosId": "u9u84ir07q",
+        "androidId": "u9u84ir07q",
       },
       {
         "type": "banner",
         "provider": "huawei",
-        "iosId": "v7y4ozn8r7",
-        "androidId": "v7y4ozn8r7",
+        "iosId": "v1nfde9wsl",
+        "androidId": "v1nfde9wsl",
       },
     ],
   },
