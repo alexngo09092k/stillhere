@@ -38,7 +38,7 @@ class CustomIcon extends StatelessWidget {
       color: color,
       spacing: spacing ?? AppDimensions.instance.iconX(0.5),
       background:
-          background ?? Theme.of(context).iconTheme.color!.withOpacity(0.1),
+          background ?? Theme.of(context).iconTheme.color!.withValues(alpha: 0.1),
       radius: (size ?? AppDimensions.instance.iconX(1.2)) / 2,
       normal: normal,
     );

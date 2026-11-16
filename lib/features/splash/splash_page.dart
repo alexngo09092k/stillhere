@@ -93,7 +93,7 @@ class _SplashPageState extends State<SplashPage>
                     borderRadius: BorderRadius.circular(30),
                     boxShadow: [
                       BoxShadow(
-                        color: context.appBrand.withOpacity(0.22),
+                        color: context.appBrand.withValues(alpha: 0.22),
                         blurRadius: 28,
                         offset: const Offset(0, 10),
                       ),

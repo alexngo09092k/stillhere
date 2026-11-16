@@ -32,8 +32,8 @@ class StillEmpty extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  context.appBrand.withOpacity(0.18),
-                  context.appBrand.withOpacity(0.06),
+                  context.appBrand.withValues(alpha: 0.18),
+                  context.appBrand.withValues(alpha: 0.06),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,

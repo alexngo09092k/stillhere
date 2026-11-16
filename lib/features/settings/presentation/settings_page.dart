@@ -201,7 +201,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 color: context.appSurf,
                 borderRadius: BorderRadius.circular(22),
                 boxShadow: context.appCardShadow,
-                border: Border.all(color: context.appBorder.withOpacity(0.6)),
+                border: Border.all(color: context.appBorder.withValues(alpha: 0.6)),
               ),
               child: Row(
                 children: [
@@ -372,7 +372,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(
                   fontSize: 14,
                   fontStyle: FontStyle.italic,
-                  color: context.appMuted.withOpacity(0.8),
+                  color: context.appMuted.withValues(alpha: 0.8),
                 ),
               ),
             ),
@@ -541,7 +541,7 @@ class _SettingsGroup extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.appSurf,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: context.appBorder.withOpacity(0.6)),
+        border: Border.all(color: context.appBorder.withValues(alpha: 0.6)),
       ),
       child: Column(
         children: [
@@ -551,7 +551,7 @@ class _SettingsGroup extends StatelessWidget {
               Divider(
                 height: 1,
                 indent: 56,
-                color: context.appBorder.withOpacity(0.7),
+                color: context.appBorder.withValues(alpha: 0.7),
               ),
           ],
         ],
@@ -590,7 +590,7 @@ class _SettingsTile extends StatelessWidget {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: (iconColor ?? context.appBrand).withOpacity(0.12),
+          color: (iconColor ?? context.appBrand).withValues(alpha: 0.12),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(icon, size: 20, color: iconColor ?? context.appBrandDeep),

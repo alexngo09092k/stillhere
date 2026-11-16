@@ -56,11 +56,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   Future<void> _load() async {
     setState(() => _loading = true);
+    final fallbackLang =
+        Localizations.maybeLocaleOf(context)?.languageCode ?? 'en';
     final settings = await LocalStorage.instance.getSettings();
     final aiEnabled = settings['ai.enabled'] != false;
-    final lang = (settings['language'] as String?) ??
-        Localizations.maybeLocaleOf(context)?.languageCode ??
-        'en';
+    final lang = (settings['language'] as String?) ?? fallbackLang;
     final results = await Future.wait([
       GreetingService.instance.getTodayGreeting(
         language: lang,
@@ -324,7 +324,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                        color: context.appBrand.withOpacity(0.14),
+                        color: context.appBrand.withValues(alpha: 0.14),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(Icons.insights_rounded,
@@ -408,9 +408,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black.withOpacity(0.05),
-                          Colors.black.withOpacity(0.15),
-                          Colors.black.withOpacity(0.45),
+                          Colors.black.withValues(alpha: 0.05),
+                          Colors.black.withValues(alpha: 0.15),
+                          Colors.black.withValues(alpha: 0.45),
                         ],
                         stops: const [0.0, 0.4, 1.0],
                       ),
@@ -429,7 +429,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           _homeGreeting(context),
                           style: TextStyle(
                             fontSize: 15,
-                            color: Colors.white.withOpacity(0.85),
+                            color: Colors.white.withValues(alpha: 0.85),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -450,10 +450,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                           width: double.infinity,
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.22),
+                            color: Colors.white.withValues(alpha: 0.22),
                             borderRadius: BorderRadius.circular(18),
                             border: Border.all(
-                              color: Colors.white.withOpacity(0.35),
+                              color: Colors.white.withValues(alpha: 0.35),
                             ),
                           ),
                           child: _loading
@@ -474,7 +474,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                       style: TextStyle(
                                         fontSize: 11,
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.white.withOpacity(0.75),
+                                        color: Colors.white.withValues(alpha: 0.75),
                                         letterSpacing: 0.3,
                                       ),
                                     ),
@@ -494,7 +494,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                                     Icon(
                                       Icons.favorite_rounded,
                                       size: 14,
-                                      color: Colors.white.withOpacity(0.7),
+                                      color: Colors.white.withValues(alpha: 0.7),
                                     ),
                                   ],
                                 ),
@@ -551,7 +551,7 @@ class _PillCta extends StatelessWidget {
             borderRadius: BorderRadius.circular(28),
             boxShadow: [
               BoxShadow(
-                color: context.appBrand.withOpacity(0.32),
+                color: context.appBrand.withValues(alpha: 0.32),
                 blurRadius: 20,
                 offset: const Offset(0, 8),
               ),
@@ -597,7 +597,7 @@ class _TodayCheckInCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: context.appSurf,
             borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: accent.withOpacity(0.35)),
+            border: Border.all(color: accent.withValues(alpha: 0.35)),
             boxShadow: context.appCardShadow,
           ),
           child: Row(
@@ -606,7 +606,7 @@ class _TodayCheckInCard extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: accent.withOpacity(0.18),
+                  color: accent.withValues(alpha: 0.18),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Center(
@@ -674,13 +674,13 @@ class _BottomNav extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appSurf.withOpacity(0.96),
+        color: context.appSurf.withValues(alpha: 0.96),
         border: Border(
-          top: BorderSide(color: context.appBorder.withOpacity(0.75)),
+          top: BorderSide(color: context.appBorder.withValues(alpha: 0.75)),
         ),
         boxShadow: [
           BoxShadow(
-            color: context.appInk.withOpacity(0.05),
+            color: context.appInk.withValues(alpha: 0.05),
             blurRadius: 20,
             offset: const Offset(0, -6),
           ),
@@ -702,7 +702,7 @@ class _BottomNav extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                       color: selected
-                          ? context.appBrand.withOpacity(0.14)
+                          ? context.appBrand.withValues(alpha: 0.14)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(14),
                     ),

@@ -73,10 +73,10 @@ class _CheckInSuccessPageState extends State<CheckInSuccessPage>
                       width: 96,
                       height: 96,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.22),
+                        color: Colors.white.withValues(alpha: 0.22),
                         shape: BoxShape.circle,
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.35),
+                          color: Colors.white.withValues(alpha: 0.35),
                           width: 1.5,
                         ),
                       ),
@@ -112,7 +112,7 @@ class _CheckInSuccessPageState extends State<CheckInSuccessPage>
                     style: TextStyle(
                       fontSize: 16,
                       height: 1.5,
-                      color: Colors.white.withOpacity(0.92),
+                      color: Colors.white.withValues(alpha: 0.92),
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -130,7 +130,7 @@ class _CheckInSuccessPageState extends State<CheckInSuccessPage>
                   child: OutlinedButton(
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
-                      side: BorderSide(color: Colors.white.withOpacity(0.45)),
+                      side: BorderSide(color: Colors.white.withValues(alpha: 0.45)),
                       shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.circular(AppDimensions.radiusLg),
@@ -152,7 +152,7 @@ class _CheckInSuccessPageState extends State<CheckInSuccessPage>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.white.withOpacity(0.75),
+                    color: Colors.white.withValues(alpha: 0.75),
                   ),
                 ),
               ],

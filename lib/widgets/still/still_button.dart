@@ -114,7 +114,7 @@ class _StillButtonState extends State<StillButton> {
             borderRadius: BorderRadius.circular(AppDimensions.radiusLg),
             boxShadow: [
               BoxShadow(
-                color: AppColors.brand.withOpacity(0.28),
+                color: AppColors.brand.withValues(alpha: 0.28),
                 blurRadius: 16,
                 offset: const Offset(0, 6),
               ),
@@ -136,7 +136,7 @@ class _StillButtonState extends State<StillButton> {
         return Container(
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: context.appBrand.withOpacity(context.isDark ? 0.2 : 0.14),
+            color: context.appBrand.withValues(alpha: context.isDark ? 0.2 : 0.14),
             borderRadius: BorderRadius.circular(AppDimensions.radiusLg),
           ),
           child: content,

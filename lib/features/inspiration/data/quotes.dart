@@ -4,10 +4,7 @@ class Quote {
   final Map<String, String> texts;
   final String author;
 
-  const Quote({
-    required this.texts,
-    this.author = '',
-  });
+  const Quote({required this.texts, this.author = ''});
 
   factory Quote.bi({
     required String textVi,
@@ -27,8 +24,7 @@ class Quote {
     );
   }
 
-  String text(String lang) =>
-      texts[lang] ?? texts['en'] ?? texts.values.first;
+  String text(String lang) => texts[lang] ?? texts['en'] ?? texts.values.first;
 }
 
 /// Local inspiration library — original copy for AppGallery 4.1 depth.
@@ -192,7 +188,8 @@ class InspirationQuotes {
   ];
 
   static Quote daily({int? dayOfYear, String lang = 'vi'}) {
-    final d = dayOfYear ??
+    final d =
+        dayOfYear ??
         DateTime.now().difference(DateTime(DateTime.now().year)).inDays;
     return general[d.abs() % general.length];
   }

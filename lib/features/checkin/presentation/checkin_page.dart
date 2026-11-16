@@ -206,11 +206,11 @@ class _CheckInPageState extends State<CheckInPage> {
                       width: double.infinity,
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
-                        color: context.appBrand.withOpacity(0.08),
+                        color: context.appBrand.withValues(alpha: 0.08),
                         borderRadius:
                             BorderRadius.circular(AppDimensions.radiusMd),
                         border: Border.all(
-                          color: context.appBrand.withOpacity(0.18),
+                          color: context.appBrand.withValues(alpha: 0.18),
                         ),
                       ),
                       child: Row(
@@ -228,7 +228,7 @@ class _CheckInPageState extends State<CheckInPage> {
                               style: TextStyle(
                                 fontSize: 14,
                                 height: 1.45,
-                                color: context.appInk.withOpacity(0.9),
+                                color: context.appInk.withValues(alpha: 0.9),
                               ),
                             ),
                           ),
@@ -326,7 +326,7 @@ class _CheckInPageState extends State<CheckInPage> {
                       borderRadius:
                           BorderRadius.circular(AppDimensions.radiusMd),
                       borderSide: BorderSide(
-                        color: context.appBrand.withOpacity(0.75),
+                        color: context.appBrand.withValues(alpha: 0.75),
                         width: 1.4,
                       ),
                     ),
@@ -344,7 +344,7 @@ class _CheckInPageState extends State<CheckInPage> {
               decoration: BoxDecoration(
                 color: context.appBg,
                 border: Border(
-                  top: BorderSide(color: context.appBorder.withOpacity(0.7)),
+                  top: BorderSide(color: context.appBorder.withValues(alpha: 0.7)),
                 ),
               ),
               child: StillButton(
@@ -390,17 +390,17 @@ class _StatusOption extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: selected
-              ? accent.withOpacity(context.isDark ? 0.18 : 0.14)
+              ? accent.withValues(alpha: context.isDark ? 0.18 : 0.14)
               : context.appSurf,
           borderRadius: BorderRadius.circular(AppDimensions.radiusLg),
           border: Border.all(
-            color: selected ? accent.withOpacity(0.7) : context.appBorder,
+            color: selected ? accent.withValues(alpha: 0.7) : context.appBorder,
             width: selected ? 1.6 : 1,
           ),
           boxShadow: selected
               ? [
                   BoxShadow(
-                    color: accent.withOpacity(0.18),
+                    color: accent.withValues(alpha: 0.18),
                     blurRadius: 14,
                     offset: const Offset(0, 4),
                   ),
@@ -414,10 +414,10 @@ class _StatusOption extends StatelessWidget {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: accent.withOpacity(selected ? 0.35 : 0.18),
+                color: accent.withValues(alpha: selected ? 0.35 : 0.18),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: Icon(icon, color: accent.withOpacity(0.95), size: 26),
+              child: Icon(icon, color: accent.withValues(alpha: 0.95), size: 26),
             ),
             const SizedBox(width: 14),
             Expanded(

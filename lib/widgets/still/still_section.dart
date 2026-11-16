@@ -76,7 +76,7 @@ class StillSkeleton extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        color: context.appBorder.withOpacity(0.65),
+        color: context.appBorder.withValues(alpha: 0.65),
         borderRadius: BorderRadius.circular(radius),
       ),
     );

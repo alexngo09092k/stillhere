@@ -128,7 +128,7 @@ class _PremiumPageState extends State<PremiumPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 15,
-              color: context.appInk.withOpacity(0.65),
+              color: context.appInk.withValues(alpha: 0.65),
             ),
           ),
           const SizedBox(height: 32),
@@ -159,7 +159,7 @@ class _PremiumPageState extends State<PremiumPage> {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: context.appBrand.withOpacity(0.12),
+                color: context.appBrand.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Row(

@@ -77,28 +77,28 @@ class AppColors extends FlutteringColors {
       );
 
   BoxShadow get boxShadow => BoxShadow(
-        color: const Color(0xFF3D3429).withOpacity(0.06),
+        color: const Color(0xFF3D3429).withValues(alpha: 0.06),
         offset: const Offset(0, 6),
         blurRadius: 20,
         spreadRadius: -4,
       );
 
   BoxShadow get softShadow => BoxShadow(
-        color: const Color(0xFF3D3429).withOpacity(0.04),
+        color: const Color(0xFF3D3429).withValues(alpha: 0.04),
         offset: const Offset(0, 3),
         blurRadius: 12,
         spreadRadius: -2,
       );
 
   BoxShadow get cardShadow => BoxShadow(
-        color: const Color(0xFF3D3429).withOpacity(0.05),
+        color: const Color(0xFF3D3429).withValues(alpha: 0.05),
         offset: const Offset(0, 8),
         blurRadius: 28,
         spreadRadius: -6,
       );
 
   BoxShadow get darkCardShadow => BoxShadow(
-        color: Colors.black.withOpacity(0.35),
+        color: Colors.black.withValues(alpha: 0.35),
         offset: const Offset(0, 8),
         blurRadius: 24,
         spreadRadius: -6,

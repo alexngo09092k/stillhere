@@ -1,7 +1,8 @@
 part of '../theme.dart';
 
 ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
-  final base = ThemeData.light().copyWith(
+  final base = ThemeData(
+    brightness: Brightness.light,
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: CupertinoPageTransitionsBuilder(),
@@ -37,7 +38,6 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
   );
 
   return base.copyWith(
-    useMaterial3: true,
     brightness: Brightness.light,
     primaryColor: AppColors.brand,
     scaffoldBackgroundColor: AppColors.lightBg,
@@ -47,8 +47,8 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
     textTheme: textTheme,
     primaryTextTheme: textTheme,
     colorScheme: colorScheme,
-    splashColor: AppColors.brand.withOpacity(0.08),
-    highlightColor: AppColors.brand.withOpacity(0.05),
+    splashColor: AppColors.brand.withValues(alpha: 0.08),
+    highlightColor: AppColors.brand.withValues(alpha: 0.05),
     appBarTheme: AppBarTheme(
       elevation: 0,
       scrolledUnderElevation: 0,
@@ -70,7 +70,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
       margin: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
-        side: BorderSide(color: colorScheme.outlineVariant.withOpacity(0.8)),
+        side: BorderSide(color: colorScheme.outlineVariant.withValues(alpha: 0.8)),
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -92,7 +92,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: AppColors.brandDeep,
-        side: BorderSide(color: AppColors.brand.withOpacity(0.45)),
+        side: BorderSide(color: AppColors.brand.withValues(alpha: 0.45)),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
@@ -139,7 +139,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
     ),
     chipTheme: ChipThemeData(
       backgroundColor: AppColors.lightSurfSoft,
-      selectedColor: AppColors.brand.withOpacity(0.16),
+      selectedColor: AppColors.brand.withValues(alpha: 0.16),
       labelStyle: textTheme.labelMedium!,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -147,7 +147,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
     ),
     listTileTheme: ListTileThemeData(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
-      iconColor: AppColors.lightInk.withOpacity(0.75),
+      iconColor: AppColors.lightInk.withValues(alpha: 0.75),
       textColor: AppColors.lightInk,
       titleTextStyle: textTheme.titleSmall,
       subtitleTextStyle:
@@ -155,7 +155,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     ),
     dividerTheme: DividerThemeData(
-      color: colorScheme.outlineVariant.withOpacity(0.7),
+      color: colorScheme.outlineVariant.withValues(alpha: 0.7),
       thickness: 1,
       space: 1,
     ),
@@ -170,7 +170,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     ),
     iconTheme: IconThemeData(
-      color: AppColors.lightInk.withOpacity(0.88),
+      color: AppColors.lightInk.withValues(alpha: 0.88),
       size: AppDimensions.instance.icon,
     ),
     primaryIconTheme: const IconThemeData(color: Colors.white),
@@ -199,7 +199,7 @@ ThemeData getLightTheme(BuildContext context, {double scale = 1}) {
     ),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.lightSurf,
-      indicatorColor: AppColors.brand.withOpacity(0.16),
+      indicatorColor: AppColors.brand.withValues(alpha: 0.16),
       elevation: 0,
       height: 68,
       labelTextStyle: WidgetStateProperty.resolveWith((states) {

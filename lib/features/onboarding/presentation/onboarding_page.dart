@@ -102,8 +102,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
                               colors: [
-                                context.appBrand.withOpacity(0.22),
-                                context.appBrand.withOpacity(0.08),
+                                context.appBrand.withValues(alpha: 0.22),
+                                context.appBrand.withValues(alpha: 0.08),
                               ],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,

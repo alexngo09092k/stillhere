@@ -165,7 +165,7 @@ class StatsPageState extends State<StatsPage> {
                     color: context.appSurf,
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: context.appCardShadow,
-                    border: Border.all(color: context.appBorder.withOpacity(0.6)),
+                    border: Border.all(color: context.appBorder.withValues(alpha: 0.6)),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,7 +222,7 @@ class StatsPageState extends State<StatsPage> {
                         decoration: BoxDecoration(
                           color: context.appSurf,
                           borderRadius: BorderRadius.circular(22),
-                          border: Border.all(color: context.appBorder.withOpacity(0.6)),
+                          border: Border.all(color: context.appBorder.withValues(alpha: 0.6)),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,7 +260,7 @@ class StatsPageState extends State<StatsPage> {
                         decoration: BoxDecoration(
                           color: context.appSurf,
                           borderRadius: BorderRadius.circular(22),
-                          border: Border.all(color: context.appBorder.withOpacity(0.6)),
+                          border: Border.all(color: context.appBorder.withValues(alpha: 0.6)),
                         ),
                         child: Column(
                           children: [
@@ -413,8 +413,8 @@ class _MoodBars extends StatelessWidget {
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              colors[i].withOpacity(0.85),
-                              colors[i].withOpacity(0.45),
+                              colors[i].withValues(alpha: 0.85),
+                              colors[i].withValues(alpha: 0.45),
                             ],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,

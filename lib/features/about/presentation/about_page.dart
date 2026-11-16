@@ -62,7 +62,7 @@ class _AboutPageState extends State<AboutPage> {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: context.appBrand.withOpacity(0.16),
+                    color: context.appBrand.withValues(alpha: 0.16),
                     blurRadius: 18,
                     offset: const Offset(0, 6),
                   ),
@@ -93,7 +93,7 @@ class _AboutPageState extends State<AboutPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 13,
-                color: context.appInk.withOpacity(0.5),
+                color: context.appInk.withValues(alpha: 0.5),
               ),
             ),
           ],
@@ -105,7 +105,7 @@ class _AboutPageState extends State<AboutPage> {
                 style: TextStyle(
                   fontSize: 15,
                   height: 1.5,
-                  color: context.appInk.withOpacity(0.85),
+                  color: context.appInk.withValues(alpha: 0.85),
                 ),
               ),
             ],
@@ -118,7 +118,7 @@ class _AboutPageState extends State<AboutPage> {
                 style: TextStyle(
                   fontSize: 14,
                   height: 1.5,
-                  color: context.appInk.withOpacity(0.75),
+                  color: context.appInk.withValues(alpha: 0.75),
                 ),
               ),
             ],
@@ -130,7 +130,7 @@ class _AboutPageState extends State<AboutPage> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: context.appInk.withOpacity(0.5),
+                color: context.appInk.withValues(alpha: 0.5),
               ),
             ),
             const SizedBox(height: 8),
@@ -154,7 +154,7 @@ class _AboutPageState extends State<AboutPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
-              color: context.appInk.withOpacity(0.45),
+              color: context.appInk.withValues(alpha: 0.45),
             ),
           ),
         ],

@@ -36,13 +36,13 @@ class StillCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         border: border ??
             Border.all(
-              color: context.appBorder.withOpacity(context.isDark ? 0.9 : 0.85),
+              color: context.appBorder.withValues(alpha: context.isDark ? 0.9 : 0.85),
             ),
         boxShadow: elevated
             ? [
                 BoxShadow(
                   color:
-                      context.appInk.withOpacity(context.isDark ? 0.22 : 0.05),
+                      context.appInk.withValues(alpha: context.isDark ? 0.22 : 0.05),
                   blurRadius: 18,
                   offset: const Offset(0, 6),
                 ),

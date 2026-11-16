@@ -84,8 +84,8 @@ class CarePageState extends State<CarePage> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          context.appBrand.withOpacity(0.18),
-                          context.appBrand.withOpacity(0.06),
+                          context.appBrand.withValues(alpha: 0.18),
+                          context.appBrand.withValues(alpha: 0.06),
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -258,7 +258,7 @@ class _IdeaCard extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: accent.withOpacity(0.12),
+                          color: accent.withValues(alpha: 0.12),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
@@ -325,7 +325,7 @@ class _AchievementTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: a.unlocked
-              ? context.appBrand.withOpacity(0.45)
+              ? context.appBrand.withValues(alpha: 0.45)
               : context.appBorder,
         ),
       ),

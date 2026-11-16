@@ -90,11 +90,11 @@ class StillChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: selected
-              ? accent.withOpacity(context.isDark ? 0.22 : 0.16)
+              ? accent.withValues(alpha: context.isDark ? 0.22 : 0.16)
               : context.appSurf,
           borderRadius: BorderRadius.circular(AppDimensions.radiusPill),
           border: Border.all(
-            color: selected ? accent.withOpacity(0.55) : context.appBorder,
+            color: selected ? accent.withValues(alpha: 0.55) : context.appBorder,
             width: selected ? 1.4 : 1,
           ),
         ),
@@ -144,7 +144,7 @@ class StillSegmented extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.appSurfSoft,
         borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
-        border: Border.all(color: context.appBorder.withOpacity(0.8)),
+        border: Border.all(color: context.appBorder.withValues(alpha: 0.8)),
       ),
       child: Row(
         children: List.generate(labels.length, (i) {
@@ -162,7 +162,7 @@ class StillSegmented extends StatelessWidget {
                   boxShadow: selected
                       ? [
                           BoxShadow(
-                            color: context.appInk.withOpacity(0.06),
+                            color: context.appInk.withValues(alpha: 0.06),
                             blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),

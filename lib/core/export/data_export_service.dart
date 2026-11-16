@@ -32,7 +32,7 @@ class DataExportService {
   Future<void> shareExport() async {
     try {
       final json = await buildJson();
-      await Share.share(json, subject: 'Still Here export');
+      await SharePlus.instance.share(ShareParams(text: json, subject: 'Still Here export'));
     } catch (e) {
       Debug.log('[Export] error: $e');
       rethrow;

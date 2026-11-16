@@ -171,7 +171,9 @@ class HistoryPageState extends State<HistoryPage> {
                   color: context.appSurf,
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: context.appCardShadow,
-                  border: Border.all(color: context.appBorder.withOpacity(0.6)),
+                  border: Border.all(
+                    color: context.appBorder.withValues(alpha: 0.6),
+                  ),
                 ),
                 child: Column(
                   children: [
@@ -279,7 +281,7 @@ class HistoryPageState extends State<HistoryPage> {
                             color: context.appSurf,
                             borderRadius: BorderRadius.circular(18),
                             border: Border.all(
-                              color: context.appBorder.withOpacity(0.8),
+                              color: context.appBorder.withValues(alpha: 0.8),
                             ),
                           ),
                           child: Row(
@@ -288,7 +290,7 @@ class HistoryPageState extends State<HistoryPage> {
                                 width: 44,
                                 height: 44,
                                 decoration: BoxDecoration(
-                                  color: accent.withOpacity(0.18),
+                                  color: accent.withValues(alpha: 0.18),
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                                 child: Center(
@@ -396,13 +398,13 @@ class HistoryPageState extends State<HistoryPage> {
           child: Container(
             decoration: BoxDecoration(
               color: isSelected
-                  ? context.appBrand.withOpacity(0.2)
+                  ? context.appBrand.withValues(alpha: 0.2)
                   : (isToday
-                        ? context.appBrand.withOpacity(0.1)
+                        ? context.appBrand.withValues(alpha: 0.1)
                         : Colors.transparent),
               borderRadius: BorderRadius.circular(12),
               border: isToday
-                  ? Border.all(color: context.appBrand.withOpacity(0.5))
+                  ? Border.all(color: context.appBrand.withValues(alpha: 0.5))
                   : null,
             ),
             child: Column(
