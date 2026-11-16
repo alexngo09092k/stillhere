@@ -4,6 +4,7 @@ import 'package:still_here/generated/l10n.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:intl/intl.dart';
+import 'package:still_here/widgets/still/still_widgets.dart';
 
 class StatsPage extends StatefulWidget {
   const StatsPage({super.key});
@@ -117,41 +118,17 @@ class StatsPageState extends State<StatsPage> {
               const SizedBox(height: 18),
 
               // Segment control
-              Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: context.appSurf,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: context.appBorder),
-                ),
-                child: Row(
-                  children: [
-                    _SegChip(
-                      label: S.of(context).segmentWeek,
-                      selected: _segment == 0,
-                      onTap: () {
-                        setState(() => _segment = 0);
-                        reload();
-                      },
-                    ),
-                    _SegChip(
-                      label: S.of(context).segmentMonth,
-                      selected: _segment == 1,
-                      onTap: () {
-                        setState(() => _segment = 1);
-                        reload();
-                      },
-                    ),
-                    _SegChip(
-                      label: S.of(context).segmentYear,
-                      selected: _segment == 2,
-                      onTap: () {
-                        setState(() => _segment = 2);
-                        reload();
-                      },
-                    ),
-                  ],
-                ),
+              StillSegmented(
+                labels: [
+                  S.of(context).segmentWeek,
+                  S.of(context).segmentMonth,
+                  S.of(context).segmentYear,
+                ],
+                index: _segment,
+                onChanged: (i) {
+                  setState(() => _segment = i);
+                  reload();
+                },
               ),
               const SizedBox(height: 20),
 

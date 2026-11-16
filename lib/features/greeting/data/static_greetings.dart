@@ -1,6 +1,6 @@
 import 'package:still_here/shared/models/greeting.dart';
 
-/// Pool lời chào tĩnh theo time bucket + ngôn ngữ (fallback khi AI off / offline / lỗi).
+/// Static greeting pool by time bucket + language (fallback when AI is off / offline / error).
 class StaticGreetings {
   StaticGreetings._();
 

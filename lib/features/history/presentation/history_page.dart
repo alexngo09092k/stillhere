@@ -5,6 +5,7 @@ import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/checkin/presentation/checkin_page.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:intl/intl.dart';
+import 'package:still_here/widgets/still/still_empty.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -263,23 +264,10 @@ class HistoryPageState extends State<HistoryPage> {
               const SizedBox(height: 12),
 
               if (!_loading && _items.isEmpty)
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: context.appSurf,
-                    borderRadius: BorderRadius.circular(18),
-                    border: Border.all(color: context.appBorder),
-                  ),
-                  child: Text(
-                    s.historyEmpty,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 14,
-                      height: 1.5,
-                      color: context.appMuted,
-                    ),
-                  ),
+                StillEmpty(
+                  icon: Icons.menu_book_outlined,
+                  title: s.historyTitle,
+                  body: s.historyEmpty,
                 )
               else
                 ..._items.take(8).map((c) {

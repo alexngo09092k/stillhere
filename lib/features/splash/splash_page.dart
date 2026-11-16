@@ -26,10 +26,10 @@ class _SplashPageState extends State<SplashPage>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 900),
+      duration: const Duration(milliseconds: 1000),
     );
     _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
-    _scale = Tween<double>(begin: 0.92, end: 1.0).animate(
+    _scale = Tween<double>(begin: 0.9, end: 1.0).animate(
       CurvedAnimation(parent: _ctrl, curve: Curves.easeOutCubic),
     );
     _ctrl.forward();
@@ -43,10 +43,8 @@ class _SplashPageState extends State<SplashPage>
   }
 
   Future<void> _bootstrap() async {
-    // Restore language + theme from local settings before first navigation
-    // so Home / Onboarding open already in the user's preferred locale.
     await _restorePreferences();
-    await Future.delayed(const Duration(milliseconds: 1100));
+    await Future.delayed(const Duration(milliseconds: 1200));
     final done = await LocalStorage.instance.isOnboardingDone();
     if (!mounted) return;
     if (done) {
@@ -88,39 +86,63 @@ class _SplashPageState extends State<SplashPage>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  AppAssets.instance.logoMark,
-                  width: 96,
-                  height: 96,
-                  errorBuilder: (_, __, ___) => Container(
-                    width: 96,
-                    height: 96,
-                    decoration: BoxDecoration(
-                      gradient: context.appCtaGradient,
-                      borderRadius: BorderRadius.circular(28),
+                Container(
+                  width: 104,
+                  height: 104,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    boxShadow: [
+                      BoxShadow(
+                        color: context.appBrand.withOpacity(0.22),
+                        blurRadius: 28,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30),
+                    child: Image.asset(
+                      AppAssets.instance.logoMark,
+                      width: 104,
+                      height: 104,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, __, ___) => Container(
+                        decoration: BoxDecoration(
+                          gradient: context.appCtaGradient,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Icon(
+                          Icons.spa_rounded,
+                          color: Colors.white,
+                          size: 52,
+                        ),
+                      ),
                     ),
-                    child: const Icon(Icons.spa_rounded,
-                        color: Colors.white, size: 48),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 24),
                 Text(
                   Configuration.instance.business.appName.isNotEmpty
                       ? Configuration.instance.business.appName
                       : 'Still Here',
                   style: TextStyle(
-                    fontSize: 28,
+                    fontSize: 30,
                     fontWeight: FontWeight.w700,
                     color: context.appInk,
-                    letterSpacing: -0.4,
+                    letterSpacing: -0.5,
                   ),
                 ),
-                const SizedBox(height: 8),
-                Text(
-                  S.of(context).splashTagline,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: context.appMuted,
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 48),
+                  child: Text(
+                    S.of(context).splashTagline,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      height: 1.45,
+                      color: context.appMuted,
+                    ),
                   ),
                 ),
               ],

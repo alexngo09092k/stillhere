@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:still_here/common/app_routes.dart';
 import 'package:still_here/common/app_theme_colors.dart';
 import 'package:still_here/common/constants.dart';
+import 'package:still_here/core/database/local_storage.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:fluttering_analytics/analytics/index.dart';
-import 'package:still_here/common/app_routes.dart';
-import 'package:still_here/core/database/local_storage.dart';
+import 'package:still_here/widgets/still/still_button.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -21,7 +22,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     final s = S.of(context);
     return [
       _OnboardData(
-        icon: Icons.spa_rounded,
+        icon: Icons.wb_twilight_rounded,
         title: s.onboard1Title,
         body: s.onboard1Body,
       ),
@@ -45,6 +46,17 @@ class _OnboardingPageState extends State<OnboardingPage> {
     Navigator.of(context).pushReplacementNamed(AppRoutes.homePage);
   }
 
+  void _next(int total) {
+    if (_index >= total - 1) {
+      _finish();
+    } else {
+      _controller.nextPage(
+        duration: AppDimensions.normal,
+        curve: AppDimensions.easeOut,
+      );
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -65,10 +77,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: _finish,
-                child: Text(
-                  S.of(context).skip,
-                  style: TextStyle(color: context.appMuted),
+                style: TextButton.styleFrom(
+                  foregroundColor: context.appMuted,
+                  minimumSize: const Size(64, 44),
                 ),
+                child: Text(S.of(context).skip),
               ),
             ),
             Expanded(
@@ -84,47 +97,44 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 110,
-                          height: 110,
+                          width: 108,
+                          height: 108,
                           decoration: BoxDecoration(
-                            gradient: context.appSoftPeachGradient,
-                            shape: BoxShape.circle,
-                            boxShadow: context.appCardShadow,
+                            gradient: LinearGradient(
+                              colors: [
+                                context.appBrand.withOpacity(0.22),
+                                context.appBrand.withOpacity(0.08),
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(32),
                           ),
-                          child: i == 0
-                              ? Padding(
-                                  padding: const EdgeInsets.all(22),
-                                  child: Image.asset(
-                                    AppAssets.instance.logoMark,
-                                    errorBuilder: (_, __, ___) => Icon(
-                                      p.icon,
-                                      size: 48,
-                                      color: context.appBrandDeep,
-                                    ),
-                                  ),
-                                )
-                              : Icon(p.icon,
-                                  size: 48, color: context.appBrandDeep),
+                          child: Icon(
+                            p.icon,
+                            size: 48,
+                            color: context.appBrandDeep,
+                          ),
                         ),
                         const SizedBox(height: 36),
                         Text(
                           p.title,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 26,
                             fontWeight: FontWeight.w700,
                             color: context.appInk,
-                            height: 1.3,
-                            letterSpacing: -0.3,
+                            height: 1.25,
+                            letterSpacing: -0.35,
                           ),
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 16),
                         Text(
                           p.body,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 15,
-                            height: 1.5,
+                            fontSize: 16,
+                            height: 1.55,
                             color: context.appMuted,
                           ),
                         ),
@@ -134,17 +144,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 },
               ),
             ),
+            // Indicators
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(pages.length, (i) {
-                final on = i == _index;
+                final active = i == _index;
                 return AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
+                  duration: AppDimensions.fast,
                   margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width: on ? 22 : 8,
+                  width: active ? 22 : 8,
                   height: 8,
                   decoration: BoxDecoration(
-                    color: on ? context.appBrand : context.appBorder,
+                    color: active
+                        ? context.appBrand
+                        : context.appBorder,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 );
@@ -152,53 +165,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
             const SizedBox(height: 28),
             Padding(
-              padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-              child: SizedBox(
-                width: double.infinity,
-                height: 54,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: context.appCtaGradient,
-                    borderRadius: BorderRadius.circular(28),
-                    boxShadow: [
-                      BoxShadow(
-                        color: context.appBrand.withOpacity(0.28),
-                        blurRadius: 16,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      foregroundColor: Colors.white,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                    ),
-                    onPressed: () {
-                      if (last) {
-                        _finish();
-                      } else {
-                        _controller.nextPage(
-                          duration: const Duration(milliseconds: 320),
-                          curve: Curves.easeOutCubic,
-                        );
-                      }
-                    },
-                    child: Text(
-                      last
-                          ? S.of(context).getStarted
-                          : S.of(context).continueAction,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+              child: StillButton(
+                label: last
+                    ? S.of(context).getStarted
+                    : S.of(context).continueAction,
+                onPressed: () => _next(pages.length),
+                icon: last ? Icons.spa_rounded : Icons.arrow_forward_rounded,
               ),
             ),
           ],

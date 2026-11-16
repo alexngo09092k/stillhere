@@ -102,3 +102,15 @@ Sau khi xong mục 2 → build AAB + IPA → internal testing → production.
 - Live Privacy Policy URL, iOS App Store ID
 - Device QA (language switch → greeting + notification, offline, premium restore)
 
+---
+
+## Huawei AppGallery focus (2026-11-17)
+
+Xem chi tiết: **`HUAWEI_APPGALLERY_CHECKLIST.md`**
+
+Code fixes in this pack:
+- IAP products typed as **subscriptions** (amonth / oneyear)
+- Version aligned to **1.1.0**
+- Release signing via `android/key.properties`
+- Stronger HMS ProGuard rules
+- Path dependencies for `fluttering*` packages

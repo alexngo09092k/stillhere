@@ -79,20 +79,6 @@
     "configuration_version": "3.0",
     "appInfos": [
         {
-            "package_name": "com.snapeditify.stillhere",
-            "client": {
-                "app_id": "119732529"
-            },
-            "oauth_client": {
-                "client_id": "119732529",
-                "client_type": 1
-            },
-            "app_info": {
-                "app_id": "119732529",
-                "package_name": "com.snapeditify.stillhere"
-            }
-        },
-        {
             "package_name": "app.snapeditify.studio",
             "client": {
                 "app_id": "107645049"
@@ -104,6 +90,20 @@
             "app_info": {
                 "app_id": "107645049",
                 "package_name": "app.snapeditify.studio"
+            }
+        },
+        {
+            "package_name": "com.snapeditify.stillhere",
+            "client": {
+                "app_id": "119732529"
+            },
+            "oauth_client": {
+                "client_id": "119732529",
+                "client_type": 1
+            },
+            "app_info": {
+                "app_id": "119732529",
+                "package_name": "com.snapeditify.stillhere"
             }
         },
         {

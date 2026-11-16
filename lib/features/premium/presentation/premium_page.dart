@@ -3,6 +3,7 @@ import 'package:still_here/common/app_theme_colors.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:fluttering_iap/fluttering_iap.dart';
 import 'package:still_here/core/premium/premium_service.dart';
+import 'package:still_here/widgets/still/still_button.dart';
 
 class PremiumPage extends StatefulWidget {
   const PremiumPage({super.key});
@@ -248,34 +249,11 @@ class _PurchaseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 56,
-      child: FilledButton(
-        style: FilledButton.styleFrom(
-          backgroundColor: context.appBrand,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-        onPressed: loading ? null : onPressed,
-        child: loading
-            ? SizedBox(
-                width: 22,
-                height: 22,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2,
-                  color: context.appSurf,
-                ),
-              )
-            : Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-      ),
+    return StillButton(
+      label: label,
+      loading: loading,
+      onPressed: loading ? null : onPressed,
+      icon: Icons.workspace_premium_rounded,
     );
   }
 }

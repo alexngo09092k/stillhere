@@ -17,7 +17,7 @@ const enviroment = {
     'maintenanceMode': {
       'title': "We'll be back soon",
       'message':
-          "We're very sorry for the inconvenience but we're performing maintaince. Please check back soon ...",
+          "We're very sorry for the inconvenience but we're performing maintenance. Please check back soon ...",
       'link': 'https://snapeditify.netlify.app',
     },
 
@@ -25,7 +25,7 @@ const enviroment = {
     'appName': 'Still Here',
 
     /// Version
-    'version': '1.0.0',
+    'version': '1.1.0',
 
     /// Logo is used in splash screen and app ui
     'appLogo': 'assets/images/logo.png',
@@ -102,7 +102,7 @@ const enviroment = {
 
     /// Update app
     'updateApp': {
-      'version': '1.0.1',
+      'version': '1.1.0',
       'required': false,
       'links': {
         'android':
@@ -217,7 +217,7 @@ const enviroment = {
     "providers": ["huawei"],
     "products": [
       {
-        "type": "nonConsumables",
+        "type": "subscriptions",
         "provider": "huawei",
         "id": "com.snapeditify.stillhere.amonth",
         "info": {
@@ -229,7 +229,7 @@ const enviroment = {
         },
       },
       {
-        "type": "nonConsumables",
+        "type": "subscriptions",
         "provider": "huawei",
         "id": "com.snapeditify.stillhere.oneyear",
         "info": {

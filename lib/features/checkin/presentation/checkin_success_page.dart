@@ -3,229 +3,163 @@ import 'package:still_here/common/app_theme_colors.dart';
 import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:still_here/shared/models/check_in.dart';
+import 'package:still_here/widgets/still/still_button.dart';
+import 'package:still_here/utils/ad_revenue_manager.dart';
 
-class CheckInSuccessPage extends StatelessWidget {
+class CheckInSuccessPage extends StatefulWidget {
   final CheckIn checkIn;
-
   const CheckInSuccessPage({super.key, required this.checkIn});
+
+  @override
+  State<CheckInSuccessPage> createState() => _CheckInSuccessPageState();
+}
+
+class _CheckInSuccessPageState extends State<CheckInSuccessPage>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _scale;
+  late final Animation<double> _fade;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(vsync: this, duration: AppDimensions.slow);
+    _scale = CurvedAnimation(parent: _ctrl, curve: Curves.easeOutBack);
+    _fade = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
+    _ctrl.forward();
+    // Soft ad placement after a high-value action (respects cooldowns).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      AdRevenueManager.instance.onHighValueAction(placement: 'checkin_success');
+    });
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  void _goHome() {
+    Navigator.of(context).popUntil((r) => r.isFirst);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // Dark floral / soft success background
-          Image.asset(
-            AppAssets.instance.bgSuccess,
-            fit: BoxFit.cover,
-            errorBuilder: (_, __, ___) => Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF2A241E), Color(0xFF1A1612)],
-                ),
-              ),
-            ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              const Color(0xFFE8C4A0),
+              AppColors.brand,
+              const Color(0xFFC4895A),
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
-          Container(color: Colors.black.withOpacity(0.25)),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 28),
-              child: Column(
-                children: [
-                  const Spacer(flex: 2),
-                  Container(
-                    width: 96,
-                    height: 96,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.12),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.35),
-                        width: 1.5,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: checkIn.status.accentColor.withOpacity(0.35),
-                          blurRadius: 28,
-                          offset: const Offset(0, 10),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(28, 24, 28, 20),
+            child: Column(
+              children: [
+                const Spacer(flex: 2),
+                FadeTransition(
+                  opacity: _fade,
+                  child: ScaleTransition(
+                    scale: _scale,
+                    child: Container(
+                      width: 96,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.22),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.35),
+                          width: 1.5,
                         ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.check_rounded,
-                      size: 48,
-                      color: Colors.white,
+                      ),
+                      child: const Icon(
+                        Icons.favorite_rounded,
+                        color: Colors.white,
+                        size: 46,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 28),
-                  Text(
-                    S.of(context).thankYouForBeingHere,
+                ),
+                const SizedBox(height: 28),
+                FadeTransition(
+                  opacity: _fade,
+                  child: Text(
+                    S.of(context).doingGreat,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                      fontSize: 30,
+                      fontSize: 28,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                       height: 1.25,
                       letterSpacing: -0.4,
                     ),
                   ),
-                  const SizedBox(height: 14),
-                  Text(
-                    S.of(context).thankYouMoment,
+                ),
+                const SizedBox(height: 14),
+                FadeTransition(
+                  opacity: _fade,
+                  child: Text(
+                    S.of(context).enoughQuote,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 15,
-                      color: Colors.white.withOpacity(0.78),
-                      height: 1.45,
+                      fontSize: 16,
+                      height: 1.5,
+                      color: Colors.white.withOpacity(0.92),
+                      fontStyle: FontStyle.italic,
                     ),
                   ),
-
-                  const SizedBox(height: 20),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.10),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: Colors.white.withOpacity(0.18)),
+                ),
+                const Spacer(flex: 3),
+                StillButton(
+                  label: S.of(context).viewJourney,
+                  onPressed: _goHome,
+                  icon: Icons.menu_book_rounded,
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      side: BorderSide(color: Colors.white.withOpacity(0.45)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(AppDimensions.radiusLg),
+                      ),
                     ),
+                    onPressed: _goHome,
                     child: Text(
-                      checkIn.status == CheckInStatus.selfCare
-                          ? S.of(context).tipAfterSelfCare
-                          : checkIn.status == CheckInStatus.share
-                              ? S.of(context).tipAfterShare
-                              : S.of(context).tipAfterOk,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 1.45,
-                        color: Colors.white.withOpacity(0.88),
+                      S.of(context).backHome,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 28),
-                  Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 18,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.22),
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          S.of(context).enoughQuote,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                            height: 1.4,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Icon(
-                          Icons.favorite_rounded,
-                          size: 16,
-                          color: Colors.white.withOpacity(0.7),
-                        ),
-                      ],
-                    ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  S.of(context).dataStaysOnDevice,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white.withOpacity(0.75),
                   ),
-                  if (checkIn.note != null &&
-                      checkIn.note!.trim().isNotEmpty) ...[
-                    const SizedBox(height: 14),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Text(
-                        checkIn.note!,
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.white.withOpacity(0.9),
-                          height: 1.4,
-                        ),
-                      ),
-                    ),
-                  ],
-                  const Spacer(flex: 3),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 54,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFE8B89A), Color(0xFFD4A574)],
-                        ),
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shadowColor: Colors.transparent,
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28),
-                          ),
-                        ),
-                        onPressed: () =>
-                            Navigator.of(context).popUntil((r) => r.isFirst),
-                        child: Text(
-                          S.of(context).viewJourney,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 52,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: BorderSide(
-                          color: Colors.white.withOpacity(0.4),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(28),
-                        ),
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context).popUntil((r) => r.isFirst),
-                      child: Text(
-                        S.of(context).backHome,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }

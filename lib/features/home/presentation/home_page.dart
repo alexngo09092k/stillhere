@@ -16,6 +16,7 @@ import 'package:still_here/shared/models/greeting.dart';
 import 'package:still_here/widgets/base/ad_view.dart';
 import 'package:still_here/common/configuration.dart';
 import 'package:intl/intl.dart';
+import 'package:still_here/widgets/still/still_widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -583,6 +584,7 @@ class _TodayCheckInCard extends StatelessWidget {
   }
 }
 
+
 class _BottomNav extends StatelessWidget {
   final int index;
   final ValueChanged<int> onChanged;
@@ -605,35 +607,35 @@ class _BottomNav extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: context.appSurf,
+        color: context.appSurf.withOpacity(0.96),
         border: Border(
-          top: BorderSide(color: context.appBorder.withOpacity(0.8)),
+          top: BorderSide(color: context.appBorder.withOpacity(0.75)),
         ),
         boxShadow: [
           BoxShadow(
-            color: context.appInk.withOpacity(0.04),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
+            color: context.appInk.withOpacity(0.05),
+            blurRadius: 20,
+            offset: const Offset(0, -6),
           ),
         ],
       ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          padding: const EdgeInsets.fromLTRB(10, 8, 10, 8),
           child: Row(
             children: List.generate(4, (i) {
               final selected = index == i;
               return Expanded(
-                child: InkWell(
+                child: StillPressable(
                   onTap: () => onChanged(i),
-                  borderRadius: BorderRadius.circular(14),
+                  scale: 0.94,
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
+                    duration: AppDimensions.fast,
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     decoration: BoxDecoration(
                       color: selected
-                          ? context.appBrand.withOpacity(0.12)
+                          ? context.appBrand.withOpacity(0.14)
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(14),
                     ),
