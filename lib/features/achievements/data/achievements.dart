@@ -1,11 +1,8 @@
 import 'package:still_here/features/checkin/data/checkin_service.dart';
+import 'package:still_here/generated/l10n.dart';
 
 class Achievement {
   final String id;
-  final String titleVi;
-  final String titleEn;
-  final String descVi;
-  final String descEn;
   final String emoji;
   final bool unlocked;
   final int progress;
@@ -13,26 +10,71 @@ class Achievement {
 
   const Achievement({
     required this.id,
-    required this.titleVi,
-    required this.titleEn,
-    required this.descVi,
-    required this.descEn,
     required this.emoji,
     this.unlocked = false,
     this.progress = 0,
     this.target = 1,
   });
 
-  String title(String lang) => lang == 'vi' ? titleVi : titleEn;
-  String desc(String lang) => lang == 'vi' ? descVi : descEn;
+  /// Localized title via S.of(context). Call only with a loaded S instance.
+  String title(S s) {
+    switch (id) {
+      case 'first_checkin':
+        return s.achievementFirstCheckinTitle;
+      case 'streak_3':
+        return s.achievementStreak3Title;
+      case 'streak_7':
+        return s.achievementStreak7Title;
+      case 'streak_14':
+        return s.achievementStreak14Title;
+      case 'streak_30':
+        return s.achievementStreak30Title;
+      case 'total_10':
+        return s.achievementTotal10Title;
+      case 'total_30':
+        return s.achievementTotal30Title;
+      case 'total_100':
+        return s.achievementTotal100Title;
+      case 'note_writer':
+        return s.achievementNoteWriterTitle;
+      case 'self_care_friend':
+        return s.achievementSelfCareFriendTitle;
+      default:
+        return id;
+    }
+  }
+
+  /// Localized description via S.of(context).
+  String desc(S s) {
+    switch (id) {
+      case 'first_checkin':
+        return s.achievementFirstCheckinDesc;
+      case 'streak_3':
+        return s.achievementStreak3Desc;
+      case 'streak_7':
+        return s.achievementStreak7Desc;
+      case 'streak_14':
+        return s.achievementStreak14Desc;
+      case 'streak_30':
+        return s.achievementStreak30Desc;
+      case 'total_10':
+        return s.achievementTotal10Desc;
+      case 'total_30':
+        return s.achievementTotal30Desc;
+      case 'total_100':
+        return s.achievementTotal100Desc;
+      case 'note_writer':
+        return s.achievementNoteWriterDesc;
+      case 'self_care_friend':
+        return s.achievementSelfCareFriendDesc;
+      default:
+        return '';
+    }
+  }
 
   Achievement copyWith({bool? unlocked, int? progress}) {
     return Achievement(
       id: id,
-      titleVi: titleVi,
-      titleEn: titleEn,
-      descVi: descVi,
-      descEn: descEn,
       emoji: emoji,
       unlocked: unlocked ?? this.unlocked,
       progress: progress ?? this.progress,
@@ -49,91 +91,51 @@ class AchievementService {
   static const _defs = <Achievement>[
     Achievement(
       id: 'first_checkin',
-      titleVi: 'Bắt đầu hành trình',
-      titleEn: 'Journey begins',
-      descVi: 'Hoàn thành check-in đầu tiên',
-      descEn: 'Complete your first check-in',
       emoji: '🌱',
       target: 1,
     ),
     Achievement(
       id: 'streak_3',
-      titleVi: '3 ngày liên tiếp',
-      titleEn: '3-day streak',
-      descVi: 'Check-in 3 ngày liên tục',
-      descEn: 'Check in 3 days in a row',
       emoji: '🔥',
       target: 3,
     ),
     Achievement(
       id: 'streak_7',
-      titleVi: 'Một tuần dịu dàng',
-      titleEn: 'Gentle week',
-      descVi: 'Check-in 7 ngày liên tục',
-      descEn: 'Check in 7 days in a row',
       emoji: '✨',
       target: 7,
     ),
     Achievement(
       id: 'streak_14',
-      titleVi: 'Hai tuần hiện diện',
-      titleEn: 'Two weeks present',
-      descVi: 'Check-in 14 ngày liên tục',
-      descEn: 'Check in 14 days in a row',
       emoji: '🌙',
       target: 14,
     ),
     Achievement(
       id: 'streak_30',
-      titleVi: 'Một tháng ở đây',
-      titleEn: 'A month here',
-      descVi: 'Check-in 30 ngày liên tục',
-      descEn: 'Check in 30 days in a row',
       emoji: '🏆',
       target: 30,
     ),
     Achievement(
       id: 'total_10',
-      titleVi: '10 lần lắng nghe',
-      titleEn: '10 moments of listening',
-      descVi: 'Tổng 10 ngày đã check-in',
-      descEn: '10 total check-in days',
       emoji: '📖',
       target: 10,
     ),
     Achievement(
       id: 'total_30',
-      titleVi: '30 ngày quan tâm',
-      titleEn: '30 days of care',
-      descVi: 'Tổng 30 ngày đã check-in',
-      descEn: '30 total check-in days',
       emoji: '💚',
       target: 30,
     ),
     Achievement(
       id: 'total_100',
-      titleVi: '100 ngày vẫn ở đây',
-      titleEn: '100 days still here',
-      descVi: 'Tổng 100 ngày đã check-in',
-      descEn: '100 total check-in days',
       emoji: '🌟',
       target: 100,
     ),
     Achievement(
       id: 'note_writer',
-      titleVi: 'Người viết',
-      titleEn: 'The writer',
-      descVi: 'Viết note trong 5 lần check-in',
-      descEn: 'Write a note on 5 check-ins',
       emoji: '✍️',
       target: 5,
     ),
     Achievement(
       id: 'self_care_friend',
-      titleVi: 'Bạn của bản thân',
-      titleEn: 'Friend to yourself',
-      descVi: 'Chọn “Cần tự chăm sóc” 3 lần',
-      descEn: 'Choose “Need self-care” 3 times',
       emoji: '🫂',
       target: 3,
     ),

@@ -155,7 +155,7 @@ class CarePageState extends State<CarePage> {
                     subtitle: s.milestonesUnlocked(unlocked, _achievements.length),
                   ),
                   const SizedBox(height: 10),
-                  ..._achievements.map((a) => _AchievementTile(a: a, lang: lang)),
+                  ..._achievements.map((a) => _AchievementTile(a: a)),
                 ],
               ),
             ),
@@ -271,11 +271,11 @@ class _IdeaCard extends StatelessWidget {
 
 class _AchievementTile extends StatelessWidget {
   final Achievement a;
-  final String lang;
-  const _AchievementTile({required this.a, required this.lang});
+  const _AchievementTile({required this.a});
 
   @override
   Widget build(BuildContext context) {
+    final s = S.of(context);
     final ratio = a.target == 0 ? 0.0 : (a.progress / a.target).clamp(0.0, 1.0);
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -301,7 +301,7 @@ class _AchievementTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  a.title(lang),
+                  a.title(s),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -310,7 +310,7 @@ class _AchievementTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  a.desc(lang),
+                  a.desc(s),
                   style: TextStyle(fontSize: 12, color: context.appMuted),
                 ),
                 const SizedBox(height: 8),

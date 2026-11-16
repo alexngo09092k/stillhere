@@ -2069,6 +2069,207 @@ class S {
       args: [],
     );
   }
+
+  /// `Journey begins`
+  String get achievementFirstCheckinTitle {
+    return Intl.message(
+      'Journey begins',
+      name: 'achievementFirstCheckinTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Complete your first check-in`
+  String get achievementFirstCheckinDesc {
+    return Intl.message(
+      'Complete your first check-in',
+      name: 'achievementFirstCheckinDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `3-day streak`
+  String get achievementStreak3Title {
+    return Intl.message(
+      '3-day streak',
+      name: 'achievementStreak3Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check in 3 days in a row`
+  String get achievementStreak3Desc {
+    return Intl.message(
+      'Check in 3 days in a row',
+      name: 'achievementStreak3Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gentle week`
+  String get achievementStreak7Title {
+    return Intl.message(
+      'Gentle week',
+      name: 'achievementStreak7Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check in 7 days in a row`
+  String get achievementStreak7Desc {
+    return Intl.message(
+      'Check in 7 days in a row',
+      name: 'achievementStreak7Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Two weeks present`
+  String get achievementStreak14Title {
+    return Intl.message(
+      'Two weeks present',
+      name: 'achievementStreak14Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check in 14 days in a row`
+  String get achievementStreak14Desc {
+    return Intl.message(
+      'Check in 14 days in a row',
+      name: 'achievementStreak14Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A month here`
+  String get achievementStreak30Title {
+    return Intl.message(
+      'A month here',
+      name: 'achievementStreak30Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Check in 30 days in a row`
+  String get achievementStreak30Desc {
+    return Intl.message(
+      'Check in 30 days in a row',
+      name: 'achievementStreak30Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `10 moments of listening`
+  String get achievementTotal10Title {
+    return Intl.message(
+      '10 moments of listening',
+      name: 'achievementTotal10Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `10 total check-in days`
+  String get achievementTotal10Desc {
+    return Intl.message(
+      '10 total check-in days',
+      name: 'achievementTotal10Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `30 days of care`
+  String get achievementTotal30Title {
+    return Intl.message(
+      '30 days of care',
+      name: 'achievementTotal30Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `30 total check-in days`
+  String get achievementTotal30Desc {
+    return Intl.message(
+      '30 total check-in days',
+      name: 'achievementTotal30Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `100 days still here`
+  String get achievementTotal100Title {
+    return Intl.message(
+      '100 days still here',
+      name: 'achievementTotal100Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `100 total check-in days`
+  String get achievementTotal100Desc {
+    return Intl.message(
+      '100 total check-in days',
+      name: 'achievementTotal100Desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The writer`
+  String get achievementNoteWriterTitle {
+    return Intl.message(
+      'The writer',
+      name: 'achievementNoteWriterTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write a note on 5 check-ins`
+  String get achievementNoteWriterDesc {
+    return Intl.message(
+      'Write a note on 5 check-ins',
+      name: 'achievementNoteWriterDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friend to yourself`
+  String get achievementSelfCareFriendTitle {
+    return Intl.message(
+      'Friend to yourself',
+      name: 'achievementSelfCareFriendTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose “Need self-care” 3 times`
+  String get achievementSelfCareFriendDesc {
+    return Intl.message(
+      'Choose “Need self-care” 3 times',
+      name: 'achievementSelfCareFriendDesc',
+      desc: '',
+      args: [],
+    );
+  }
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
