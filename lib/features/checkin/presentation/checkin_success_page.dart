@@ -94,10 +94,10 @@ class CheckInSuccessPage extends StatelessWidget {
                     ),
                     child: Text(
                       checkIn.status == CheckInStatus.selfCare
-                          ? 'A soft idea: place a hand on your chest and take three slow breaths. You do not have to fix everything today.'
+                          ? S.of(context).tipAfterSelfCare
                           : checkIn.status == CheckInStatus.share
-                              ? 'Whatever you are carrying is allowed here. You showed up — that already counts.'
-                              : 'Notice one thing that is okay enough right now. Let it be enough for this moment.',
+                              ? S.of(context).tipAfterShare
+                              : S.of(context).tipAfterOk,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,

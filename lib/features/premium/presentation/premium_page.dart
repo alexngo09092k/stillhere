@@ -138,11 +138,11 @@ class _PremiumPageState extends State<PremiumPage> {
           ),
           _Benefit(
             icon: Icons.insights_rounded,
-            text: 'Full insights & longer history',
+            text: S.of(context).benefitFullInsights,
           ),
           _Benefit(
             icon: Icons.file_download_outlined,
-            text: 'Export your private journal anytime',
+            text: S.of(context).benefitExportJournal,
           ),
           _Benefit(icon: Icons.favorite, text: S.of(context).benefitSupportDev),
           const SizedBox(height: 28),

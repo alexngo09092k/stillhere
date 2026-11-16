@@ -192,5 +192,56 @@
   "yourAppIsOutdated": "Your app is outdated. Please update to continue.",
   "yourAppVersionIsNoLongerSupportedYoureMissingOut": "Your app version is no longer supported. You're missing out on new features and improvements.",
   "yourJournal": "Your journal",
-  "youreEnough": "You're enough ♡"
+  "youreEnough": "You're enough ♡",
+  "streakDays": "{count}-day streak",
+  "@streakDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "daysPresent": "{count} days present",
+  "@daysPresent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bestStreak": "Best {count}",
+  "@bestStreak": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "totalDaysShort": "{count} total",
+  "@totalDaysShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "benefitFullInsights": "Full insights & longer history",
+  "benefitExportJournal": "Export your private journal anytime",
+  "tipAfterOk": "Notice one thing that is okay enough right now. Let it be enough for this moment.",
+  "tipAfterShare": "Whatever you are carrying is allowed here. You showed up — that already counts.",
+  "tipAfterSelfCare": "A soft idea: place a hand on your chest and take three slow breaths. You do not have to fix everything today.",
+  "promptGeneral1": "What felt a little softer today?",
+  "promptGeneral2": "Is there one thing you handled kindly?",
+  "promptGeneral3": "What do you want to leave behind for tonight?",
+  "promptGeneral4": "Who or what made you feel less alone?",
+  "promptGeneral5": "What would “enough” look like right now?",
+  "promptOk1": "What is supporting this calm?",
+  "promptOk2": "Name one small win you almost overlooked.",
+  "promptOk3": "How can you protect this energy tomorrow?",
+  "promptShare1": "What would you say if a friend felt this way?",
+  "promptShare2": "Which part of today needs a little more room?",
+  "promptShare3": "What emotion is asking to be named?",
+  "promptSelfCare1": "What would feel caring in the next hour?",
+  "promptSelfCare2": "Where can you ask for less of yourself today?",
+  "promptSelfCare3": "What boundary would help you rest?"
 }

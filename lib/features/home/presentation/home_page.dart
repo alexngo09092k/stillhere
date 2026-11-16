@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                '$_streak-day streak',
+                                S.of(context).streakDays(_streak),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: context.appInk,
@@ -266,7 +266,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                '$_totalDays days present',
+                                S.of(context).daysPresent(_totalDays),
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   color: context.appInk,

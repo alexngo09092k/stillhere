@@ -1,48 +1,53 @@
+import 'package:still_here/generated/l10n.dart';
 import 'package:still_here/shared/models/check_in.dart';
 
-/// Gentle reflection prompts — enriches check-in content (AppGallery 4.1).
+/// Gentle reflection prompts — localized via [S].
 class JournalPrompts {
   JournalPrompts._();
 
-  static const List<String> general = [
-    'What felt a little softer today?',
-    'Is there one thing you handled kindly?',
-    'What do you want to leave behind for tonight?',
-    'Who or what made you feel less alone?',
-    'What would “enough” look like right now?',
-  ];
+  static List<String> _general(S s) => [
+        s.promptGeneral1,
+        s.promptGeneral2,
+        s.promptGeneral3,
+        s.promptGeneral4,
+        s.promptGeneral5,
+      ];
 
-  static const List<String> ok = [
-    'What is supporting this calm?',
-    'Name one small win you almost overlooked.',
-    'How can you protect this energy tomorrow?',
-  ];
+  static List<String> _ok(S s) => [
+        s.promptOk1,
+        s.promptOk2,
+        s.promptOk3,
+      ];
 
-  static const List<String> share = [
-    'What would you say if a friend felt this way?',
-    'Which part of today needs a little more room?',
-    'What emotion is asking to be named?',
-  ];
+  static List<String> _share(S s) => [
+        s.promptShare1,
+        s.promptShare2,
+        s.promptShare3,
+      ];
 
-  static const List<String> selfCare = [
-    'What would feel caring in the next hour?',
-    'Where can you ask for less of yourself today?',
-    'What boundary would help you rest?',
-  ];
+  static List<String> _selfCare(S s) => [
+        s.promptSelfCare1,
+        s.promptSelfCare2,
+        s.promptSelfCare3,
+      ];
 
-  static String forStatus(CheckInStatus? status, {int seed = 0}) {
+  static String forStatus(CheckInStatus? status, {int seed = 0, S? s}) {
+    final loc = s ?? S.current;
     final list = switch (status) {
-      CheckInStatus.ok => ok,
-      CheckInStatus.share => share,
-      CheckInStatus.selfCare => selfCare,
-      null => general,
+      CheckInStatus.ok => _ok(loc),
+      CheckInStatus.share => _share(loc),
+      CheckInStatus.selfCare => _selfCare(loc),
+      null => _general(loc),
     };
-    final pool = [...list, ...general];
+    final pool = [...list, ..._general(loc)];
     return pool[seed.abs() % pool.length];
   }
 
-  static String daily({int? dayOfYear}) {
-    final d = dayOfYear ?? DateTime.now().difference(DateTime(DateTime.now().year)).inDays;
+  static String daily({int? dayOfYear, S? s}) {
+    final loc = s ?? S.current;
+    final general = _general(loc);
+    final d = dayOfYear ??
+        DateTime.now().difference(DateTime(DateTime.now().year)).inDays;
     return general[d.abs() % general.length];
   }
 }

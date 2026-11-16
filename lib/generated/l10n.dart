@@ -1599,6 +1599,153 @@ class S {
       args: [],
     );
   }
+
+  /// `{count}-day streak`
+  String streakDays(int count) {
+    return Intl.message(
+      '$count-day streak',
+      name: 'streakDays',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count} days present`
+  String daysPresent(int count) {
+    return Intl.message(
+      '$count days present',
+      name: 'daysPresent',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Best {count}`
+  String bestStreak(int count) {
+    return Intl.message(
+      'Best $count',
+      name: 'bestStreak',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `{count} total`
+  String totalDaysShort(int count) {
+    return Intl.message(
+      '$count total',
+      name: 'totalDaysShort',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Full insights & longer history`
+  String get benefitFullInsights {
+    return Intl.message(
+      'Full insights & longer history',
+      name: 'benefitFullInsights',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Export your private journal anytime`
+  String get benefitExportJournal {
+    return Intl.message(
+      'Export your private journal anytime',
+      name: 'benefitExportJournal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notice one thing...`
+  String get tipAfterOk {
+    return Intl.message(
+      'Notice one thing that is okay enough right now. Let it be enough for this moment.',
+      name: 'tipAfterOk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// share tip
+  String get tipAfterShare {
+    return Intl.message(
+      'Whatever you are carrying is allowed here. You showed up — that already counts.',
+      name: 'tipAfterShare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// self-care tip
+  String get tipAfterSelfCare {
+    return Intl.message(
+      'A soft idea: place a hand on your chest and take three slow breaths. You do not have to fix everything today.',
+      name: 'tipAfterSelfCare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get promptGeneral1 {
+    return Intl.message('What felt a little softer today?', name: 'promptGeneral1', desc: '', args: []);
+  }
+
+  String get promptGeneral2 {
+    return Intl.message('Is there one thing you handled kindly?', name: 'promptGeneral2', desc: '', args: []);
+  }
+
+  String get promptGeneral3 {
+    return Intl.message('What do you want to leave behind for tonight?', name: 'promptGeneral3', desc: '', args: []);
+  }
+
+  String get promptGeneral4 {
+    return Intl.message('Who or what made you feel less alone?', name: 'promptGeneral4', desc: '', args: []);
+  }
+
+  String get promptGeneral5 {
+    return Intl.message('What would “enough” look like right now?', name: 'promptGeneral5', desc: '', args: []);
+  }
+
+  String get promptOk1 {
+    return Intl.message('What is supporting this calm?', name: 'promptOk1', desc: '', args: []);
+  }
+
+  String get promptOk2 {
+    return Intl.message('Name one small win you almost overlooked.', name: 'promptOk2', desc: '', args: []);
+  }
+
+  String get promptOk3 {
+    return Intl.message('How can you protect this energy tomorrow?', name: 'promptOk3', desc: '', args: []);
+  }
+
+  String get promptShare1 {
+    return Intl.message('What would you say if a friend felt this way?', name: 'promptShare1', desc: '', args: []);
+  }
+
+  String get promptShare2 {
+    return Intl.message('Which part of today needs a little more room?', name: 'promptShare2', desc: '', args: []);
+  }
+
+  String get promptShare3 {
+    return Intl.message('What emotion is asking to be named?', name: 'promptShare3', desc: '', args: []);
+  }
+
+  String get promptSelfCare1 {
+    return Intl.message('What would feel caring in the next hour?', name: 'promptSelfCare1', desc: '', args: []);
+  }
+
+  String get promptSelfCare2 {
+    return Intl.message('Where can you ask for less of yourself today?', name: 'promptSelfCare2', desc: '', args: []);
+  }
+
+  String get promptSelfCare3 {
+    return Intl.message('What boundary would help you rest?', name: 'promptSelfCare3', desc: '', args: []);
+  }
+
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

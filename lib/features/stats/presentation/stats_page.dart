@@ -163,17 +163,17 @@ class StatsPageState extends State<StatsPage> {
                     children: [
                       _StatChip(
                         icon: Icons.local_fire_department_rounded,
-                        label: '$_streak day streak',
+                        label: S.of(context).streakDays(_streak),
                       ),
                       const SizedBox(width: 8),
                       _StatChip(
                         icon: Icons.emoji_events_outlined,
-                        label: 'Best $_longest',
+                        label: S.of(context).bestStreak(_longest),
                       ),
                       const SizedBox(width: 8),
                       _StatChip(
                         icon: Icons.calendar_month_rounded,
-                        label: '$_totalDays total',
+                        label: S.of(context).totalDaysShort(_totalDays),
                       ),
                     ],
                   ),

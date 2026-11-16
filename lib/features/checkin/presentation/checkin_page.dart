@@ -82,9 +82,9 @@ class _CheckInPageState extends State<CheckInPage> {
   }
 
 
-  String get _prompt {
+  String _prompt(BuildContext context) {
     final seed = DateTime.now().day + (_status?.index ?? 0);
-    return JournalPrompts.forStatus(_status, seed: seed);
+    return JournalPrompts.forStatus(_status, seed: seed, s: S.of(context));
   }
 
   String _titleFor(CheckInStatus status) {
@@ -174,7 +174,7 @@ class _CheckInPageState extends State<CheckInPage> {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    _prompt,
+                    _prompt(context),
                     style: TextStyle(
                       fontSize: 14,
                       height: 1.4,
