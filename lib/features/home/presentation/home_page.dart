@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:still_here/common/app_theme_colors.dart';
 import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
-import 'package:fluttering/fluttering.dart';
 import 'package:still_here/core/database/local_storage.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/checkin/presentation/checkin_page.dart';
@@ -15,7 +14,6 @@ import 'package:still_here/shared/models/check_in.dart';
 import 'package:still_here/shared/models/greeting.dart';
 import 'package:still_here/widgets/base/ad_view.dart';
 import 'package:still_here/common/configuration.dart';
-import 'package:intl/intl.dart';
 import 'package:still_here/features/home/data/weekly_insight.dart';
 import 'package:still_here/widgets/still/still_widgets.dart';
 

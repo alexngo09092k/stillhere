@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:still_here/common/app_theme_colors.dart';
 import 'package:still_here/common/constants.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:still_here/shared/models/check_in.dart';

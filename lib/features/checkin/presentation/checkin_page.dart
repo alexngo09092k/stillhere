@@ -9,7 +9,6 @@ import 'package:still_here/features/checkin/presentation/checkin_success_page.da
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:still_here/shared/models/activity_tag.dart';
 import 'package:still_here/features/checkin/data/journal_prompts.dart';
-import 'package:still_here/widgets/still/still_button.dart';
 import 'package:still_here/widgets/still/still_widgets.dart';
 
 class CheckInPage extends StatefulWidget {

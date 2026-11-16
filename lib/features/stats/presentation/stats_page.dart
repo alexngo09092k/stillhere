@@ -3,7 +3,6 @@ import 'package:still_here/common/app_theme_colors.dart';
 import 'package:still_here/generated/l10n.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/shared/models/check_in.dart';
-import 'package:intl/intl.dart';
 import 'package:still_here/widgets/still/still_widgets.dart';
 
 class StatsPage extends StatefulWidget {
@@ -16,7 +15,6 @@ class StatsPage extends StatefulWidget {
 class StatsPageState extends State<StatsPage> {
   int _segment = 1; // 0 week, 1 month, 2 year
   bool _loading = true;
-  List<CheckIn> _items = [];
   Map<String, int> _summary = {};
   int _streak = 0;
   int _longest = 0;
@@ -65,7 +63,6 @@ class StatsPageState extends State<StatsPage> {
 
     if (!mounted) return;
     setState(() {
-      _items = list;
       _summary = summary;
       _streak = streak;
       _longest = longest;
@@ -76,7 +73,6 @@ class StatsPageState extends State<StatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final lang = Localizations.localeOf(context).languageCode;
     final total = _summary['total'] ?? 0;
     final now = DateTime.now();
     final daysInPeriod = _segment == 0
@@ -352,44 +348,6 @@ class StatsPageState extends State<StatsPage> {
                 ),
               ],
             ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _SegChip extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _SegChip({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 160),
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          decoration: BoxDecoration(
-            color: selected ? context.appBrand.withOpacity(0.18) : Colors.transparent,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
-              color: selected ? context.appBrandDeep : context.appMuted,
-            ),
           ),
         ),
       ),

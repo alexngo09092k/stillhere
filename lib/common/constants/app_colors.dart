@@ -48,7 +48,6 @@ class AppColors extends FlutteringColors {
   @override
   Color get darkOnSecondary => const Color(0xFF2A2118);
 
-  @override
   LinearGradient get gradient => const LinearGradient(
         colors: [Color(0xFFE8C4A0), Color(0xFFD4A574)],
         begin: Alignment.topLeft,
@@ -77,7 +76,6 @@ class AppColors extends FlutteringColors {
         end: Alignment.bottomRight,
       );
 
-  @override
   BoxShadow get boxShadow => BoxShadow(
         color: const Color(0xFF3D3429).withOpacity(0.06),
         offset: const Offset(0, 6),

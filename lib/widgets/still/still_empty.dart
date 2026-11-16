@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:still_here/common/app_theme_colors.dart';
-import 'package:still_here/common/constants.dart';
 import 'package:still_here/widgets/still/still_button.dart';
 
 /// Calm empty state — never guilt-framed for a wellbeing app.

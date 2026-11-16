@@ -18,7 +18,6 @@ class HistoryPageState extends State<HistoryPage> {
   late int _year;
   late int _month;
   List<CheckIn> _items = [];
-  Map<String, int> _summary = {};
   bool _loading = true;
   DateTime? _selectedDay;
 
@@ -37,14 +36,9 @@ class HistoryPageState extends State<HistoryPage> {
   Future<void> _load() async {
     setState(() => _loading = true);
     final list = await CheckInService.instance.getByMonth(_year, _month);
-    final summary = await CheckInService.instance.summaryForMonth(
-      _year,
-      _month,
-    );
     if (!mounted) return;
     setState(() {
       _items = list..sort((a, b) => b.localDate.compareTo(a.localDate));
-      _summary = summary;
       _loading = false;
     });
   }
@@ -124,11 +118,6 @@ class HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     final s = S.of(context);
     final locale = _localeTag(context);
-    final lang = Localizations.localeOf(context).languageCode;
-    final monthLabel = DateFormat(
-      'MMMM yyyy',
-      locale,
-    ).format(DateTime(_year, _month));
     final byDay = _byDay;
     final daysInMonth = DateTime(_year, _month + 1, 0).day;
     // Monday-based week
