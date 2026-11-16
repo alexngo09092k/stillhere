@@ -91,4 +91,51 @@ class CheckInService {
     }
     return result;
   }
+
+  /// Current consecutive daily check-in streak ending today or yesterday.
+  Future<int> getCurrentStreak() async {
+    final all = await getAll();
+    if (all.isEmpty) return 0;
+    final dates = all.map((c) => c.localDate).toSet();
+    final today = DateTime.now();
+    var cursor = DateTime(today.year, today.month, today.day);
+    final todayStr = DateFormat('yyyy-MM-dd').format(cursor);
+    if (!dates.contains(todayStr)) {
+      cursor = cursor.subtract(const Duration(days: 1));
+    }
+    var streak = 0;
+    while (true) {
+      final key = DateFormat('yyyy-MM-dd').format(cursor);
+      if (!dates.contains(key)) break;
+      streak++;
+      cursor = cursor.subtract(const Duration(days: 1));
+    }
+    return streak;
+  }
+
+  /// Longest consecutive streak in history.
+  Future<int> getLongestStreak() async {
+    final all = await getAll();
+    if (all.isEmpty) return 0;
+    final dates = all.map((c) => c.localDate).toSet().toList()..sort();
+    var longest = 1;
+    var current = 1;
+    for (var i = 1; i < dates.length; i++) {
+      final prev = DateTime.parse(dates[i - 1]);
+      final cur = DateTime.parse(dates[i]);
+      if (cur.difference(prev).inDays == 1) {
+        current++;
+        if (current > longest) longest = current;
+      } else {
+        current = 1;
+      }
+    }
+    return longest;
+  }
+
+  /// Total check-in days.
+  Future<int> getTotalDays() async {
+    final all = await getAll();
+    return all.length;
+  }
 }

@@ -82,6 +82,30 @@ class CheckInSuccessPage extends StatelessWidget {
                       height: 1.45,
                     ),
                   ),
+
+                  const SizedBox(height: 20),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.10),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: Colors.white.withOpacity(0.18)),
+                    ),
+                    child: Text(
+                      checkIn.status == CheckInStatus.selfCare
+                          ? 'A soft idea: place a hand on your chest and take three slow breaths. You do not have to fix everything today.'
+                          : checkIn.status == CheckInStatus.share
+                              ? 'Whatever you are carrying is allowed here. You showed up — that already counts.'
+                              : 'Notice one thing that is okay enough right now. Let it be enough for this moment.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        height: 1.45,
+                        color: Colors.white.withOpacity(0.88),
+                      ),
+                    ),
+                  ),
                   const SizedBox(height: 28),
                   Container(
                     width: double.infinity,

@@ -44,6 +44,7 @@ class _AppState extends AwesomeAppState<App> {
         final light = getLightTheme(context, scale: scale);
         final dark = getDarkTheme(context, scale: scale);
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: Configuration.instance.business.appName,
           navigatorKey: AwesomeAppState.navigatorKey,
           theme: light,

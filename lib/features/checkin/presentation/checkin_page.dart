@@ -5,6 +5,7 @@ import 'package:fluttering_analytics/analytics/index.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/checkin/presentation/checkin_success_page.dart';
 import 'package:still_here/shared/models/check_in.dart';
+import 'package:still_here/features/checkin/data/journal_prompts.dart';
 
 class CheckInPage extends StatefulWidget {
   final CheckIn? existing;
@@ -80,6 +81,12 @@ class _CheckInPageState extends State<CheckInPage> {
     }
   }
 
+
+  String get _prompt {
+    final seed = DateTime.now().day + (_status?.index ?? 0);
+    return JournalPrompts.forStatus(_status, seed: seed);
+  }
+
   String _titleFor(CheckInStatus status) {
     final s = S.of(context);
     switch (status) {
@@ -151,6 +158,35 @@ class _CheckInPageState extends State<CheckInPage> {
             ),
           ),
           const SizedBox(height: 28),
+          // Reflection prompt — unique content per mood (AppGallery 4.1)
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: context.appBrand.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: context.appBrand.withOpacity(0.2)),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Icons.auto_awesome, size: 18, color: context.appBrand),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    _prompt,
+                    style: TextStyle(
+                      fontSize: 14,
+                      height: 1.4,
+                      color: context.appInk.withOpacity(0.85),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           Text(
             S.of(context).writeMorePrompt,
             style: TextStyle(

@@ -136,6 +136,14 @@ class _PremiumPageState extends State<PremiumPage> {
             icon: Icons.auto_awesome,
             text: S.of(context).benefitAiPriority,
           ),
+          _Benefit(
+            icon: Icons.insights_rounded,
+            text: 'Full insights & longer history',
+          ),
+          _Benefit(
+            icon: Icons.file_download_outlined,
+            text: 'Export your private journal anytime',
+          ),
           _Benefit(icon: Icons.favorite, text: S.of(context).benefitSupportDev),
           const SizedBox(height: 28),
           if (_error != null) ...[

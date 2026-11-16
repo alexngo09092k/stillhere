@@ -26,6 +26,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   Greeting? _greeting;
   CheckIn? _todayCheckIn;
   bool _loading = true;
+  int _streak = 0;
+  int _totalDays = 0;
   int _navIndex = 0;
   final GlobalKey<HistoryPageState> _historyKey = GlobalKey<HistoryPageState>();
   final GlobalKey<StatsPageState> _statsKey = GlobalKey<StatsPageState>();
@@ -61,11 +63,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         aiEnabled: aiEnabled,
       ),
       CheckInService.instance.getToday(),
+      CheckInService.instance.getCurrentStreak(),
+      CheckInService.instance.getTotalDays(),
     ]);
     if (!mounted) return;
     setState(() {
       _greeting = results[0] as Greeting;
       _todayCheckIn = results[1] as CheckIn?;
+      _streak = results[2] as int;
+      _totalDays = results[3] as int;
       _loading = false;
     });
   }
@@ -206,6 +212,75 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             ),
           ),
           const SizedBox(height: 12),
+
+          // Streak + presence summary (content richness for AppGallery 4.1)
+          if (!_loading && (_streak > 0 || _totalDays > 0))
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Row(
+                children: [
+                  if (_streak > 0)
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: context.appSurf,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: context.appBorder),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.local_fire_department_rounded,
+                                color: context.appBrand, size: 22),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                '$_streak-day streak',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: context.appInk,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  if (_streak > 0 && _totalDays > 0) const SizedBox(width: 10),
+                  if (_totalDays > 0)
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: context.appSurf,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: context.appBorder),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.calendar_today_rounded,
+                                color: context.appMuted, size: 18),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                '$_totalDays days present',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: context.appInk,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
 
           // Hero card with image — matches design mockup
           ClipRRect(

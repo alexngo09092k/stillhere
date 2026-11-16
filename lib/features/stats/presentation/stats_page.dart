@@ -17,6 +17,9 @@ class StatsPageState extends State<StatsPage> {
   bool _loading = true;
   List<CheckIn> _items = [];
   Map<String, int> _summary = {};
+  int _streak = 0;
+  int _longest = 0;
+  int _totalDays = 0;
 
   @override
   void initState() {
@@ -55,10 +58,17 @@ class StatsPageState extends State<StatsPage> {
       summary[c.status.value] = (summary[c.status.value] ?? 0) + 1;
     }
 
+    final streak = await CheckInService.instance.getCurrentStreak();
+    final longest = await CheckInService.instance.getLongestStreak();
+    final totalDays = await CheckInService.instance.getTotalDays();
+
     if (!mounted) return;
     setState(() {
       _items = list;
       _summary = summary;
+      _streak = streak;
+      _longest = longest;
+      _totalDays = totalDays;
       _loading = false;
     });
   }
@@ -144,6 +154,30 @@ class StatsPageState extends State<StatsPage> {
                 ),
               ),
               const SizedBox(height: 20),
+
+              // Streak insights
+              if (!_loading)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Row(
+                    children: [
+                      _StatChip(
+                        icon: Icons.local_fire_department_rounded,
+                        label: '$_streak day streak',
+                      ),
+                      const SizedBox(width: 8),
+                      _StatChip(
+                        icon: Icons.emoji_events_outlined,
+                        label: 'Best $_longest',
+                      ),
+                      const SizedBox(width: 8),
+                      _StatChip(
+                        icon: Icons.calendar_month_rounded,
+                        label: '$_totalDays total',
+                      ),
+                    ],
+                  ),
+                ),
 
               if (_loading)
                 const Padding(
@@ -491,6 +525,44 @@ class _Legend extends StatelessWidget {
           style: TextStyle(fontSize: 12, color: context.appMuted),
         ),
       ],
+    );
+  }
+}
+
+
+class _StatChip extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _StatChip({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+        decoration: BoxDecoration(
+          color: context.appSurf,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: context.appBorder),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, size: 18, color: context.appBrand),
+            const SizedBox(height: 4),
+            Text(
+              label,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: context.appInk,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
