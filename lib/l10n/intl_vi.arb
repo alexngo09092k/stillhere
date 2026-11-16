@@ -215,5 +215,46 @@
   "promptShare3": "Cảm xúc nào đang muốn được gọi tên?",
   "promptSelfCare1": "Trong một giờ tới, điều gì sẽ là quan tâm bản thân?",
   "promptSelfCare2": "Chỗ nào bạn có thể yêu cầu ít hơn ở chính mình hôm nay?",
-  "promptSelfCare3": "Ranh giới nào sẽ giúp bạn được nghỉ?"
+  "promptSelfCare3": "Ranh giới nào sẽ giúp bạn được nghỉ?",
+  "navCare": "Chăm sóc",
+  "careTitle": "Chăm sóc",
+  "careSubtitle": "Bài tập, ý tưởng dịu dàng và cột mốc của bạn",
+  "careTodaysNote": "Lời nhắc hôm nay",
+  "breathingGroundingTitle": "Bài tập thở & grounding",
+  "breathingGroundingSubtitle": "Làm ngay khi cần dịu lại",
+  "suggestionsForTodayTitle": "Gợi ý cho hôm nay",
+  "suggestionsForTodaySubtitle": "Dựa trên cảm xúc gần nhất của bạn",
+  "milestonesTitle": "Cột mốc",
+  "milestonesUnlocked": "{unlocked}/{total} đã mở khóa",
+  "@milestonesUnlocked": {
+    "placeholders": {
+      "unlocked": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesLabel": "{minutes} phút",
+  "@minutesLabel": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "activityTagsPrompt": "Hôm nay liên quan đến… (tuỳ chọn)",
+  "tagWork": "Công việc",
+  "tagFamily": "Gia đình",
+  "tagFriends": "Bạn bè",
+  "tagHealth": "Sức khỏe",
+  "tagRest": "Nghỉ ngơi",
+  "tagHobby": "Sở thích",
+  "tagStudy": "Học tập",
+  "tagOutdoor": "Ngoài trời",
+  "tagFood": "Ăn uống",
+  "tagOther": "Khác",
+  "reminderNotificationTitle": "Still Here",
+  "reminderNotificationBody": "Một lời chào nhỏ đang chờ bạn."
 }

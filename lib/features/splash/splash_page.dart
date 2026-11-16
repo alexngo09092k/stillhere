@@ -105,7 +105,9 @@ class _SplashPageState extends State<SplashPage>
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'StillHere',
+                  Configuration.instance.business.appName.isNotEmpty
+                      ? Configuration.instance.business.appName
+                      : 'Still Here',
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w700,

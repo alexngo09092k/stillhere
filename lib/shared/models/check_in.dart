@@ -130,6 +130,8 @@ class CheckIn {
   final String localDate; // yyyy-MM-dd
   final CheckInStatus status;
   final String? note;
+  /// Optional activity tags (work, family, rest, ...) for richer context.
+  final List<String> activities;
   final String timezoneId;
   final int createdAtUtc;
   final int updatedAtUtc;
@@ -139,6 +141,7 @@ class CheckIn {
     required this.localDate,
     required this.status,
     this.note,
+    this.activities = const [],
     required this.timezoneId,
     required this.createdAtUtc,
     required this.updatedAtUtc,
@@ -149,6 +152,7 @@ class CheckIn {
     String? localDate,
     CheckInStatus? status,
     String? note,
+    List<String>? activities,
     String? timezoneId,
     int? createdAtUtc,
     int? updatedAtUtc,
@@ -158,6 +162,7 @@ class CheckIn {
       localDate: localDate ?? this.localDate,
       status: status ?? this.status,
       note: note ?? this.note,
+      activities: activities ?? this.activities,
       timezoneId: timezoneId ?? this.timezoneId,
       createdAtUtc: createdAtUtc ?? this.createdAtUtc,
       updatedAtUtc: updatedAtUtc ?? this.updatedAtUtc,
@@ -170,6 +175,7 @@ class CheckIn {
       'localDate': localDate,
       'status': status.value,
       'note': note,
+      'activities': activities,
       'timezoneId': timezoneId,
       'createdAtUtc': createdAtUtc,
       'updatedAtUtc': updatedAtUtc,
@@ -177,11 +183,19 @@ class CheckIn {
   }
 
   factory CheckIn.fromMap(Map<String, dynamic> map) {
+    final rawActs = map['activities'];
+    final acts = <String>[];
+    if (rawActs is List) {
+      for (final e in rawActs) {
+        if (e != null) acts.add(e.toString());
+      }
+    }
     return CheckIn(
       id: map['id'] as String,
       localDate: map['localDate'] as String,
       status: CheckInStatus.fromString(map['status'] as String),
       note: map['note'] as String?,
+      activities: acts,
       timezoneId: map['timezoneId'] as String? ?? 'Asia/Ho_Chi_Minh',
       createdAtUtc: map['createdAtUtc'] as int,
       updatedAtUtc: map['updatedAtUtc'] as int,
@@ -195,5 +209,5 @@ class CheckIn {
 
   @override
   String toString() =>
-      'CheckIn(id: $id, localDate: $localDate, status: ${status.value})';
+      'CheckIn(id: $id, localDate: $localDate, status: ${status.value}, activities: $activities)';
 }

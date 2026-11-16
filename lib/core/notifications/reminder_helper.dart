@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttering/fluttering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:still_here/core/database/local_storage.dart';
+import 'package:still_here/generated/l10n.dart';
 import 'package:timezone/data/latest_all.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -143,31 +144,39 @@ class ReminderHelper {
   }
 
   Future<({String title, String body})> _localizedContent() async {
-    final s = await LocalStorage.instance.getSettings();
-    final lang = (s['language'] as String?)?.toLowerCase() ?? 'en';
-
-    switch (lang) {
-      case 'vi':
-        return (
-          title: 'Still Here',
-          body: 'Một lời chào nhỏ đang chờ bạn.',
-        );
-      case 'th':
-        return (
-          title: 'Still Here',
-          body: 'ทักทายเล็กๆ กำลังรอคุณอยู่',
-        );
-      case 'zh':
-        return (
-          title: 'Still Here',
-          body: '一句小小的问候在等着你。',
-        );
-      case 'en':
-      default:
-        return (
-          title: 'Still Here',
-          body: 'A small hello is waiting for you.',
-        );
+    try {
+      final s = S.current;
+      return (
+        title: s.reminderNotificationTitle,
+        body: s.reminderNotificationBody,
+      );
+    } catch (_) {
+      // S not loaded yet — fall back by stored language
+      final settings = await LocalStorage.instance.getSettings();
+      final lang = (settings['language'] as String?)?.toLowerCase() ?? 'en';
+      switch (lang) {
+        case 'vi':
+          return (
+            title: 'Still Here',
+            body: 'Một lời chào nhỏ đang chờ bạn.',
+          );
+        case 'th':
+          return (
+            title: 'Still Here',
+            body: 'ทักทายเล็กๆ กำลังรอคุณอยู่',
+          );
+        case 'zh':
+          return (
+            title: 'Still Here',
+            body: '一句小小的问候在等着你。',
+          );
+        case 'en':
+        default:
+          return (
+            title: 'Still Here',
+            body: 'A small hello is waiting for you.',
+          );
+      }
     }
   }
 

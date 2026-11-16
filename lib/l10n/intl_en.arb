@@ -243,5 +243,46 @@
   "promptShare3": "What emotion is asking to be named?",
   "promptSelfCare1": "What would feel caring in the next hour?",
   "promptSelfCare2": "Where can you ask for less of yourself today?",
-  "promptSelfCare3": "What boundary would help you rest?"
+  "promptSelfCare3": "What boundary would help you rest?",
+  "navCare": "Care",
+  "careTitle": "Care",
+  "careSubtitle": "Exercises, gentle ideas and your milestones",
+  "careTodaysNote": "Today's note",
+  "breathingGroundingTitle": "Breathing & grounding",
+  "breathingGroundingSubtitle": "Do these when you need to settle",
+  "suggestionsForTodayTitle": "Suggestions for today",
+  "suggestionsForTodaySubtitle": "Based on how you have been feeling",
+  "milestonesTitle": "Milestones",
+  "milestonesUnlocked": "{unlocked}/{total} unlocked",
+  "@milestonesUnlocked": {
+    "placeholders": {
+      "unlocked": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesLabel": "{minutes} min",
+  "@minutesLabel": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "activityTagsPrompt": "Today was about… (optional)",
+  "tagWork": "Work",
+  "tagFamily": "Family",
+  "tagFriends": "Friends",
+  "tagHealth": "Health",
+  "tagRest": "Rest",
+  "tagHobby": "Hobby",
+  "tagStudy": "Study",
+  "tagOutdoor": "Outdoor",
+  "tagFood": "Food",
+  "tagOther": "Other",
+  "reminderNotificationTitle": "Still Here",
+  "reminderNotificationBody": "A small hello is waiting for you."
 }

@@ -8,11 +8,13 @@ import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/checkin/presentation/checkin_page.dart';
 import 'package:still_here/features/greeting/data/greeting_service.dart';
 import 'package:still_here/features/history/presentation/history_page.dart';
+import 'package:still_here/features/care/presentation/care_page.dart';
 import 'package:still_here/features/settings/presentation/settings_page.dart';
 import 'package:still_here/features/stats/presentation/stats_page.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:still_here/shared/models/greeting.dart';
 import 'package:still_here/widgets/base/ad_view.dart';
+import 'package:still_here/common/configuration.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,6 +33,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int _navIndex = 0;
   final GlobalKey<HistoryPageState> _historyKey = GlobalKey<HistoryPageState>();
   final GlobalKey<StatsPageState> _statsKey = GlobalKey<StatsPageState>();
+  final GlobalKey<CarePageState> _careKey = GlobalKey<CarePageState>();
 
   @override
   void initState() {
@@ -87,12 +90,24 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       _load();
       _historyKey.currentState?.reload();
       _statsKey.currentState?.reload();
+      _careKey.currentState?.reload();
     });
   }
 
   String _navJournalLabel(BuildContext context) => S.of(context).navJournal;
 
   String _navStatsLabel(BuildContext context) => S.of(context).navStats;
+
+  String _navCareLabel(BuildContext context) => S.of(context).navCare;
+
+  void _openSettings() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => const SettingsPage()))
+        .then((_) {
+      _load();
+      _careKey.currentState?.reload();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,9 +119,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           index: _navIndex,
           children: [
             _buildHomeTab(),
+            CarePage(key: _careKey),
             HistoryPage(key: _historyKey),
             StatsPage(key: _statsKey),
-            const SettingsPage(),
           ],
         ),
       ),
@@ -114,15 +129,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         index: _navIndex,
         onChanged: (i) {
           setState(() => _navIndex = i);
-          if (i == 0) _load(); // refresh greeting after language / settings change
-          if (i == 1) _historyKey.currentState?.reload();
-          if (i == 2) _statsKey.currentState?.reload();
+          if (i == 0) _load();
+          if (i == 1) _careKey.currentState?.reload();
+          if (i == 2) _historyKey.currentState?.reload();
+          if (i == 3) _statsKey.currentState?.reload();
         },
         labels: [
           S.of(context).navHome,
+          _navCareLabel(context),
           _navJournalLabel(context),
           _navStatsLabel(context),
-          S.of(context).navSettings,
         ],
       ),
     );
@@ -185,7 +201,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  'StillHere',
+                  Configuration.instance.business.appName.isNotEmpty
+                      ? Configuration.instance.business.appName
+                      : 'Still Here',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -195,7 +213,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () => setState(() => _navIndex = 3),
+                  onTap: _openSettings,
                   child: Container(
                     width: 36,
                     height: 36,
@@ -580,9 +598,9 @@ class _BottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final icons = const [
       (Icons.home_outlined, Icons.home_rounded),
+      (Icons.spa_outlined, Icons.spa_rounded),
       (Icons.menu_book_outlined, Icons.menu_book_rounded),
       (Icons.bar_chart_outlined, Icons.bar_chart_rounded),
-      (Icons.settings_outlined, Icons.settings_rounded),
     ];
 
     return Container(

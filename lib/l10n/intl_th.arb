@@ -215,5 +215,46 @@
   "promptShare3": "อารมณ์ไหนอยากถูกเอ่ยชื่อ?",
   "promptSelfCare1": "ในชั่วโมงหน้า อะไรจะรู้สึกเหมือนดูแลตัวเอง?",
   "promptSelfCare2": "ตรงไหนที่คุณขอจากตัวเองให้น้อยลงได้วันนี้?",
-  "promptSelfCare3": "ขอบเขตแบบไหนจะช่วยให้คุณได้พัก?"
+  "promptSelfCare3": "ขอบเขตแบบไหนจะช่วยให้คุณได้พัก?",
+  "navCare": "ดูแลตัวเอง",
+  "careTitle": "ดูแลตัวเอง",
+  "careSubtitle": "แบบฝึกหัด ความคิดอ่อนโยน และหลักไมล์ของคุณ",
+  "careTodaysNote": "ข้อความวันนี้",
+  "breathingGroundingTitle": "หายใจและ grounding",
+  "breathingGroundingSubtitle": "ทำเมื่อต้องการสงบลง",
+  "suggestionsForTodayTitle": "คำแนะนำสำหรับวันนี้",
+  "suggestionsForTodaySubtitle": "อิงจากความรู้สึกของคุณเมื่อเร็ว ๆ นี้",
+  "milestonesTitle": "หลักไมล์",
+  "milestonesUnlocked": "ปลดล็อกแล้ว {unlocked}/{total}",
+  "@milestonesUnlocked": {
+    "placeholders": {
+      "unlocked": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesLabel": "{minutes} นาที",
+  "@minutesLabel": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "activityTagsPrompt": "วันนี้เกี่ยวกับ… (ไม่บังคับ)",
+  "tagWork": "งาน",
+  "tagFamily": "ครอบครัว",
+  "tagFriends": "เพื่อน",
+  "tagHealth": "สุขภาพ",
+  "tagRest": "พักผ่อน",
+  "tagHobby": "งานอดิเรก",
+  "tagStudy": "การเรียน",
+  "tagOutdoor": "กลางแจ้ง",
+  "tagFood": "อาหาร",
+  "tagOther": "อื่นๆ",
+  "reminderNotificationTitle": "Still Here",
+  "reminderNotificationBody": "ทักทายเล็กๆ กำลังรอคุณอยู่"
 }

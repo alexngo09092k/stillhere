@@ -10,6 +10,7 @@ import 'package:still_here/utils/ad_revenue_manager.dart';
 import 'package:still_here/core/premium/premium_service.dart';
 import 'package:still_here/core/export/data_export_service.dart';
 import 'package:still_here/features/about/presentation/about_page.dart';
+import 'package:still_here/common/configuration.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -144,6 +145,20 @@ class _SettingsPageState extends State<SettingsPage> {
     if (_loading) {
       return Scaffold(
         backgroundColor: context.appBg,
+        appBar: AppBar(
+          backgroundColor: context.appBg,
+          elevation: 0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new_rounded,
+                size: 20, color: context.appInk),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Text(
+            S.of(context).settingsTitle,
+            style: TextStyle(color: context.appInk),
+          ),
+          iconTheme: IconThemeData(color: context.appInk),
+        ),
         body: Center(child: CircularProgressIndicator(color: context.appBrand)),
       );
     }
@@ -152,29 +167,32 @@ class _SettingsPageState extends State<SettingsPage> {
     final aiOn = _settings['ai.enabled'] != false;
     final hour = (_settings['reminder.hour'] as int?) ?? 9;
     final minute = (_settings['reminder.minute'] as int?) ?? 0;
-    final lang = Localizations.localeOf(context).languageCode;
+    final business = Configuration.instance.business;
 
     return Scaffold(
       backgroundColor: context.appBg,
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 40),
+      appBar: AppBar(
+        backgroundColor: context.appBg,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new_rounded,
+              size: 20, color: context.appInk),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(
+          S.of(context).settingsTitle,
+          style: TextStyle(color: context.appInk),
+        ),
+        iconTheme: IconThemeData(color: context.appInk),
+      ),
+      body: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
           children: [
-            Text(
-              S.of(context).settingsTitle,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: context.appInk,
-                letterSpacing: -0.3,
-              ),
-            ),
-            const SizedBox(height: 4),
             Text(
               S.of(context).settingsSubtitle,
               style: TextStyle(fontSize: 13, color: context.appMuted),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
 
             // App card
             Container(
@@ -203,7 +221,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'StillHere',
+                          business.appName.isNotEmpty
+                              ? business.appName
+                              : 'Still Here',
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
@@ -212,7 +232,11 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Version 1.0.0',
+                          S.of(context).versionLabel(
+                            business.version.isNotEmpty
+                                ? business.version
+                                : '1.0.0',
+                          ),
                           style: TextStyle(
                             fontSize: 13,
                             color: context.appMuted,
@@ -354,7 +378,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ],
         ),
-      ),
     );
   }
 

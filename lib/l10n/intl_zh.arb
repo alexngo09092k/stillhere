@@ -215,5 +215,46 @@
   "promptShare3": "哪种情绪想被命名？",
   "promptSelfCare1": "接下来一小时，什么会让你感到被照顾？",
   "promptSelfCare2": "今天哪里可以对自己要求少一点？",
-  "promptSelfCare3": "怎样的边界能帮你休息？"
+  "promptSelfCare3": "怎样的边界能帮你休息？",
+  "navCare": "关怀",
+  "careTitle": "关怀",
+  "careSubtitle": "练习、温柔的想法与你的里程碑",
+  "careTodaysNote": "今日提醒",
+  "breathingGroundingTitle": "呼吸与接地练习",
+  "breathingGroundingSubtitle": "需要平静时做这些",
+  "suggestionsForTodayTitle": "今日建议",
+  "suggestionsForTodaySubtitle": "基于你最近的感受",
+  "milestonesTitle": "里程碑",
+  "milestonesUnlocked": "已解锁 {unlocked}/{total}",
+  "@milestonesUnlocked": {
+    "placeholders": {
+      "unlocked": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesLabel": "{minutes} 分钟",
+  "@minutesLabel": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "activityTagsPrompt": "今天与…有关（可选）",
+  "tagWork": "工作",
+  "tagFamily": "家庭",
+  "tagFriends": "朋友",
+  "tagHealth": "健康",
+  "tagRest": "休息",
+  "tagHobby": "爱好",
+  "tagStudy": "学习",
+  "tagOutdoor": "户外",
+  "tagFood": "饮食",
+  "tagOther": "其他",
+  "reminderNotificationTitle": "Still Here",
+  "reminderNotificationBody": "一句小小的问候在等着你。"
 }

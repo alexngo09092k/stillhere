@@ -5,6 +5,7 @@ import 'package:fluttering_analytics/analytics/index.dart';
 import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/checkin/presentation/checkin_success_page.dart';
 import 'package:still_here/shared/models/check_in.dart';
+import 'package:still_here/shared/models/activity_tag.dart';
 import 'package:still_here/features/checkin/data/journal_prompts.dart';
 
 class CheckInPage extends StatefulWidget {
@@ -18,6 +19,7 @@ class CheckInPage extends StatefulWidget {
 class _CheckInPageState extends State<CheckInPage> {
   CheckInStatus? _status;
   final _noteController = TextEditingController();
+  final Set<String> _selectedActivities = {};
   bool _saving = false;
 
   @override
@@ -26,6 +28,7 @@ class _CheckInPageState extends State<CheckInPage> {
     if (widget.existing != null) {
       _status = widget.existing!.status;
       _noteController.text = widget.existing!.note ?? '';
+      _selectedActivities.addAll(widget.existing!.activities);
     }
   }
 
@@ -50,6 +53,7 @@ class _CheckInPageState extends State<CheckInPage> {
     final result = await CheckInService.instance.save(
       status: _status!,
       note: _noteController.text,
+      activities: _selectedActivities.toList(),
     );
     if (!mounted) return;
     setState(() => _saving = false);
@@ -186,7 +190,55 @@ class _CheckInPageState extends State<CheckInPage> {
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
+          // Activity tags — richer context for each check-in
+          Text(
+            S.of(context).activityTagsPrompt,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+              color: context.appInk,
+            ),
+          ),
+          const SizedBox(height: 10),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: ActivityTag.values.map((tag) {
+              final selected = _selectedActivities.contains(tag.id);
+              final lang = Localizations.localeOf(context).languageCode;
+              return FilterChip(
+                selected: selected,
+                label: Text('${tag.emoji} ${tag.label(lang)}'),
+                onSelected: (v) {
+                  setState(() {
+                    if (v) {
+                      _selectedActivities.add(tag.id);
+                    } else {
+                      _selectedActivities.remove(tag.id);
+                    }
+                  });
+                },
+                selectedColor: context.appBrand.withOpacity(0.18),
+                checkmarkColor: context.appBrandDeep,
+                labelStyle: TextStyle(
+                  fontSize: 13,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                  color: selected ? context.appBrandDeep : context.appInk,
+                ),
+                side: BorderSide(
+                  color: selected
+                      ? context.appBrand.withOpacity(0.5)
+                      : context.appBorder,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                backgroundColor: context.appSurf,
+              );
+            }).toList(),
+          ),
+          const SizedBox(height: 20),
           Text(
             S.of(context).writeMorePrompt,
             style: TextStyle(

@@ -36,6 +36,7 @@ class CheckInService {
   Future<CheckIn?> save({
     required CheckInStatus status,
     String? note,
+    List<String>? activities,
     String? localDate,
   }) async {
     final date = localDate ?? todayLocalDate();
@@ -49,10 +50,13 @@ class CheckInService {
       return null;
     }
 
+    final acts = activities ?? existing?.activities ?? const <String>[];
+
     final checkIn = existing != null
         ? existing.copyWith(
             status: status,
             note: cleanedNote,
+            activities: acts,
             updatedAtUtc: now,
           )
         : CheckIn(
@@ -60,6 +64,7 @@ class CheckInService {
             localDate: date,
             status: status,
             note: cleanedNote,
+            activities: acts,
             timezoneId: tz,
             createdAtUtc: now,
             updatedAtUtc: now,
@@ -137,5 +142,18 @@ class CheckInService {
   Future<int> getTotalDays() async {
     final all = await getAll();
     return all.length;
+  }
+
+  /// Past check-ins on the same month-day (memory / "on this day").
+  Future<List<CheckIn>> getOnThisDay({DateTime? of}) async {
+    final ref = of ?? DateTime.now();
+    final mm = ref.month.toString().padLeft(2, '0');
+    final dd = ref.day.toString().padLeft(2, '0');
+    final suffix = '-$mm-$dd';
+    final today = todayLocalDate();
+    final all = await getAll();
+    return all
+        .where((c) => c.localDate.endsWith(suffix) && c.localDate != today)
+        .toList();
   }
 }

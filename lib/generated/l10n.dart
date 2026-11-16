@@ -1660,7 +1660,7 @@ class S {
     );
   }
 
-  /// `Notice one thing...`
+  /// `Notice one thing that is okay enough right now. Let it be enough for this moment.`
   String get tipAfterOk {
     return Intl.message(
       'Notice one thing that is okay enough right now. Let it be enough for this moment.',
@@ -1670,7 +1670,7 @@ class S {
     );
   }
 
-  /// share tip
+  /// `Whatever you are carrying is allowed here. You showed up — that already counts.`
   String get tipAfterShare {
     return Intl.message(
       'Whatever you are carrying is allowed here. You showed up — that already counts.',
@@ -1680,7 +1680,7 @@ class S {
     );
   }
 
-  /// self-care tip
+  /// `A soft idea: place a hand on your chest and take three slow breaths. You do not have to fix everything today.`
   String get tipAfterSelfCare {
     return Intl.message(
       'A soft idea: place a hand on your chest and take three slow breaths. You do not have to fix everything today.',
@@ -1690,62 +1690,385 @@ class S {
     );
   }
 
+  /// `What felt a little softer today?`
   String get promptGeneral1 {
-    return Intl.message('What felt a little softer today?', name: 'promptGeneral1', desc: '', args: []);
+    return Intl.message(
+      'What felt a little softer today?',
+      name: 'promptGeneral1',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `Is there one thing you handled kindly?`
   String get promptGeneral2 {
-    return Intl.message('Is there one thing you handled kindly?', name: 'promptGeneral2', desc: '', args: []);
+    return Intl.message(
+      'Is there one thing you handled kindly?',
+      name: 'promptGeneral2',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `What do you want to leave behind for tonight?`
   String get promptGeneral3 {
-    return Intl.message('What do you want to leave behind for tonight?', name: 'promptGeneral3', desc: '', args: []);
+    return Intl.message(
+      'What do you want to leave behind for tonight?',
+      name: 'promptGeneral3',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `Who or what made you feel less alone?`
   String get promptGeneral4 {
-    return Intl.message('Who or what made you feel less alone?', name: 'promptGeneral4', desc: '', args: []);
+    return Intl.message(
+      'Who or what made you feel less alone?',
+      name: 'promptGeneral4',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `What would “enough” look like right now?`
   String get promptGeneral5 {
-    return Intl.message('What would “enough” look like right now?', name: 'promptGeneral5', desc: '', args: []);
+    return Intl.message(
+      'What would “enough” look like right now?',
+      name: 'promptGeneral5',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `What is supporting this calm?`
   String get promptOk1 {
-    return Intl.message('What is supporting this calm?', name: 'promptOk1', desc: '', args: []);
+    return Intl.message(
+      'What is supporting this calm?',
+      name: 'promptOk1',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `Name one small win you almost overlooked.`
   String get promptOk2 {
-    return Intl.message('Name one small win you almost overlooked.', name: 'promptOk2', desc: '', args: []);
+    return Intl.message(
+      'Name one small win you almost overlooked.',
+      name: 'promptOk2',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `How can you protect this energy tomorrow?`
   String get promptOk3 {
-    return Intl.message('How can you protect this energy tomorrow?', name: 'promptOk3', desc: '', args: []);
+    return Intl.message(
+      'How can you protect this energy tomorrow?',
+      name: 'promptOk3',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `What would you say if a friend felt this way?`
   String get promptShare1 {
-    return Intl.message('What would you say if a friend felt this way?', name: 'promptShare1', desc: '', args: []);
+    return Intl.message(
+      'What would you say if a friend felt this way?',
+      name: 'promptShare1',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `Which part of today needs a little more room?`
   String get promptShare2 {
-    return Intl.message('Which part of today needs a little more room?', name: 'promptShare2', desc: '', args: []);
+    return Intl.message(
+      'Which part of today needs a little more room?',
+      name: 'promptShare2',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `What emotion is asking to be named?`
   String get promptShare3 {
-    return Intl.message('What emotion is asking to be named?', name: 'promptShare3', desc: '', args: []);
+    return Intl.message(
+      'What emotion is asking to be named?',
+      name: 'promptShare3',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `What would feel caring in the next hour?`
   String get promptSelfCare1 {
-    return Intl.message('What would feel caring in the next hour?', name: 'promptSelfCare1', desc: '', args: []);
+    return Intl.message(
+      'What would feel caring in the next hour?',
+      name: 'promptSelfCare1',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `Where can you ask for less of yourself today?`
   String get promptSelfCare2 {
-    return Intl.message('Where can you ask for less of yourself today?', name: 'promptSelfCare2', desc: '', args: []);
+    return Intl.message(
+      'Where can you ask for less of yourself today?',
+      name: 'promptSelfCare2',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `What boundary would help you rest?`
   String get promptSelfCare3 {
-    return Intl.message('What boundary would help you rest?', name: 'promptSelfCare3', desc: '', args: []);
+    return Intl.message(
+      'What boundary would help you rest?',
+      name: 'promptSelfCare3',
+      desc: '',
+      args: [],
+    );
   }
 
+  /// `Care`
+  String get navCare {
+    return Intl.message(
+      'Care',
+      name: 'navCare',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Care`
+  String get careTitle {
+    return Intl.message(
+      'Care',
+      name: 'careTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Exercises, gentle ideas and your milestones`
+  String get careSubtitle {
+    return Intl.message(
+      'Exercises, gentle ideas and your milestones',
+      name: 'careSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today's note`
+  String get careTodaysNote {
+    return Intl.message(
+      'Today\'s note',
+      name: 'careTodaysNote',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Breathing & grounding`
+  String get breathingGroundingTitle {
+    return Intl.message(
+      'Breathing & grounding',
+      name: 'breathingGroundingTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do these when you need to settle`
+  String get breathingGroundingSubtitle {
+    return Intl.message(
+      'Do these when you need to settle',
+      name: 'breathingGroundingSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Suggestions for today`
+  String get suggestionsForTodayTitle {
+    return Intl.message(
+      'Suggestions for today',
+      name: 'suggestionsForTodayTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Based on how you have been feeling`
+  String get suggestionsForTodaySubtitle {
+    return Intl.message(
+      'Based on how you have been feeling',
+      name: 'suggestionsForTodaySubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Milestones`
+  String get milestonesTitle {
+    return Intl.message(
+      'Milestones',
+      name: 'milestonesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{unlocked}/{total} unlocked`
+  String milestonesUnlocked(int unlocked, int total) {
+    return Intl.message(
+      '$unlocked/$total unlocked',
+      name: 'milestonesUnlocked',
+      desc: '',
+      args: [unlocked, total],
+    );
+  }
+
+  /// `{minutes} min`
+  String minutesLabel(int minutes) {
+    return Intl.message(
+      '$minutes min',
+      name: 'minutesLabel',
+      desc: '',
+      args: [minutes],
+    );
+  }
+
+  /// `Today was about… (optional)`
+  String get activityTagsPrompt {
+    return Intl.message(
+      'Today was about… (optional)',
+      name: 'activityTagsPrompt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Work`
+  String get tagWork {
+    return Intl.message(
+      'Work',
+      name: 'tagWork',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Family`
+  String get tagFamily {
+    return Intl.message(
+      'Family',
+      name: 'tagFamily',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Friends`
+  String get tagFriends {
+    return Intl.message(
+      'Friends',
+      name: 'tagFriends',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Health`
+  String get tagHealth {
+    return Intl.message(
+      'Health',
+      name: 'tagHealth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rest`
+  String get tagRest {
+    return Intl.message(
+      'Rest',
+      name: 'tagRest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hobby`
+  String get tagHobby {
+    return Intl.message(
+      'Hobby',
+      name: 'tagHobby',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Study`
+  String get tagStudy {
+    return Intl.message(
+      'Study',
+      name: 'tagStudy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Outdoor`
+  String get tagOutdoor {
+    return Intl.message(
+      'Outdoor',
+      name: 'tagOutdoor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Food`
+  String get tagFood {
+    return Intl.message(
+      'Food',
+      name: 'tagFood',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Other`
+  String get tagOther {
+    return Intl.message(
+      'Other',
+      name: 'tagOther',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Still Here`
+  String get reminderNotificationTitle {
+    return Intl.message(
+      'Still Here',
+      name: 'reminderNotificationTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A small hello is waiting for you.`
+  String get reminderNotificationBody {
+    return Intl.message(
+      'A small hello is waiting for you.',
+      name: 'reminderNotificationBody',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
