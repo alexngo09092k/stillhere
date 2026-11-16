@@ -108,6 +108,7 @@ class AdRevenueManager with WidgetsBindingObserver {
   }
 
   void _fireAd(String placement, {required bool skipCooldown}) {
+    if (!_adsEnabled) return;
     try {
       if (_isShowing) {
         Debug.log('[AdRevenue] skip $placement — already showing');

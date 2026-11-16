@@ -215,7 +215,21 @@ const enviroment = {
   "iap": {
     "enable": true,
     "providers": ["huawei"],
+    // Product type is per-item: nonConsumables | subscriptions | consumables.
+    // Must match AppGallery Connect for each product id.
     "products": [
+      {
+        "type": "nonConsumables",
+        "provider": "huawei",
+        "id": "com.snapeditify.stillhere.lifetime",
+        "info": {
+          "name": "Premium Lifetime",
+          "description": "One-time purchase. Remove ads forever.",
+          "price": "\$39.99",
+          "rawPrice": "39.99",
+          "currency": "USD",
+        },
+      },
       {
         "type": "subscriptions",
         "provider": "huawei",

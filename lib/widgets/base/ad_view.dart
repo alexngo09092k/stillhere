@@ -13,47 +13,50 @@ class AdView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (PremiumService.instance.isPremium) {
-      return const SizedBox.shrink();
-    }
-    if (!Configuration.instance.advertisement.enable) {
-      return const SizedBox.shrink();
-    }
-    final contentMaxWidth = AppDimensions.instance.contentMaxWidth;
-    final apps = Configuration.instance.business.moreApps;
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: AppDimensions.instance.padding,
-      ).copyWith(top: AppDimensions.instance.padding),
-      child: AdBuilder(
-        width: width,
-        height:
-            height ?? contentMaxWidth * 1 / 3 + AppDimensions.instance.padding,
-
-        /// PADDING BOTTOM
-        errorBuilder: apps.isNotEmpty
-            ? (_) => Padding(
-                padding: EdgeInsets.only(
-                  bottom: AppDimensions.instance.padding,
+    return ListenableBuilder(
+      listenable: PremiumService.instance,
+      builder: (context, _) {
+        if (PremiumService.instance.isPremium) {
+          return const SizedBox.shrink();
+        }
+        if (!Configuration.instance.advertisement.enable) {
+          return const SizedBox.shrink();
+        }
+        final contentMaxWidth = AppDimensions.instance.contentMaxWidth;
+        final apps = Configuration.instance.business.moreApps;
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppDimensions.instance.padding,
+          ).copyWith(top: AppDimensions.instance.padding),
+          child: AdBuilder(
+            width: width,
+            height:
+                height ??
+                contentMaxWidth * 1 / 3 + AppDimensions.instance.padding,
+            errorBuilder: apps.isNotEmpty
+                ? (_) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: AppDimensions.instance.padding,
+                    ),
+                    child: MoreApps(
+                      apps: apps,
+                      height: contentMaxWidth * 1 / 3,
+                    ),
+                  )
+                : null,
+            successBuilder: (_, ad) => Padding(
+              padding: EdgeInsets.only(bottom: AppDimensions.instance.padding),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(AppDimensions.instance.radius),
                 ),
-                child: MoreApps(apps: apps, height: contentMaxWidth * 1 / 3),
-              )
-            : null,
-        successBuilder: (_, ad) => Padding(
-          padding: EdgeInsets.only(bottom: AppDimensions.instance.padding),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(
-              Radius.circular(AppDimensions.instance.radius),
+                child: AppCard(child: ad),
+              ),
             ),
-            child: AppCard(
-              // width: contentMaxWidth,
-              // height: contentMaxWidth * 1 / 3,
-              child: ad,
-            ),
+            borderRadius: BorderRadius.zero,
           ),
-        ),
-        borderRadius: BorderRadius.zero,
-      ),
+        );
+      },
     );
   }
 }

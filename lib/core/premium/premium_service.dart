@@ -40,25 +40,39 @@ class PremiumService extends Provider {
   }
 
   void _onIapChanged() {
-    final fromIap = _premiumFromProducts(AwesomeIAP.instance.products);
+    final products = AwesomeIAP.instance.products;
+    if (products.isEmpty) return;
+    final fromIap = _premiumFromProducts(products);
     if (fromIap != _isPremium) {
       _setPremium(fromIap);
     }
   }
 
+  /// Sync entitlement from live IAP product list.
+  /// - Empty list → leave current flag (store may still be loading).
+  /// - Non-empty → set true/false from ownership (handles expiry + restore).
   Future<void> syncFromIap() async {
     try {
-      final fromIap = _premiumFromProducts(AwesomeIAP.instance.products);
-      if (fromIap) {
-        await _setPremium(true);
+      final products = AwesomeIAP.instance.products;
+      if (products.isEmpty) {
+        Debug.log(
+          '[PremiumService] syncFromIap: products empty, keep $_isPremium',
+        );
+        return;
       }
-      // Do not force false from empty product list (store may still be loading).
+      final fromIap = _premiumFromProducts(products);
+      await _setPremium(fromIap);
     } catch (e) {
       Debug.log('[PremiumService] syncFromIap: $e');
     }
   }
 
   Future<void> _setPremium(bool value) async {
+    if (_isPremium == value) {
+      // Still persist in case storage was wiped.
+      await AsyncStorage.instance.setBool(_premiumKey, value);
+      return;
+    }
     _isPremium = value;
     await AsyncStorage.instance.setBool(_premiumKey, value);
     notifyListeners();
@@ -72,6 +86,7 @@ class PremiumService extends Provider {
         'provider': product.provider.name,
       });
       await AwesomeIAP.instance.purchase(product);
+      // Give store callback a moment, then resync (listener usually faster).
       await Future.delayed(const Duration(milliseconds: 800));
       await syncFromIap();
       if (_isPremium) {
@@ -95,14 +110,12 @@ class PremiumService extends Provider {
     try {
       AwesomeAnalytics.instance.sendEvent('restore_start', {});
 
-      // Google / Apple
       try {
         await InAppPurchase.instance.restorePurchases();
       } catch (e) {
         Debug.log('[PremiumService] InAppPurchase.restorePurchases: $e');
       }
 
-      // Huawei (+ any provider restore implemented on BaseIAP)
       try {
         await AwesomeIAP.instance.restore();
       } catch (e) {
