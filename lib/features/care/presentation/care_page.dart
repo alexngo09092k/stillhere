@@ -6,6 +6,8 @@ import 'package:still_here/features/checkin/data/checkin_service.dart';
 import 'package:still_here/features/inspiration/data/quotes.dart';
 import 'package:still_here/shared/models/check_in.dart';
 import 'package:still_here/generated/l10n.dart';
+import 'package:still_here/features/care/presentation/care_session_page.dart';
+import 'package:still_here/widgets/still/still_widgets.dart';
 
 /// Self-care toolkit + achievements + inspiration — distinct content types.
 class CarePage extends StatefulWidget {
@@ -191,6 +193,7 @@ class _SectionTitle extends StatelessWidget {
   }
 }
 
+
 class _IdeaCard extends StatelessWidget {
   final SelfCareIdea idea;
   final String lang;
@@ -202,68 +205,105 @@ class _IdeaCard extends StatelessWidget {
     required this.accent,
   });
 
+  Future<void> _open(BuildContext context) async {
+    if (!idea.isGuided) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => CareSessionPage(idea: idea, lang: lang),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: context.appSurf,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: context.appBorder),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(idea.emoji, style: const TextStyle(fontSize: 28)),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        idea.title(lang),
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: context.appInk,
+    final guideLabel = switch (lang) {
+      'vi' => 'Bắt đầu hướng dẫn',
+      'th' => 'เริ่มแบบมีคำแนะนำ',
+      'zh' => '开始引导练习',
+      _ => 'Start guided session',
+    };
+
+    return StillPressable(
+      onTap: idea.isGuided ? () => _open(context) : null,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: context.appSurf,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: context.appBorder),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(idea.emoji, style: const TextStyle(fontSize: 28)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          idea.title(lang),
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: context.appInk,
+                          ),
                         ),
                       ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: accent.withOpacity(0.12),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          S.of(context).minutesLabel(idea.minutes),
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: accent,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    idea.body(lang),
+                    style: TextStyle(
+                      fontSize: 13,
+                      height: 1.4,
+                      color: context.appMuted,
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(
-                        color: accent.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        S.of(context).minutesLabel(idea.minutes),
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: accent,
+                  ),
+                  if (idea.isGuided) ...[
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(Icons.play_circle_fill_rounded,
+                            size: 16, color: accent),
+                        const SizedBox(width: 6),
+                        Text(
+                          guideLabel,
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            fontWeight: FontWeight.w600,
+                            color: accent,
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  idea.body(lang),
-                  style: TextStyle(
-                    fontSize: 13,
-                    height: 1.4,
-                    color: context.appMuted,
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

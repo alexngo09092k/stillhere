@@ -208,9 +208,8 @@ class _CheckInPageState extends State<CheckInPage> {
                       padding: const EdgeInsets.all(14),
                       decoration: BoxDecoration(
                         color: context.appBrand.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(
-                          AppDimensions.radiusMd,
-                        ),
+                        borderRadius:
+                            BorderRadius.circular(AppDimensions.radiusMd),
                         border: Border.all(
                           color: context.appBrand.withOpacity(0.18),
                         ),
@@ -300,13 +299,8 @@ class _CheckInPageState extends State<CheckInPage> {
                   maxLines: 5,
                   minLines: 3,
                   maxLength: _noteMax,
-                  buildCounter:
-                      (
-                        _, {
-                        required currentLength,
-                        required isFocused,
-                        maxLength,
-                      }) => const SizedBox.shrink(),
+                  buildCounter: (_, {required currentLength, required isFocused, maxLength}) =>
+                      const SizedBox.shrink(),
                   onChanged: (_) => setState(() {}),
                   style: TextStyle(
                     fontSize: 15,
@@ -320,21 +314,18 @@ class _CheckInPageState extends State<CheckInPage> {
                     fillColor: context.appSurf,
                     contentPadding: const EdgeInsets.all(16),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                        AppDimensions.radiusMd,
-                      ),
+                      borderRadius:
+                          BorderRadius.circular(AppDimensions.radiusMd),
                       borderSide: BorderSide(color: context.appBorder),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                        AppDimensions.radiusMd,
-                      ),
+                      borderRadius:
+                          BorderRadius.circular(AppDimensions.radiusMd),
                       borderSide: BorderSide(color: context.appBorder),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(
-                        AppDimensions.radiusMd,
-                      ),
+                      borderRadius:
+                          BorderRadius.circular(AppDimensions.radiusMd),
                       borderSide: BorderSide(
                         color: context.appBrand.withOpacity(0.75),
                         width: 1.4,
@@ -457,7 +448,11 @@ class _StatusOption extends StatelessWidget {
             AnimatedOpacity(
               opacity: selected ? 1 : 0,
               duration: AppDimensions.fast,
-              child: Icon(Icons.check_circle_rounded, color: accent, size: 24),
+              child: Icon(
+                Icons.check_circle_rounded,
+                color: accent,
+                size: 24,
+              ),
             ),
           ],
         ),

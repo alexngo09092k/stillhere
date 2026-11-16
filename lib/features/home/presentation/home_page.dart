@@ -16,6 +16,7 @@ import 'package:still_here/shared/models/greeting.dart';
 import 'package:still_here/widgets/base/ad_view.dart';
 import 'package:still_here/common/configuration.dart';
 import 'package:intl/intl.dart';
+import 'package:still_here/features/home/data/weekly_insight.dart';
 import 'package:still_here/widgets/still/still_widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   bool _loading = true;
   int _streak = 0;
   int _totalDays = 0;
+  WeeklyInsight? _weeklyInsight;
   int _navIndex = 0;
   final GlobalKey<HistoryPageState> _historyKey = GlobalKey<HistoryPageState>();
   final GlobalKey<StatsPageState> _statsKey = GlobalKey<StatsPageState>();
@@ -71,11 +73,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       CheckInService.instance.getTotalDays(),
     ]);
     if (!mounted) return;
+    final insight = await WeeklyInsight.compute();
+    if (!mounted) return;
     setState(() {
       _greeting = results[0] as Greeting;
       _todayCheckIn = results[1] as CheckIn?;
       _streak = results[2] as int;
       _totalDays = results[3] as int;
+      _weeklyInsight = insight;
       _loading = false;
     });
   }
@@ -298,6 +303,70 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       ),
                     ),
                 ],
+              ),
+            ),
+
+
+          // Weekly insight (local, personalized — AppGallery 4.1)
+          if (!_loading && _weeklyInsight != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 14),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+                decoration: BoxDecoration(
+                  color: context.appSurf,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: context.appBorder),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: context.appBrand.withOpacity(0.14),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(Icons.insights_rounded,
+                          size: 20, color: context.appBrandDeep),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            Localizations.localeOf(context).languageCode == 'vi'
+                                ? 'Góc nhìn tuần này'
+                                : Localizations.localeOf(context).languageCode == 'th'
+                                    ? 'มุมมองสัปดาห์นี้'
+                                    : Localizations.localeOf(context).languageCode == 'zh'
+                                        ? '本周小结'
+                                        : 'This week at a glance',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: context.appBrandDeep,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            _weeklyInsight!.message(
+                              Localizations.localeOf(context).languageCode,
+                            ),
+                            style: TextStyle(
+                              fontSize: 14,
+                              height: 1.4,
+                              color: context.appInk,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
 
