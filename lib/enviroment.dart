@@ -25,7 +25,7 @@ const enviroment = {
     'appName': 'Still Here',
 
     /// Version
-    'version': '1.1.0',
+    'version': '1.1.1',
 
     /// Logo is used in splash screen and app ui
     'appLogo': 'assets/images/logo.png',
@@ -102,7 +102,7 @@ const enviroment = {
 
     /// Update app
     'updateApp': {
-      'version': '1.1.0',
+      'version': '1.1.1',
       'required': false,
       'links': {
         'android':
