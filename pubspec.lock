@@ -13,10 +13,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: de5ac590b8155e4e676088d714bd41ea620449a6adc0f7950c5073874b287ddb
+      sha256: "2fda90592c0afd219c5e285618a98da835cd10df38372666093d25dfe457a2d0"
       url: "https://pub.dev"
     source: hosted
-    version: "4.6.0"
+    version: "4.7.1"
   args:
     dependency: transitive
     description:
@@ -360,48 +360,43 @@ packages:
   fluttering:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: d51e68744343b0e6038cf5d8a127d7dd566b424c
-      url: "git@github.com:brennan992k/fluttering.git"
-    source: git
-    version: "3.0.0"
+      name: fluttering
+      sha256: "5ae66c1e86ce29a88b778e6b121c035523d18a6c2f57a47b59ecda23e005ae36"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   fluttering_ads:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: f5d0c90ca9f4fd7f57f8322fb28b93804936b3b4
-      url: "git@github.com:brennan992k/fluttering_ads.git"
-    source: git
-    version: "3.0.1"
+      name: fluttering_ads
+      sha256: "18344bc4dda53b1be2832bae1fd9ae63e0f7c7960d0df6dc0d748591d50329bf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   fluttering_analytics:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "28d54c3b4978f30d8a38b526920173ec58d9a57d"
-      url: "git@github.com:brennan992k/fluttering_analytics.git"
-    source: git
-    version: "3.0.1"
+      name: fluttering_analytics
+      sha256: a9be43dbc556aae729572f18f5aea5ac63b2fc4ffe3a27be2ff4aa8f1b3619b7
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   fluttering_iap:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "7f5250334769940c6b0c1b3b8b30861add19b2a6"
-      url: "git@github.com:brennan992k/fluttering_iap.git"
-    source: git
-    version: "3.0.1"
+      name: fluttering_iap
+      sha256: "52ed92ff6acb31f772c6d0a450157c133799beb882c21ca2388737290ea6edd8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   fluttering_remote_config:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "66606b3b0343b6aaa0518c35fd375bcbaea03c58"
-      url: "git@github.com:brennan992k/fluttering_remote_config.git"
-    source: git
-    version: "3.0.1"
+      name: fluttering_remote_config
+      sha256: "944234b9a6410d83d33bf0d13cb1241062ff43359d1908a295a22fd0abd9cb40"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   google_mobile_ads:
     dependency: transitive
     description:
@@ -466,15 +461,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.14.0+300"
-  huawei_remote_config:
-    dependency: transitive
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "71c19e7af77018b990be92a16f6393a6c3c2ea50"
-      url: "git@github.com:alexngo09092k/huawei_remote_config.git"
-    source: git
-    version: "1.0.0"
   in_app_purchase:
     dependency: transitive
     description:
@@ -535,18 +521,18 @@ packages:
     dependency: transitive
     description:
       name: jni
-      sha256: "2e91e6087291affd10b31b6c872f3e3ac7dc5d93b51b5ba485d930c8f08bde6c"
+      sha256: "19764f78f6b9e0d40f6395b04649d1046eb57f5ccf05afce50cc63e5a82777b0"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.2"
+    version: "1.2.1"
   jni_flutter:
     dependency: transitive
     description:
       name: jni_flutter
-      sha256: "0dd33d67797560f66e961a6053882d4df54bd345bf063b8fe7ea133f7ad8b191"
+      sha256: "586594ad345b403bda8a794b0b8a9e34298238b86c2a7d7f15160b092fe9ef3d"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4+1"
+    version: "1.1.0"
   jni_util:
     dependency: transitive
     description:
@@ -679,10 +665,10 @@ packages:
     dependency: transitive
     description:
       name: octo_image
-      sha256: "9c9e56f655c301fd2e6c26390461b4fbd23be861b29607c5e2e4d16e8231ce50"
+      sha256: "1eabd04ba4371863a91a063feba8069f0f15c4ad9d9a72fbcd3cab1ecd86ea6c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
+    version: "2.1.5"
   package_config:
     dependency: transitive
     description:

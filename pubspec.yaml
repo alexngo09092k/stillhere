@@ -38,25 +38,15 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   ### BOOSTRAP FLUTTER APP
-  fluttering:
-    git:
-      url: git@github.com:brennan992k/fluttering.git
+  fluttering: ^4.0.1
   ### ADVERTIMENTS FLUTTER APP
-  fluttering_ads:
-    git:
-      url: git@github.com:brennan992k/fluttering_ads.git
+  fluttering_ads: ^4.0.0
   ### IN APP PURCHARSE FLUTTER APP
-  fluttering_iap:
-    git:
-      url: git@github.com:brennan992k/fluttering_iap.git
+  fluttering_iap: ^4.0.0
   ### REMOTE CONFIG FLUTTER APP
-  fluttering_remote_config:
-    git:
-      url: git@github.com:brennan992k/fluttering_remote_config.git
+  fluttering_remote_config: ^4.0.0
   ### ANALYTICS FLUTTER APP
-  fluttering_analytics:
-    git:
-      url: git@github.com:brennan992k/fluttering_analytics.git
+  fluttering_analytics: ^4.0.0
   firebase_core: ^5.1.0
   cached_network_image: ^3.4.1
   lottie: ^3.7.0
